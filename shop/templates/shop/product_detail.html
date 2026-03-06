@@ -30,10 +30,24 @@
                 <span style="color: #e74c3c;"><strong>Нет в наличии</strong></span>
             {% endif %}
         </div>
+
         <h2>Описание</h2>
-        <div class="description">
-            {{ product.description }}
-        </div>
+        <div class="description">{{ product.description }}</div>
+
+        {% if user.is_authenticated and product.stock > 0 %}
+            <form method="post" action="{% url 'add_to_cart' product.id %}" class="add-form">
+                {% csrf_token %}
+                <label for="quantity"><strong>Количество:</strong></label>
+                <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ product.stock }}">
+                <button type="submit" class="btn btn-green">🛒 Добавить в корзину</button>
+            </form>
+        {% elif not user.is_authenticated %}
+            <p style="margin-top: 15px;">
+                <a href="{% url 'login' %}" class="btn btn-blue">Войдите, чтобы добавить в корзину</a>
+            </p>
+        {% else %}
+            <p style="margin-top: 15px; color: #e74c3c;"><strong>Товар закончился</strong></p>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

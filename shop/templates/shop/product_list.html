@@ -13,9 +13,8 @@
 <form method="get" class="filters">
     <div class="filter-group">
         <label>Поиск</label>
-        <input type="text" name="search" value="{{ search_query }}" placeholder="Название товара...">
+        <input type="text" name="search" value="{{ search_query }}" placeholder="Название или описание...">
     </div>
-
     <div class="filter-group">
         <label>Категория</label>
         <select name="category">
@@ -27,7 +26,6 @@
             {% endfor %}
         </select>
     </div>
-
     <div class="filter-group">
         <label>Производитель</label>
         <select name="manufacturer">
@@ -39,17 +37,14 @@
             {% endfor %}
         </select>
     </div>
-
     <div class="filter-group">
         <label>Цена от</label>
         <input type="number" name="price_min" value="{{ price_min }}" placeholder="0" style="width: 100px;">
     </div>
-
     <div class="filter-group">
         <label>Цена до</label>
         <input type="number" name="price_max" value="{{ price_max }}" placeholder="999999" style="width: 100px;">
     </div>
-
     <div class="filter-group">
         <label>Сортировка</label>
         <select name="sort">
@@ -60,14 +55,12 @@
             <option value="-stock" {% if sort == '-stock' %}selected{% endif %}>По наличию</option>
         </select>
     </div>
-
-    <button type="submit">Найти</button>
-    <a href="{% url 'product_list' %}"><button type="button" class="reset">Сбросить</button></a>
+    <button type="submit" class="btn btn-blue">Найти</button>
+    <a href="{% url 'product_list' %}" class="btn btn-gray">Сбросить</a>
 </form>
 
 <p class="results-count">Найдено товаров: {{ products|length }}</p>
 
-<!-- Сетка товаров -->
 <div class="products-grid">
     {% for product in products %}
         <div class="product-card">
@@ -78,8 +71,8 @@
             {% endif %}
             <div class="info">
                 <div class="category">{{ product.category.name }}</div>
-                <h3><a href="{% url 'product_detail' product.id %}">{{ product.name }}</a></h3>
-                <div class="manufacturer">{{ product.manufacturer.name }} ({{ product.manufacturer.country }})</div>
+                <h3><a href="{% url 'product_detail' product.pk %}">{{ product.name }}</a></h3>
+                <div class="manufacturer">{{ product.manufacturer.name }}</div>
                 <div class="price">{{ product.price }} ₽</div>
                 {% if product.stock > 0 %}
                     <div class="stock">В наличии: {{ product.stock }} шт.</div>
@@ -87,6 +80,17 @@
                     <div class="stock out">Нет в наличии</div>
                 {% endif %}
             </div>
+            {% if user.is_authenticated and product.stock > 0 %}
+                <form method="post" action="{% url 'add_to_cart' product.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="quantity" value="1">
+                    <button type="submit" class="add-to-cart-btn">🛒 В корзину</button>
+                </form>
+            {% elif product.stock == 0 %}
+                <button class="add-to-cart-btn disabled" disabled>Нет в наличии</button>
+            {% else %}
+            <a href="{% url 'login' %}?next={% url 'product_list' %}" class="add-to-cart-btn" style="text-decoration: none; text-align: center;">Войдите для покупки</a>
+            {% endif %}
         </div>
     {% empty %}
         <p>Товары не найдены.</p>

@@ -1,0 +1,77 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}Корзина — Магазин электроники{% endblock %}
+
+{% block content %}
+<div class="breadcrumb">
+    <a href="{% url 'index' %}">Главная</a> → Корзина
+</div>
+
+<h1>🛒 Моя корзина</h1>
+
+{% if items %}
+    <table class="cart-table">
+        <thead>
+            <tr>
+                <th>Товар</th>
+                <th>Цена</th>
+                <th>Количество</th>
+                <th>Стоимость</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+                <tr>
+                    <td>
+                        <div class="product-info">
+                            {% if item.product.image %}
+                                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}">
+                            {% else %}
+                                <div class="no-img">Фото</div>
+                            {% endif %}
+                            <div>
+                                <a href="{% url 'product_detail' item.product.pk %}" style="color: #2c3e50; text-decoration: none; font-weight: bold;">
+                                    {{ item.product.name }}
+                                </a>
+                                <br>
+                                <small style="color: #999;">{{ item.product.manufacturer.name }}</small>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{ item.product.price }} ₽</td>
+                    <td>
+                        <form method="post" action="{% url 'update_cart' item.id %}" class="quantity-form">
+                            {% csrf_token %}
+                            <input type="number" name="quantity" value="{{ item.quantity }}"
+                                   min="1" max="{{ item.product.stock }}">
+                            <button type="submit" class="btn btn-blue" style="padding: 5px 10px; font-size: 12px;">
+                                ✔
+                            </button>
+                        </form>
+                    </td>
+                    <td style="font-weight: bold;">{{ item.item_cost }} ₽</td>
+                    <td>
+                        <form method="post" action="{% url 'remove_from_cart' item.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-red" style="padding: 5px 15px; font-size: 13px;">
+                                ✕ Удалить
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="cart-total">
+        Итого: <span>{{ total_cost }} ₽</span>
+    </div>
+
+{% else %}
+    <div class="cart-empty">
+        <p>🛒 Корзина пуста</p>
+        <a href="{% url 'product_list' %}" class="btn btn-blue">Перейти в каталог</a>
+    </div>
+{% endif %}
+{% endblock %}
