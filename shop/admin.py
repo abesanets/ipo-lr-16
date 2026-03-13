@@ -40,3 +40,25 @@ class CartAdmin(admin.ModelAdmin):
 class CartItemAdmin(admin.ModelAdmin):
     list_display = ('id', 'cart', 'product', 'quantity', 'item_cost')
     list_filter = ('cart',)
+
+from .models import Category, Manufacturer, Product, Cart, CartItem, Order, OrderItem
+
+
+class OrderItemInline(admin.TabularInline):
+    model = OrderItem
+    extra = 0
+    readonly_fields = ('product_name', 'product_price', 'quantity', 'item_cost')
+
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'phone', 'email', 'total_cost', 'created_at')
+    list_filter = ('created_at',)
+    search_fields = ('user__username', 'email', 'phone')
+    readonly_fields = ('created_at',)
+    inlines = [OrderItemInline]
+
+
+@admin.register(OrderItem)
+class OrderItemAdmin(admin.ModelAdmin):
+    list_display = ('id', 'order', 'product_name', 'product_price', 'quantity', 'item_cost')

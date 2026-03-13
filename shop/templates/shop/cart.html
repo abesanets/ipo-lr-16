@@ -64,8 +64,13 @@
         </tbody>
     </table>
 
-    <div class="cart-total">
-        Итого: <span>{{ total_cost }} ₽</span>
+    <div class="cart-total" style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            Итого: <span>{{ total_cost }} ₽</span>
+        </div>
+        <a href="{% url 'checkout' %}" class="btn btn-green" style="padding: 15px 40px; font-size: 16px;">
+            📋 Оформить заказ
+        </a>
     </div>
 
 {% else %}

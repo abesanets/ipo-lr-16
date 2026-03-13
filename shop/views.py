@@ -1,11 +1,14 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .forms import StyledUserCreationForm
 from django.contrib.auth import login
 from django.contrib import messages
+from django.core.mail import EmailMessage
 from django.db.models import Q
+from django.conf import settings
 
-from .models import Product, Category, Manufacturer, Cart, CartItem
+from .models import Product, Category, Manufacturer, Cart, CartItem, Order, OrderItem
+from .forms import StyledUserCreationForm, CheckoutForm
+from .utils import generate_receipt_excel
 
 
 # ==================== ОСНОВНЫЕ СТРАНИЦЫ ====================
@@ -192,6 +195,99 @@ def remove_from_cart(request, item_id):
         messages.success(request, f'"{product_name}" удалён из корзины.')
 
     return redirect('cart_view')
+
+# ==================== ОФОРМЛЕНИЕ ЗАКАЗА ====================
+
+@login_required
+def checkout(request):
+    """Страница оформления заказа"""
+    cart, created = Cart.objects.get_or_create(user=request.user)
+    items = cart.items.select_related('product').all()
+
+    # Если корзина пуста — перенаправляем
+    if not items:
+        messages.error(request, 'Корзина пуста. Добавьте товары перед оформлением заказа.')
+        return redirect('product_list')
+
+    total_cost = cart.total_cost()
+
+    if request.method == 'POST':
+        form = CheckoutForm(request.POST)
+        if form.is_valid():
+            # Создаём заказ
+            order = Order.objects.create(
+                user=request.user,
+                address=form.cleaned_data['address'],
+                phone=form.cleaned_data['phone'],
+                email=form.cleaned_data['email'],
+                total_cost=total_cost,
+            )
+
+            # Создаём элементы заказа и уменьшаем остаток на складе
+            for item in items:
+                OrderItem.objects.create(
+                    order=order,
+                    product_name=item.product.name,
+                    product_price=item.product.price,
+                    quantity=item.quantity,
+                )
+                # Уменьшаем количество на складе
+                item.product.stock -= item.quantity
+                item.product.save()
+
+            # Генерируем Excel-чек
+            excel_buffer = generate_receipt_excel(order)
+
+            # Отправляем email с чеком
+            try:
+                email_message = EmailMessage(
+                    subject=f'Чек заказа #{order.id} — Магазин электроники',
+                    body=(
+                        f'Здравствуйте, {request.user.get_full_name() or request.user.username}!\n\n'
+                        f'Ваш заказ #{order.id} успешно оформлен.\n'
+                        f'Сумма заказа: {order.total_cost} ₽\n'
+                        f'Адрес доставки: {order.address}\n\n'
+                        f'Чек заказа прикреплён к этому письму.\n\n'
+                        f'Спасибо за покупку!'
+                    ),
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    to=[form.cleaned_data['email']],
+                )
+                email_message.attach(
+                    f'receipt_order_{order.id}.xlsx',
+                    excel_buffer.getvalue(),
+                    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                )
+                email_message.send()
+                messages.success(request, 'Чек отправлен на вашу почту!')
+            except Exception as e:
+                messages.warning(request, f'Заказ оформлен, но не удалось отправить чек: {e}')
+
+            # Очищаем корзину
+            items.delete()
+
+            return redirect('order_success', order_id=order.id)
+    else:
+        # Предзаполняем email из профиля пользователя
+        initial_data = {}
+        if request.user.email:
+            initial_data['email'] = request.user.email
+        form = CheckoutForm(initial=initial_data)
+
+    return render(request, 'shop/checkout.html', {
+        'form': form,
+        'items': items,
+        'total_cost': total_cost,
+    })
+
+
+@login_required
+def order_success(request, order_id):
+    """Страница успешного оформления заказа"""
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    return render(request, 'shop/order_success.html', {
+        'order': order,
+    })
 
 
 # ==================== АУТЕНТИФИКАЦИЯ ====================

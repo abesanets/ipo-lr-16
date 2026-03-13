@@ -166,3 +166,73 @@ class CartItem(models.Model):
     def save(self, *args, **kwargs):
         self.clean()
         super().save(*args, **kwargs)
+
+class Order(models.Model):
+    """Модель заказа"""
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name='orders',
+        verbose_name='Пользователь'
+    )
+    address = models.TextField(
+        verbose_name='Адрес доставки'
+    )
+    phone = models.CharField(
+        max_length=20,
+        verbose_name='Телефон'
+    )
+    email = models.EmailField(
+        verbose_name='Email для чека'
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Дата заказа'
+    )
+    total_cost = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        verbose_name='Общая стоимость'
+    )
+
+    class Meta:
+        verbose_name = 'Заказ'
+        verbose_name_plural = 'Заказы'
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"Заказ #{self.id} от {self.user.username}"
+
+
+class OrderItem(models.Model):
+    """Модель элемента заказа"""
+    order = models.ForeignKey(
+        Order,
+        on_delete=models.CASCADE,
+        related_name='items',
+        verbose_name='Заказ'
+    )
+    product_name = models.CharField(
+        max_length=200,
+        verbose_name='Название товара'
+    )
+    product_price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        verbose_name='Цена'
+    )
+    quantity = models.PositiveIntegerField(
+        verbose_name='Количество'
+    )
+
+    class Meta:
+        verbose_name = 'Элемент заказа'
+        verbose_name_plural = 'Элементы заказа'
+
+    def __str__(self):
+        return f"{self.product_name} ({self.quantity} шт.)"
+
+    def item_cost(self):
+        return self.product_price * self.quantity
+
+    item_cost.short_description = 'Стоимость'

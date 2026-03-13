@@ -1,0 +1,52 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}Заказ оформлен — Магазин электроники{% endblock %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 40px auto;">
+    <div class="page-content" style="text-align: center;">
+        <h1 style="color: #27ae60; font-size: 48px; margin-bottom: 10px;">✅</h1>
+        <h1>Заказ успешно оформлен!</h1>
+
+        <div style="margin: 30px 0; text-align: left;">
+            <p><strong>Номер заказа:</strong> #{{ order.id }}</p>
+            <p><strong>Дата:</strong> {{ order.created_at|date:"d.m.Y H:i" }}</p>
+            <p><strong>Сумма:</strong> <span style="color: #e74c3c; font-weight: bold;">{{ order.total_cost }} ₽</span></p>
+            <p><strong>Адрес доставки:</strong> {{ order.address }}</p>
+            <p><strong>Телефон:</strong> {{ order.phone }}</p>
+            <p><strong>Email:</strong> {{ order.email }}</p>
+        </div>
+
+        <div style="background: #d4edda; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+            <p style="color: #155724;">📧 Чек заказа отправлен на <strong>{{ order.email }}</strong></p>
+        </div>
+
+        <h2>Состав заказа</h2>
+        <table style="width: 100%; text-align: left; margin-bottom: 20px;">
+            <thead>
+                <tr style="border-bottom: 2px solid #2c3e50;">
+                    <th style="padding: 10px;">Товар</th>
+                    <th style="padding: 10px;">Цена</th>
+                    <th style="padding: 10px;">Кол-во</th>
+                    <th style="padding: 10px;">Сумма</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in order.items.all %}
+                    <tr style="border-bottom: 1px solid #eee;">
+                        <td style="padding: 10px;">{{ item.product_name }}</td>
+                        <td style="padding: 10px;">{{ item.product_price }} ₽</td>
+                        <td style="padding: 10px;">{{ item.quantity }}</td>
+                        <td style="padding: 10px; font-weight: bold;">{{ item.item_cost }} ₽</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <div style="display: flex; gap: 15px; justify-content: center;">
+            <a href="{% url 'product_list' %}" class="btn btn-blue">Продолжить покупки</a>
+            <a href="{% url 'index' %}" class="btn btn-gray">На главную</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

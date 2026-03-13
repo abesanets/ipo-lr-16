@@ -18,8 +18,15 @@ urlpatterns = [
     path('cart/update/<int:item_id>/', views.update_cart, name='update_cart'),
     path('cart/remove/<int:item_id>/', views.remove_from_cart, name='remove_from_cart'),
 
+    # Оформление заказа
+    path('checkout/', views.checkout, name='checkout'),
+    path('order-success/<int:order_id>/', views.order_success, name='order_success'),
+
     # Аутентификация
-    path('login/', auth_views.LoginView.as_view(template_name='shop/login.html'), name='login'),
+    path('login/', auth_views.LoginView.as_view(
+        template_name='shop/login.html',
+        redirect_authenticated_user=True,
+    ), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('register/', views.register, name='register'),
 ]
