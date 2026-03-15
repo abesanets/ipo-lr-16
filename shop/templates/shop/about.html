@@ -1,17 +1,32 @@
 {% extends 'shop/base.html' %}
 
-{% block title %}Об авторе{% endblock %}
+{% block title %}Об авторе — Shopex{% endblock %}
 
 {% block content %}
 <div class="breadcrumb">
-    <a href="{% url 'index' %}">Главная</a> → Об авторе
+    <a href="{% url 'index' %}">Главная</a>
+    <span class="breadcrumb-sep">›</span>
+    <span>Об авторе</span>
 </div>
 
-<h1>Об авторе</h1>
-<div class="page-content">
-    <p><strong>ФИО:</strong> Бесанец Алексей Александрович</p>
-    <p><strong>Группа:</strong> 88ТП</p>
-    <p><strong>Дисциплина:</strong> Веб-разработка</p>
-    <p><strong>Лабораторная работа №17:</strong> Работа с Django ORM</p>
+<h1 style="margin-bottom: 32px;">Об авторе</h1>
+
+<div class="page-content" style="max-width: 680px;">
+    <div class="order-detail-row" style="gap: 24px;">
+        <span class="order-detail-label" style="min-width: 140px;">ФИО</span>
+        <span class="order-detail-value">Бесанец Алексей Александрович</span>
+    </div>
+    <div class="order-detail-row" style="gap: 24px;">
+        <span class="order-detail-label" style="min-width: 140px;">Группа</span>
+        <span class="order-detail-value">88ТП</span>
+    </div>
+    <div class="order-detail-row" style="gap: 24px;">
+        <span class="order-detail-label" style="min-width: 140px;">Дисциплина</span>
+        <span class="order-detail-value">Веб-разработка</span>
+    </div>
+    <div class="order-detail-row" style="gap: 24px;">
+        <span class="order-detail-label" style="min-width: 140px;">Работа</span>
+        <span class="order-detail-value">Лабораторная работа №17 — Django ORM</span>
+    </div>
 </div>
 {% endblock %}

@@ -1,46 +1,60 @@
 {% extends 'shop/base.html' %}
 
-{% block title %}Главная — Магазин электроники{% endblock %}
+{% block title %}Shopex — Электроника{% endblock %}
 
 {% block content %}
-<h1>Добро пожаловать в магазин электроники!</h1>
+<div style="padding: 60px 0 40px;">
+    <p style="font-size: 14px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px;">Добро пожаловать</p>
+    <h1 style="font-size: 48px; font-weight: 700; letter-spacing: -1px; margin-bottom: 16px; line-height: 1.1;">Техника, которая<br>работает на вас.</h1>
+    <p style="font-size: 18px; color: var(--text-secondary); margin-bottom: 32px; max-width: 480px;">Широкий выбор электроники от ведущих производителей. Быстрая доставка, честные цены.</p>
+    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <a href="{% url 'product_list' %}" class="btn btn-primary btn-lg">Перейти в каталог</a>
+        <a href="{% url 'shop_info' %}" class="btn btn-ghost btn-lg">О магазине</a>
+    </div>
+</div>
 
-<div class="page-content">
-    <h2>Разделы</h2>
-    <ul style="line-height: 2; padding-left: 20px;">
-        <li><a href="{% url 'product_list' %}">📦 Каталог товаров</a></li>
-        {% if user.is_authenticated %}
-            <li><a href="{% url 'cart_view' %}">🛒 Моя корзина</a></li>
-        {% endif %}
-        <li><a href="{% url 'shop_info' %}">🏪 О магазине</a></li>
-        <li><a href="{% url 'about' %}">👤 Об авторе</a></li>
-    </ul>
-
-    <h2 style="margin-top: 30px;">Категории</h2>
-    <div class="categories-list">
+{% if categories %}
+<div style="margin-bottom: 48px;">
+    <p style="font-size: 13px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 14px;">Категории</p>
+    <div class="categories-pills">
         {% for category in categories %}
             <a href="{% url 'product_list' %}?category={{ category.id }}">{{ category.name }}</a>
         {% endfor %}
     </div>
 </div>
+{% endif %}
 
 {% if latest_products %}
-<h2 style="margin-top: 30px;">Последние товары</h2>
-<div class="products-grid">
-    {% for product in latest_products %}
+<div>
+    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 20px;">
+        <h2 style="margin-bottom: 0;">Новинки</h2>
+        <a href="{% url 'product_list' %}" style="font-size: 14px; color: var(--accent); text-decoration: none;">Смотреть все</a>
+    </div>
+    <div class="products-grid">
+        {% for product in latest_products %}
         <div class="product-card">
             {% if product.image %}
-                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-card-img">
             {% else %}
-                <div class="no-image">Нет фото</div>
+                <div class="product-card-no-img">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                </div>
             {% endif %}
-            <div class="info">
-                <div class="category">{{ product.category.name }}</div>
-                <h3><a href="{% url 'product_detail' product.pk %}">{{ product.name }}</a></h3>
-                <div class="price">{{ product.price }} ₽</div>
+            <div class="product-card-body">
+                <div class="product-card-category">{{ product.category.name }}</div>
+                <div class="product-card-name"><a href="{% url 'product_detail' product.pk %}">{{ product.name }}</a></div>
+            </div>
+            <div class="product-card-footer">
+                <span class="price">{{ product.price }} ₽</span>
+                {% if product.stock > 0 %}
+                    <span class="stock-badge in">В наличии</span>
+                {% else %}
+                    <span class="stock-badge out">Нет</span>
+                {% endif %}
             </div>
         </div>
-    {% endfor %}
+        {% endfor %}
+    </div>
 </div>
 {% endif %}
 {% endblock %}

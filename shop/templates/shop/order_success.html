@@ -1,52 +1,64 @@
 {% extends 'shop/base.html' %}
 
-{% block title %}Заказ оформлен — Магазин электроники{% endblock %}
+{% block title %}Заказ оформлен — Shopex{% endblock %}
 
 {% block content %}
-<div style="max-width: 600px; margin: 40px auto;">
-    <div class="page-content" style="text-align: center;">
-        <h1 style="color: #27ae60; font-size: 48px; margin-bottom: 10px;">✅</h1>
-        <h1>Заказ успешно оформлен!</h1>
+<div class="order-success-wrap">
+    <div class="order-success-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#166534" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
 
-        <div style="margin: 30px 0; text-align: left;">
-            <p><strong>Номер заказа:</strong> #{{ order.id }}</p>
-            <p><strong>Дата:</strong> {{ order.created_at|date:"d.m.Y H:i" }}</p>
-            <p><strong>Сумма:</strong> <span style="color: #e74c3c; font-weight: bold;">{{ order.total_cost }} ₽</span></p>
-            <p><strong>Адрес доставки:</strong> {{ order.address }}</p>
-            <p><strong>Телефон:</strong> {{ order.phone }}</p>
-            <p><strong>Email:</strong> {{ order.email }}</p>
+    <h1 style="margin-bottom: 8px;">Заказ оформлен</h1>
+    <p style="color: var(--text-secondary); margin-bottom: 32px;">Спасибо за покупку. Мы уже обрабатываем ваш заказ.</p>
+
+    <div style="border: 1px solid var(--border-light); border-radius: var(--radius); padding: 24px; margin-bottom: 24px;">
+        <div class="order-detail-row">
+            <span class="order-detail-label">Номер заказа</span>
+            <span class="order-detail-value">#{{ order.id }}</span>
         </div>
-
-        <div style="background: #d4edda; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-            <p style="color: #155724;">📧 Чек заказа отправлен на <strong>{{ order.email }}</strong></p>
+        <div class="order-detail-row">
+            <span class="order-detail-label">Дата</span>
+            <span class="order-detail-value">{{ order.created_at|date:"d.m.Y H:i" }}</span>
         </div>
-
-        <h2>Состав заказа</h2>
-        <table style="width: 100%; text-align: left; margin-bottom: 20px;">
-            <thead>
-                <tr style="border-bottom: 2px solid #2c3e50;">
-                    <th style="padding: 10px;">Товар</th>
-                    <th style="padding: 10px;">Цена</th>
-                    <th style="padding: 10px;">Кол-во</th>
-                    <th style="padding: 10px;">Сумма</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in order.items.all %}
-                    <tr style="border-bottom: 1px solid #eee;">
-                        <td style="padding: 10px;">{{ item.product_name }}</td>
-                        <td style="padding: 10px;">{{ item.product_price }} ₽</td>
-                        <td style="padding: 10px;">{{ item.quantity }}</td>
-                        <td style="padding: 10px; font-weight: bold;">{{ item.item_cost }} ₽</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <div style="display: flex; gap: 15px; justify-content: center;">
-            <a href="{% url 'product_list' %}" class="btn btn-blue">Продолжить покупки</a>
-            <a href="{% url 'index' %}" class="btn btn-gray">На главную</a>
+        <div class="order-detail-row">
+            <span class="order-detail-label">Сумма</span>
+            <span class="order-detail-value" style="font-size: 18px; font-weight: 700;">{{ order.total_cost }} ₽</span>
         </div>
+        <div class="order-detail-row">
+            <span class="order-detail-label">Адрес</span>
+            <span class="order-detail-value">{{ order.address }}</span>
+        </div>
+        <div class="order-detail-row">
+            <span class="order-detail-label">Телефон</span>
+            <span class="order-detail-value">{{ order.phone }}</span>
+        </div>
+    </div>
+
+    <h2 style="margin-bottom: 16px;">Состав заказа</h2>
+    <div style="border: 1px solid var(--border-light); border-radius: var(--radius); overflow: hidden; margin-bottom: 24px;">
+        {% for item in order.items.all %}
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; border-bottom: 1px solid var(--border-light);">
+            <div>
+                <div style="font-weight: 500; font-size: 15px;">{{ item.product_name }}</div>
+                <div style="font-size: 13px; color: var(--text-secondary);">{{ item.quantity }} шт. × {{ item.product_price }} ₽</div>
+            </div>
+            <div style="font-weight: 600;">{{ item.item_cost }} ₽</div>
+        </div>
+        {% endfor %}
+        <div style="display: flex; justify-content: space-between; padding: 16px 20px; background: var(--bg-secondary);">
+            <span style="color: var(--text-secondary);">Итого</span>
+            <span style="font-size: 18px; font-weight: 700;">{{ order.total_cost }} ₽</span>
+        </div>
+    </div>
+
+    <div class="info-box success" style="margin-bottom: 28px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <span>Чек отправлен на <strong>{{ order.email }}</strong></span>
+    </div>
+
+    <div style="display: flex; gap: 12px;">
+        <a href="{% url 'product_list' %}" class="btn btn-primary">Продолжить покупки</a>
+        <a href="{% url 'index' %}" class="btn btn-ghost">На главную</a>
     </div>
 </div>
 {% endblock %}

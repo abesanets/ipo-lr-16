@@ -1,25 +1,35 @@
 {% extends 'shop/base.html' %}
 
-{% block title %}О магазине{% endblock %}
+{% block title %}О магазине — Shopex{% endblock %}
 
 {% block content %}
 <div class="breadcrumb">
-    <a href="{% url 'index' %}">Главная</a> → О магазине
+    <a href="{% url 'index' %}">Главная</a>
+    <span class="breadcrumb-sep">›</span>
+    <span>О магазине</span>
 </div>
 
-<h1>О магазине</h1>
+<h1 style="margin-bottom: 8px;">О магазине</h1>
+<p style="color: var(--text-secondary); font-size: 18px; margin-bottom: 40px; max-width: 560px;">Shopex — это современный интернет-магазин электроники с широким ассортиментом и честными ценами.</p>
+
+<div class="stats-grid" style="margin-bottom: 40px;">
+    <div class="stat-card">
+        <div class="stat-value">{{ categories_count }}</div>
+        <div class="stat-label">Категорий</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ products_count }}</div>
+        <div class="stat-label">Товаров</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">{{ manufacturers_count }}</div>
+        <div class="stat-label">Производителей</div>
+    </div>
+</div>
+
 <div class="page-content">
-    <p><strong>Тема:</strong> Интернет-магазин электроники</p>
-    <p>Наш магазин предлагает широкий ассортимент электроники — смартфоны, ноутбуки,
-    планшеты, телевизоры, наушники, умные часы, игровые консоли, фотоаппараты,
-    аксессуары и колонки.</p>
-    <p>Мы работаем с ведущими мировыми производителями: Samsung, Apple, Xiaomi, Sony, LG.</p>
-    <br>
-    <p><strong>Статистика:</strong></p>
-    <ul style="padding-left: 20px; line-height: 2;">
-        <li>Категорий: {{ categories_count }}</li>
-        <li>Товаров: {{ products_count }}</li>
-        <li>Производителей: {{ manufacturers_count }}</li>
-    </ul>
+    <p>Мы предлагаем широкий ассортимент электроники — смартфоны, ноутбуки, планшеты, телевизоры, наушники, умные часы, игровые консоли, фотоаппараты и аксессуары.</p>
+    <p>Работаем с ведущими мировыми производителями: Samsung, Apple, Xiaomi, Sony, LG и другими.</p>
+    <p>Быстрая доставка, удобная оплата, чек на email после каждого заказа.</p>
 </div>
 {% endblock %}

@@ -2,6 +2,12 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
+FIELD_STYLE = (
+    'width: 100%; padding: 12px 14px; border: 1px solid #d2d2d7; '
+    'border-radius: 8px; font-size: 15px; font-family: inherit; '
+    'color: #1d1d1f; background: #fff; transition: border-color 0.2s;'
+)
+
 
 class StyledUserCreationForm(UserCreationForm):
     class Meta:
@@ -10,21 +16,17 @@ class StyledUserCreationForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        for field_name, field in self.fields.items():
-            field.widget.attrs['style'] = (
-                'width: 100%; padding: 10px; border: 1px solid #ddd; '
-                'border-radius: 4px; font-size: 14px;'
-            )
+        for field in self.fields.values():
+            field.widget.attrs['style'] = FIELD_STYLE
 
 
 class CheckoutForm(forms.Form):
-    """Форма оформления заказа"""
     address = forms.CharField(
         label='Адрес доставки',
         widget=forms.Textarea(attrs={
             'rows': 3,
             'placeholder': 'Город, улица, дом, квартира...',
-            'style': 'width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;'
+            'style': FIELD_STYLE,
         })
     )
     phone = forms.CharField(
@@ -32,13 +34,13 @@ class CheckoutForm(forms.Form):
         max_length=20,
         widget=forms.TextInput(attrs={
             'placeholder': '+7 (999) 123-45-67',
-            'style': 'width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;'
+            'style': FIELD_STYLE,
         })
     )
     email = forms.EmailField(
         label='Email для получения чека',
         widget=forms.EmailInput(attrs={
             'placeholder': 'your@email.com',
-            'style': 'width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 14px;'
+            'style': FIELD_STYLE,
         })
     )

@@ -1,10 +1,11 @@
 {% extends 'shop/base.html' %}
 
-{% block title %}Вход — Магазин электроники{% endblock %}
+{% block title %}Вход — Shopex{% endblock %}
 
 {% block content %}
-<div class="auth-form">
+<div class="auth-wrap">
     <h1>Вход</h1>
+    <p style="color: var(--text-secondary); margin-bottom: 32px;">Войдите, чтобы делать покупки и отслеживать заказы.</p>
 
     {% if form.errors %}
         <div class="messages">
@@ -22,10 +23,10 @@
             <label for="id_password">Пароль</label>
             <input type="password" name="password" id="id_password" required>
         </div>
-        <button type="submit" class="btn btn-blue">Войти</button>
+        <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 8px;">Войти</button>
     </form>
 
-    <div class="links">
+    <div class="auth-links">
         <p>Нет аккаунта? <a href="{% url 'register' %}">Зарегистрироваться</a></p>
     </div>
 </div>

@@ -1,75 +1,60 @@
 {% extends 'shop/base.html' %}
 
-{% block title %}Оформление заказа — Магазин электроники{% endblock %}
+{% block title %}Оформление заказа — Shopex{% endblock %}
 
 {% block content %}
 <div class="breadcrumb">
-    <a href="{% url 'index' %}">Главная</a> →
-    <a href="{% url 'cart_view' %}">Корзина</a> →
-    Оформление заказа
+    <a href="{% url 'index' %}">Главная</a>
+    <span class="breadcrumb-sep">›</span>
+    <a href="{% url 'cart_view' %}">Корзина</a>
+    <span class="breadcrumb-sep">›</span>
+    <span>Оформление</span>
 </div>
 
-<h1>📋 Оформление заказа</h1>
+<h1 style="margin-bottom: 32px;">Оформление заказа</h1>
 
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
-
-    <!-- Левая часть: форма -->
-    <div class="page-content">
-        <h2>Данные для доставки</h2>
-
+<div class="checkout-grid">
+    <div>
+        <h2>Данные доставки</h2>
         <form method="post">
             {% csrf_token %}
-
             {% for field in form %}
-                <div style="margin-bottom: 15px;">
-                    <label style="display: block; margin-bottom: 5px; font-weight: bold; color: #555;">
-                        {{ field.label }}
-                    </label>
-                    {{ field }}
-                    {% if field.errors %}
-                        <ul style="color: #e74c3c; list-style: none; padding: 0; font-size: 13px;">
-                            {% for error in field.errors %}
-                                <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                </div>
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                    {% for error in field.errors %}
+                        <div class="form-error">{{ error }}</div>
+                    {% endfor %}
+                {% endif %}
+            </div>
             {% endfor %}
-
-            <button type="submit" class="btn btn-green" style="width: 100%; margin-top: 10px; padding: 15px; font-size: 16px;">
-                ✅ Подтвердить заказ
-            </button>
+            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 8px;">Подтвердить заказ</button>
         </form>
     </div>
 
-    <!-- Правая часть: состав заказа -->
     <div>
-        <div class="page-content">
-            <h2>Ваш заказ</h2>
-
+        <h2>Ваш заказ</h2>
+        <div style="border: 1px solid var(--border-light); border-radius: var(--radius); padding: 20px;">
             {% for item in items %}
-                <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #eee;">
-                    <div>
-                        <strong>{{ item.product.name }}</strong>
-                        <br>
-                        <small style="color: #999;">{{ item.quantity }} шт. × {{ item.product.price }} ₽</small>
-                    </div>
-                    <div style="font-weight: bold;">
-                        {{ item.item_cost }} ₽
-                    </div>
+            <div class="checkout-order-item">
+                <div>
+                    <div class="checkout-order-name">{{ item.product.name }}</div>
+                    <div class="checkout-order-sub">{{ item.quantity }} шт. × {{ item.product.price }} ₽</div>
                 </div>
+                <div class="checkout-order-price">{{ item.item_cost }} ₽</div>
+            </div>
             {% endfor %}
-
-            <div style="margin-top: 20px; padding-top: 15px; border-top: 2px solid #2c3e50; text-align: right;">
-                <span style="font-size: 20px;">Итого: </span>
-                <span style="font-size: 24px; font-weight: bold; color: #e74c3c;">{{ total_cost }} ₽</span>
+            <div class="checkout-total">
+                <span class="checkout-total-label">Итого</span>
+                <span class="checkout-total-value">{{ total_cost }} ₽</span>
             </div>
         </div>
 
-        <div style="margin-top: 15px; padding: 15px; background: #d4edda; border-radius: 8px; font-size: 14px; color: #155724;">
-            📧 После оформления заказа чек будет отправлен на указанный email в формате Excel.
+        <div class="info-box info" style="margin-top: 16px;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 1px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span>После оформления чек будет отправлен на указанный email в формате Excel.</span>
         </div>
     </div>
-
 </div>
 {% endblock %}
