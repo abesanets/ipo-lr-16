@@ -1,8 +1,23 @@
-from django.urls import path
+from django.urls import path, include
 from django.contrib.auth import views as auth_views
+from rest_framework.routers import DefaultRouter
 from . import views
 
+# ==================== DRF ROUTER ====================
+router = DefaultRouter()
+router.register(r'categories', views.CategoryViewSet, basename='category')
+router.register(r'manufacturers', views.ManufacturerViewSet, basename='manufacturer')
+router.register(r'products', views.ProductViewSet, basename='product')
+router.register(r'carts', views.CartViewSet, basename='cart')
+router.register(r'cart-items', views.CartItemViewSet, basename='cartitem')
+router.register(r'orders', views.OrderViewSet, basename='order')
+router.register(r'order-items', views.OrderItemViewSet, basename='orderitem')
+
 urlpatterns = [
+    # API маршруты
+    path('api/', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls')),  # логин/логаут для browsable API
+
     # Основные страницы
     path('', views.index, name='index'),
     path('about/', views.about, name='about'),

@@ -306,3 +306,78 @@ def register(request):
         form = StyledUserCreationForm()
 
     return render(request, 'shop/register.html', {'form': form})
+
+
+# ==================== DRF API ПРЕДСТАВЛЕНИЯ ====================
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
+from .serializers import (
+    CategorySerializer, ManufacturerSerializer, ProductSerializer,
+    CartSerializer, CartItemSerializer, OrderSerializer, OrderItemSerializer
+)
+
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    """CRUD для категорий товаров"""
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    permission_classes = [IsAuthenticated]
+
+
+class ManufacturerViewSet(viewsets.ModelViewSet):
+    """CRUD для производителей"""
+    queryset = Manufacturer.objects.all()
+    serializer_class = ManufacturerSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class ProductViewSet(viewsets.ModelViewSet):
+    """CRUD для товаров"""
+    queryset = Product.objects.select_related('category', 'manufacturer').all()
+    serializer_class = ProductSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class CartViewSet(viewsets.ModelViewSet):
+    """CRUD для корзин (только свои корзины)"""
+    serializer_class = CartSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        # Обычный пользователь видит только свою корзину
+        if self.request.user.is_staff:
+            return Cart.objects.all()
+        return Cart.objects.filter(user=self.request.user)
+
+
+class CartItemViewSet(viewsets.ModelViewSet):
+    """CRUD для элементов корзины"""
+    serializer_class = CartItemSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        if self.request.user.is_staff:
+            return CartItem.objects.all()
+        return CartItem.objects.filter(cart__user=self.request.user)
+
+
+class OrderViewSet(viewsets.ModelViewSet):
+    """CRUD для заказов (только свои заказы)"""
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        if self.request.user.is_staff:
+            return Order.objects.all()
+        return Order.objects.filter(user=self.request.user)
+
+
+class OrderItemViewSet(viewsets.ModelViewSet):
+    """CRUD для элементов заказа"""
+    serializer_class = OrderItemSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        if self.request.user.is_staff:
+            return OrderItem.objects.all()
+        return OrderItem.objects.filter(order__user=self.request.user)
