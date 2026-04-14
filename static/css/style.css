@@ -1,0 +1,166 @@
+/* ── Переопределения для тёмной темы ── */
+
+/* Инпуты и селекты в формах */
+.qty-form input,
+input[type="number"],
+input[type="text"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+    background-color: #1e2130 !important;
+    color: #e8eaf0 !important;
+    border-color: #2a2e3f !important;
+}
+
+input:focus, select:focus, textarea:focus {
+    border-color: #6c8fff !important;
+    box-shadow: 0 0 0 3px rgba(108,143,255,0.15) !important;
+}
+
+/* Карточки Bootstrap (из API-рендеринга) */
+.card {
+    background-color: #1e2130 !important;
+    border-color: #2a2e3f !important;
+    color: #e8eaf0 !important;
+}
+
+.card-footer {
+    background-color: rgba(0,0,0,0.2) !important;
+    border-color: #2a2e3f !important;
+}
+
+.card-body .text-muted,
+.card-body .text-dark {
+    color: #9095a8 !important;
+}
+
+.card-title a {
+    color: #e8eaf0 !important;
+}
+
+.card-title a:hover {
+    color: #6c8fff !important;
+}
+
+/* Bootstrap кнопки */
+.btn-primary {
+    background-color: #6c8fff !important;
+    border-color: #6c8fff !important;
+    color: #fff !important;
+}
+
+.btn-primary:hover {
+    background-color: #8aa3ff !important;
+    border-color: #8aa3ff !important;
+}
+
+.btn-outline-secondary {
+    color: #9095a8 !important;
+    border-color: #2a2e3f !important;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #1e2130 !important;
+    color: #e8eaf0 !important;
+    border-color: #6c8fff !important;
+}
+
+.btn-secondary {
+    background-color: #1a1d27 !important;
+    border-color: #2a2e3f !important;
+    color: #9095a8 !important;
+}
+
+/* Пагинация Bootstrap */
+.pagination .page-link {
+    background-color: #1e2130;
+    border-color: #2a2e3f;
+    color: #9095a8;
+}
+
+.pagination .page-link:hover {
+    background-color: #252840;
+    border-color: #6c8fff;
+    color: #6c8fff;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #6c8fff;
+    border-color: #6c8fff;
+    color: #fff;
+}
+
+.pagination .page-item.disabled .page-link {
+    background-color: #1a1d27;
+    border-color: #2a2e3f;
+    color: #565c72;
+}
+
+/* Спиннер */
+#loading-spinner {
+    display: none;
+    text-align: center;
+    padding: 40px;
+}
+
+.spinner-border.text-primary {
+    color: #6c8fff !important;
+}
+
+/* Alert ошибки */
+.alert-danger {
+    background-color: rgba(255,92,92,0.12) !important;
+    border-color: rgba(255,92,92,0.25) !important;
+    color: #ff8f8f !important;
+}
+
+/* Toast */
+.toast-container {
+    z-index: 9999;
+}
+
+/* Карточки товаров — hover эффект */
+.product-card {
+    transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+.product-card:hover {
+    box-shadow: 0 8px 32px rgba(0,0,0,0.5) !important;
+    transform: translateY(-3px);
+    border-color: #6c8fff !important;
+}
+
+.product-card-img,
+.card-img-top.product-card-img {
+    height: 200px;
+    object-fit: cover;
+    background: #1a1d27;
+}
+
+/* Текст */
+.text-muted {
+    color: #9095a8 !important;
+}
+
+/* Корзина — инпут количества */
+.qty-form { display: flex; gap: 6px; align-items: center; }
+.qty-form input:focus { outline: none; border-color: #6c8fff; }
+
+/* Статистика */
+.stat-value { color: #6c8fff; }
+
+/* Инфо-боксы */
+.info-box.info    { background: rgba(108,143,255,0.1); color: #9ab3ff; border: 1px solid rgba(108,143,255,0.25); }
+.info-box.success { background: rgba(62,207,110,0.1);  color: #6ee89a; border: 1px solid rgba(62,207,110,0.25); }
+
+/* Страница успешного заказа */
+.order-success-icon {
+    background: rgba(62,207,110,0.15) !important;
+}
+
+/* Страница контента */
+.page-content {
+    background: #1e2130 !important;
+    border-color: #2a2e3f !important;
+}

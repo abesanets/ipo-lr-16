@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login
 from django.contrib import messages
 from django.core.mail import EmailMessage
+from django.core.paginator import Paginator
 from django.db.models import Q
 from django.conf import settings
 
@@ -76,8 +77,14 @@ def product_list(request):
     if sort in valid_sorts:
         products = products.order_by(sort)
 
+    # Пагинация — 9 товаров на странице
+    paginator = Paginator(products, 9)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     context = {
-        'products': products,
+        'products': page_obj,
+        'page_obj': page_obj,
         'categories': Category.objects.all(),
         'manufacturers': Manufacturer.objects.all(),
         'search_query': search_query,
@@ -310,7 +317,7 @@ def register(request):
 
 # ==================== DRF API ПРЕДСТАВЛЕНИЯ ====================
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
 from .serializers import (
     CategorySerializer, ManufacturerSerializer, ProductSerializer,
     CartSerializer, CartItemSerializer, OrderSerializer, OrderItemSerializer
@@ -321,21 +328,21 @@ class CategoryViewSet(viewsets.ModelViewSet):
     """CRUD для категорий товаров"""
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 class ManufacturerViewSet(viewsets.ModelViewSet):
     """CRUD для производителей"""
     queryset = Manufacturer.objects.all()
     serializer_class = ManufacturerSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 class ProductViewSet(viewsets.ModelViewSet):
     """CRUD для товаров"""
     queryset = Product.objects.select_related('category', 'manufacturer').all()
     serializer_class = ProductSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
 
 class CartViewSet(viewsets.ModelViewSet):
