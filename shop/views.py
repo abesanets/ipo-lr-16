@@ -290,8 +290,16 @@ def checkout(request):
 
 @login_required
 def order_success(request, order_id):
-    """Страница успешного оформления заказа"""
-    order = get_object_or_404(Order, id=order_id, user=request.user)
+    """Страница успешного оформления заказа / деталей заказа"""
+    is_privileged = request.user.is_staff or request.user.is_superuser
+    if hasattr(request.user, 'profile'):
+        is_privileged = is_privileged or (request.user.profile.role in ['ADMIN', 'MANAGER'])
+        
+    if is_privileged:
+        order = get_object_or_404(Order, id=order_id)
+    else:
+        order = get_object_or_404(Order, id=order_id, user=request.user)
+        
     return render(request, 'shop/order_success.html', {
         'order': order,
     })
@@ -315,34 +323,119 @@ def register(request):
     return render(request, 'shop/register.html', {'form': form})
 
 
+# ==================== ЛИЧНЫЙ КАБИНЕТ И НАСТРОЙКИ ====================
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
+from .models import Profile
+
+@login_required
+def profile_view(request):
+    """Просмотр личного кабинета"""
+    profile, created = Profile.objects.get_or_create(user=request.user)
+    
+    is_privileged = request.user.is_staff or request.user.is_superuser or (profile.role in ['ADMIN', 'MANAGER'])
+    if is_privileged:
+        orders = Order.objects.select_related('user').all()
+    else:
+        orders = Order.objects.filter(user=request.user)
+        
+    return render(request, 'shop/profile.html', {
+        'profile': profile,
+        'orders': orders,
+        'is_privileged': is_privileged,
+    })
+
+
+@login_required
+def settings_view(request):
+    """Страница настроек пользователя (смена email и пароля)"""
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        if action == 'change_email':
+            new_email = request.POST.get('email', '').strip()
+            if new_email:
+                request.user.email = new_email
+                request.user.save()
+                messages.success(request, 'Email успешно изменен!')
+            else:
+                messages.error(request, 'Введите корректный email.')
+            return redirect('settings_view')
+            
+        elif action == 'change_password':
+            password_form = PasswordChangeForm(request.user, request.POST)
+            if password_form.is_valid():
+                user = password_form.save()
+                update_session_auth_hash(request, user)
+                messages.success(request, 'Пароль успешно изменен!')
+                return redirect('profile_view')
+            else:
+                messages.error(request, 'Пожалуйста, исправьте ошибки при смене пароля.')
+    else:
+        password_form = PasswordChangeForm(request.user)
+        
+    return render(request, 'shop/settings.html', {
+        'password_form': password_form,
+    })
+
+
 # ==================== DRF API ПРЕДСТАВЛЕНИЯ ====================
-from rest_framework import viewsets
+from rest_framework import viewsets, generics, permissions
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
 from .serializers import (
     CategorySerializer, ManufacturerSerializer, ProductSerializer,
-    CartSerializer, CartItemSerializer, OrderSerializer, OrderItemSerializer
+    CartSerializer, CartItemSerializer, OrderSerializer, OrderItemSerializer,
+    ProfileSerializer
 )
+
+
+class IsAdminOrReadOnly(permissions.BasePermission):
+    """
+    Разрешает только чтение для обычных пользователей.
+    Создание/редактирование доступно только администраторам (is_staff=True или роль ADMIN).
+    """
+    def has_permission(self, request, view):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        user = request.user
+        if not user or not user.is_authenticated:
+            return False
+        
+        is_admin_role = False
+        if hasattr(user, 'profile'):
+            is_admin_role = (user.profile.role == 'ADMIN')
+            
+        return user.is_staff or user.is_superuser or is_admin_role
+
+
+class UserProfileView(generics.RetrieveUpdateAPIView):
+    """Просмотр и редактирование профиля текущего пользователя через API"""
+    serializer_class = ProfileSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        profile, created = Profile.objects.get_or_create(user=self.request.user)
+        return profile
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
     """CRUD для категорий товаров"""
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAdminOrReadOnly]
 
 
 class ManufacturerViewSet(viewsets.ModelViewSet):
     """CRUD для производителей"""
     queryset = Manufacturer.objects.all()
     serializer_class = ManufacturerSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAdminOrReadOnly]
 
 
 class ProductViewSet(viewsets.ModelViewSet):
     """CRUD для товаров"""
     queryset = Product.objects.select_related('category', 'manufacturer').all()
     serializer_class = ProductSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAdminOrReadOnly]
 
 
 class CartViewSet(viewsets.ModelViewSet):
@@ -369,14 +462,19 @@ class CartItemViewSet(viewsets.ModelViewSet):
 
 
 class OrderViewSet(viewsets.ModelViewSet):
-    """CRUD для заказов (только свои заказы)"""
+    """CRUD для заказов (только свои заказы, менеджеры и админы видят все)"""
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        if self.request.user.is_staff:
+        user = self.request.user
+        is_privileged = user.is_staff or user.is_superuser
+        if hasattr(user, 'profile'):
+            is_privileged = is_privileged or (user.profile.role in ['ADMIN', 'MANAGER'])
+        
+        if is_privileged:
             return Order.objects.all()
-        return Order.objects.filter(user=self.request.user)
+        return Order.objects.filter(user=user)
 
 
 class OrderItemViewSet(viewsets.ModelViewSet):
@@ -385,6 +483,12 @@ class OrderItemViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        if self.request.user.is_staff:
+        user = self.request.user
+        is_privileged = user.is_staff or user.is_superuser
+        if hasattr(user, 'profile'):
+            is_privileged = is_privileged or (user.profile.role in ['ADMIN', 'MANAGER'])
+        
+        if is_privileged:
             return OrderItem.objects.all()
-        return OrderItem.objects.filter(order__user=self.request.user)
+        return OrderItem.objects.filter(order__user=user)
+

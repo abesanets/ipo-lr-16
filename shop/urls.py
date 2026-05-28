@@ -15,6 +15,7 @@ router.register(r'order-items', views.OrderItemViewSet, basename='orderitem')
 
 urlpatterns = [
     # API маршруты
+    path('api/me/', views.UserProfileView.as_view(), name='api-me'),
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls')),  # логин/логаут для browsable API
 
@@ -36,6 +37,10 @@ urlpatterns = [
     # Оформление заказа
     path('checkout/', views.checkout, name='checkout'),
     path('order-success/<int:order_id>/', views.order_success, name='order_success'),
+
+    # Личный кабинет и настройки
+    path('profile/', views.profile_view, name='profile_view'),
+    path('settings/', views.settings_view, name='settings_view'),
 
     # Аутентификация
     path('login/', auth_views.LoginView.as_view(

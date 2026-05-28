@@ -62,3 +62,12 @@ class OrderAdmin(admin.ModelAdmin):
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
     list_display = ('id', 'order', 'product_name', 'product_price', 'quantity', 'item_cost')
+
+
+from .models import Profile
+
+@admin.register(Profile)
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('id', 'user', 'role', 'full_name', 'phone', 'delivery_city')
+    list_filter = ('role', 'delivery_city')
+    search_fields = ('user__username', 'full_name', 'phone')

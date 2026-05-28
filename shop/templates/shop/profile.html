@@ -1,0 +1,170 @@
+{% extends 'shop/base.html' %}
+
+{% block title %}Личный кабинет — Shopex{% endblock %}
+
+{% block content %}
+<div class="breadcrumb">
+    <a href="{% url 'index' %}">Главная</a>
+    <span class="breadcrumb-sep">›</span>
+    <span>Личный кабинет</span>
+</div>
+
+<h1 style="margin-bottom: 32px;">Личный кабинет</h1>
+
+<div class="row g-4">
+    <!-- Блок информации и редактирования профиля -->
+    <div class="col-md-5">
+        <div class="page-content" style="height: 100%;">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h2 class="m-0">Мой профиль</h2>
+                <span class="stock-badge in">
+                    {{ profile.get_role_display }}
+                </span>
+            </div>
+
+            <div class="mb-4 text-secondary" style="font-size: 14px;">
+                <div class="d-flex justify-content-between border-bottom border-secondary-subtle py-2">
+                    <span>Имя пользователя:</span>
+                    <strong class="text-white">{{ profile.user.username }}</strong>
+                </div>
+                <div class="d-flex justify-content-between border-bottom border-secondary-subtle py-2">
+                    <span>Email:</span>
+                    <strong class="text-white">{{ profile.user.email|default:"Не указан" }}</strong>
+                </div>
+            </div>
+
+            <form id="profile-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="id_full_name">ФИО</label>
+                    <input type="text" id="id_full_name" name="full_name" value="{{ profile.full_name }}" placeholder="Введите ФИО">
+                </div>
+                <div class="form-group">
+                    <label for="id_phone">Телефон</label>
+                    <input type="text" id="id_phone" name="phone" value="{{ profile.phone }}" placeholder="+7 (999) 123-45-67">
+                </div>
+                <div class="form-group">
+                    <label for="id_delivery_city">Город доставки</label>
+                    <input type="text" id="id_delivery_city" name="delivery_city" value="{{ profile.delivery_city }}" placeholder="Город">
+                </div>
+                <div class="form-group">
+                    <label for="id_postal_code">Индекс</label>
+                    <input type="text" id="id_postal_code" name="postal_code" value="{{ profile.postal_code }}" placeholder="123456">
+                </div>
+                <div class="form-group">
+                    <label for="id_address">Адрес доставки</label>
+                    <textarea id="id_address" name="address" rows="3" placeholder="Улица, дом, квартира...">{{ profile.address }}</textarea>
+                </div>
+                
+                <button type="submit" class="btn btn-primary w-100 mt-2">
+                    Сохранить изменения
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Блок истории заказов -->
+    <div class="col-md-7">
+        <div class="page-content" style="height: 100%;">
+            <h2>{% if is_privileged %}Управление заказами (Все заказы){% else %}История заказов{% endif %}</h2>
+            
+            {% if orders %}
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover align-middle" style="background: transparent;">
+                        <thead>
+                            <tr style="border-bottom: 1px solid var(--border);">
+                                <th style="color: var(--text-secondary); font-size: 13px;">Заказ</th>
+                                {% if is_privileged %}
+                                    <th style="color: var(--text-secondary); font-size: 13px;">Покупатель</th>
+                                {% endif %}
+                                <th style="color: var(--text-secondary); font-size: 13px;">Дата</th>
+                                <th style="color: var(--text-secondary); font-size: 13px;">Сумма</th>
+                                <th style="color: var(--text-secondary); font-size: 13px; text-align: right;">Действие</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order in orders %}
+                                <tr style="border-bottom: 1px solid var(--border-light);">
+                                    <td>
+                                        <span class="fw-bold">#{{ order.id }}</span>
+                                    </td>
+                                    {% if is_privileged %}
+                                        <td style="font-size: 14px;">
+                                            {{ order.user.username }}
+                                        </td>
+                                    {% endif %}
+                                    <td style="font-size: 14px; color: var(--text-secondary);">
+                                        {{ order.created_at|date:"d.m.Y H:i" }}
+                                    </td>
+                                    <td>
+                                        <span class="price" style="font-size: 15px;">{{ order.total_cost }} ₽</span>
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <a href="{% url 'order_success' order.id %}" class="btn btn-secondary btn-sm">
+                                            Подробнее
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="text-center py-5 text-secondary">
+                    <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" class="mb-3 opacity-25">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
+                    </svg>
+                    <p class="m-0">У вас пока нет оформленных заказов.</p>
+                    <a href="{% url 'product_list' %}" class="btn btn-primary btn-sm mt-3">Перейти в каталог</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.getElementById('profile-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = {
+        full_name: document.getElementById('id_full_name').value,
+        phone: document.getElementById('id_phone').value,
+        delivery_city: document.getElementById('id_delivery_city').value,
+        postal_code: document.getElementById('id_postal_code').value,
+        address: document.getElementById('id_address').value,
+    };
+    
+    const submitBtn = this.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.innerText = 'Сохранение...';
+
+    fetch('{% url "api-me" %}', {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCsrfToken(),
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Ошибка обновления профиля');
+        }
+        return response.json();
+    })
+    .then(data => {
+        showToast('Профиль успешно обновлен!', 'success');
+    })
+    .catch(error => {
+        console.error('Ошибка:', error);
+        showToast('Не удалось обновить профиль.', 'danger');
+    })
+    .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.innerText = 'Сохранить изменения';
+    });
+});
+</script>
+{% endblock %}
