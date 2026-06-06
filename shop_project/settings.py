@@ -158,6 +158,8 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='ваша_почта')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='ваш_код')
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='ваша_почта')
+EMAIL_TIMEOUT = 10  # Таймаут соединения в секундах, чтобы не зависала страница
+
 
 # Безопасные cookie в продакшне
 if not DEBUG:
