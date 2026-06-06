@@ -11,6 +11,12 @@ textarea {
     background-color: #1e2130 !important;
     color: #e8eaf0 !important;
     border-color: #2a2e3f !important;
+    color-scheme: dark; /* Принудительная темная тема для native dropdown */
+}
+
+select option {
+    background-color: #1e2130 !important;
+    color: #e8eaf0 !important;
 }
 
 input:focus, select:focus, textarea:focus {

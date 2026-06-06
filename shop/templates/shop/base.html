@@ -1101,8 +1101,9 @@
                     <a href="{% url 'register' %}" class="btn btn-primary btn-sm register-btn-modern">Регистрация</a>
                 {% endif %}
             </div>
-        </div>
     </header>
+
+    {% block hero %}{% endblock %}
 
     <div class="container">
         {% if messages %}

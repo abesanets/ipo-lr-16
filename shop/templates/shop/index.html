@@ -3,84 +3,177 @@
 
 {% block title %}Shopex — Электроника{% endblock %}
 
-{% block content %}
+{% block hero %}
 <!-- Кастомные стили для главной страницы -->
 <style>
-    /* Герой-секция */
-    .hero-section {
-        background: radial-gradient(circle at top left, rgba(108, 143, 255, 0.08), transparent 45%),
-                    linear-gradient(135deg, #13151f 0%, #0a0b0f 100%);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        border-radius: 24px;
-        padding: 64px 60px;
-        margin-bottom: 56px;
+    /* Герой-секция на весь экран */
+    .hero-fullscreen-wrap {
+        width: 100%;
+        height: calc(100vh - 68px);
+        min-height: 750px;
+        background-image: 
+            radial-gradient(circle at 15% 25%, rgba(108, 143, 255, 0.12), transparent 45%),
+            radial-gradient(circle at 85% 75%, rgba(62, 207, 110, 0.06), transparent 45%),
+            linear-gradient(rgba(255, 255, 255, 0.005) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255, 255, 255, 0.005) 1px, transparent 1px),
+            linear-gradient(135deg, #0e1017 0%, #06070b 100%);
+        background-size: 100% 100%, 100% 100%, 56px 56px, 56px 56px, 100% 100%;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         position: relative;
         overflow: hidden;
-        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-        display: grid;
-        grid-template-columns: 1.2fr 0.8fr;
-        gap: 48px;
-        align-items: center;
-    }
-
-    .hero-visual {
-        position: relative;
-        width: 100%;
-        height: 260px;
         display: flex;
         align-items: center;
         justify-content: center;
     }
 
-    .visual-glow {
+    /* Дополнительные размытые свечения позади карт */
+    .hero-ambient-glow-left {
         position: absolute;
-        width: 200px;
-        height: 200px;
-        background: radial-gradient(circle, rgba(108, 143, 255, 0.22) 0%, transparent 70%);
-        filter: blur(20px);
+        top: 25%;
+        left: 10%;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(108, 143, 255, 0.08) 0%, transparent 70%);
+        filter: blur(40px);
+        pointer-events: none;
         z-index: 1;
+    }
+
+    .hero-ambient-glow-right {
+        position: absolute;
+        bottom: 25%;
+        right: 10%;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(62, 207, 110, 0.04) 0%, transparent 70%);
+        filter: blur(40px);
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .hero-section {
+        width: 100%;
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 0 40px;
+        position: relative;
+        z-index: 5;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .hero-content {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        max-width: 760px;
+        z-index: 10;
+    }
+
+    /* Абсолютное позиционирование карточек по бокам для полного заполнения экрана */
+    .hero-cards-layer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 2;
     }
 
     .visual-card {
         position: absolute;
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border-radius: 20px;
-        padding: 20px;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
-    }
-
-    .visual-card-1 {
-        width: 210px;
-        height: 160px;
-        background: rgba(255, 255, 255, 0.02);
-        border: 1px solid rgba(255, 255, 255, 0.06);
-        transform: translate(-35px, -20px) rotate(-8deg);
-        z-index: 2;
+        pointer-events: auto;
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border-radius: 24px;
+        padding: 24px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+        transition: border-color 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease;
         text-align: left;
     }
 
-    .visual-card-2 {
-        width: 210px;
-        height: 130px;
-        background: linear-gradient(135deg, rgba(108, 143, 255, 0.18) 0%, rgba(255, 255, 255, 0.04) 100%);
-        border: 1px solid rgba(108, 143, 255, 0.3);
-        transform: translate(35px, 30px) rotate(6deg);
-        z-index: 3;
+    .visual-card:hover {
+        box-shadow: 0 25px 60px rgba(0,0,0,0.55), 0 0 30px rgba(108, 143, 255, 0.25) !important;
+        border-color: rgba(108, 143, 255, 0.45) !important;
+        background-color: rgba(255, 255, 255, 0.06) !important;
+    }
+
+    /* Конкретные позиции для десктопов */
+    .card-premium-shopex {
+        left: 6%;
+        top: 20%;
+        width: 270px;
+        height: 160px;
+        background: linear-gradient(135deg, rgba(108, 143, 255, 0.16) 0%, rgba(255, 255, 255, 0.03) 100%);
+        border: 1px solid rgba(108, 143, 255, 0.25);
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        text-align: left;
+        animation: float-left-1 7s ease-in-out infinite;
     }
 
-    .hero-section:hover .visual-card-1 {
-        transform: translate(-45px, -30px) rotate(-12deg);
+    .card-delivery-badge {
+        left: 9%;
+        bottom: 22%;
+        width: 230px;
+        height: 120px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+        animation: float-left-2 8s ease-in-out infinite;
     }
 
-    .hero-section:hover .visual-card-2 {
-        transform: translate(45px, 40px) rotate(10deg);
+    .card-ultrabook-mock {
+        right: 6%;
+        top: 18%;
+        width: 270px;
+        height: 190px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        animation: float-right-1 7.5s ease-in-out infinite;
     }
+
+    .card-warranty-badge {
+        right: 9%;
+        bottom: 20%;
+        width: 230px;
+        height: 120px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+        animation: float-right-2 6.8s ease-in-out infinite;
+    }
+
+    /* Анимации покачивания */
+    @keyframes float-left-1 {
+        0%, 100% { transform: translateY(0) rotate(-5deg); }
+        50% { transform: translateY(-16px) rotate(-3deg); }
+    }
+    @keyframes float-left-2 {
+        0%, 100% { transform: translateY(0) rotate(5deg); }
+        50% { transform: translateY(-12px) rotate(7deg); }
+    }
+    @keyframes float-right-1 {
+        0%, 100% { transform: translateY(0) rotate(6deg); }
+        50% { transform: translateY(-20px) rotate(4deg); }
+    }
+    @keyframes float-right-2 {
+        0%, 100% { transform: translateY(0) rotate(-4deg); }
+        50% { transform: translateY(-14px) rotate(-2deg); }
+    }
+
+    /* Интерактивное подсвечивание при наведении (без изменения движения) */
 
     .visual-dot {
         width: 6px;
@@ -94,132 +187,134 @@
     .visual-dot.green { background: #3ecf6e; }
 
     .mock-device-title {
-        font-size: 13px;
+        font-size: 14px;
         font-weight: 700;
         color: #fff;
-        margin-top: 14px;
+        margin-top: 16px;
     }
     .mock-device-price {
-        font-size: 18px;
+        font-size: 19px;
         font-weight: 800;
         color: #fff;
-        margin-top: 2px;
+        margin-top: 4px;
     }
     .mock-badge {
         display: inline-block;
-        font-size: 9px;
+        font-size: 10px;
         font-weight: 700;
         color: #3ecf6e;
         background: rgba(62,207,110,0.12);
-        padding: 2px 8px;
-        border-radius: 6px;
-        margin-top: 8px;
+        padding: 4px 10px;
+        border-radius: 8px;
+        margin-top: 12px;
         border: 1px solid rgba(62,207,110,0.15);
     }
 
     .card-logo {
-        font-size: 16px;
+        font-size: 18px;
         color: #8aa3ff;
     }
     .card-number {
-        font-size: 10px;
+        font-size: 11px;
         color: var(--text-secondary);
         font-family: monospace;
-        letter-spacing: 0.8px;
-    }
-    .card-holder {
-        font-size: 9px;
-        font-weight: 700;
-        color: #fff;
         letter-spacing: 1px;
     }
-
-    .hero-section::before {
-        content: "";
-        position: absolute;
-        top: -150px;
-        right: -150px;
-        width: 400px;
-        height: 400px;
-        background: radial-gradient(circle, rgba(108, 143, 255, 0.18) 0%, rgba(108, 143, 255, 0) 70%);
-        border-radius: 50%;
-        pointer-events: none;
-        filter: blur(40px);
-    }
-    
-    .hero-section::after {
-        content: "";
-        position: absolute;
-        bottom: -100px;
-        left: 20%;
-        width: 300px;
-        height: 300px;
-        background: radial-gradient(circle, rgba(62, 207, 110, 0.06) 0%, rgba(62, 207, 110, 0) 70%);
-        border-radius: 50%;
-        pointer-events: none;
-        filter: blur(50px);
+    .card-holder {
+        font-size: 10px;
+        font-weight: 700;
+        color: #fff;
+        letter-spacing: 1.2px;
     }
 
+    .card-badge-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--accent);
+    }
+
+    .card-badge-title {
+        font-size: 14px;
+        font-weight: 700;
+        color: #fff;
+    }
+
+    .card-badge-desc {
+        font-size: 12px;
+        color: var(--text-secondary);
+    }
+
+    /* Добавление воздуха в центральный блок */
     .hero-badge {
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        font-size: 11px;
+        font-size: 12px;
         font-weight: 700;
         color: #8aa3ff;
         text-transform: uppercase;
-        letter-spacing: 1.5px;
-        margin-bottom: 24px;
-        background: rgba(108, 143, 255, 0.1);
-        padding: 6px 14px;
+        letter-spacing: 2px;
+        margin-bottom: 36px; /* Больше воздуха */
+        background: rgba(108, 143, 255, 0.08);
+        padding: 8px 18px;
         border-radius: 980px;
         border: 1px solid rgba(108, 143, 255, 0.15);
         backdrop-filter: blur(4px);
     }
 
+    /* Избавление от эффекта пирамиды */
     .hero-title {
-        font-size: 56px;
+        font-size: 64px;
         font-weight: 850;
-        letter-spacing: -1.8px;
+        letter-spacing: -2px;
         line-height: 1.15;
-        margin-bottom: 24px;
-        background: linear-gradient(135deg, #ffffff 30%, #c7d2fe 100%);
+        margin-bottom: 32px; /* Больше воздуха */
+        background: linear-gradient(135deg, #ffffff 40%, #c7d2fe 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+        max-width: 720px;
     }
 
     .hero-desc {
-        font-size: 17px;
-        color: #9095a8;
-        margin-bottom: 40px;
-        max-width: 540px;
-        line-height: 1.7;
+        font-size: 19px; /* Больше и читаемее */
+        color: #a2a7bb;
+        margin-bottom: 54px; /* Больше воздуха */
+        max-width: 600px;
+        line-height: 1.8;
     }
     
     .hero-actions {
         display: flex;
-        gap: 16px;
+        gap: 20px;
         flex-wrap: wrap;
+        justify-content: center;
     }
     
     .hero-btn-primary {
         background: var(--accent);
         color: #fff;
         font-weight: 600;
-        padding: 14px 28px;
+        padding: 16px 36px; /* Больше размер */
         border-radius: 980px;
-        box-shadow: 0 8px 20px rgba(108,143,255,0.3);
+        box-shadow: 0 10px 25px rgba(108,143,255,0.35);
         transition: all var(--transition);
         text-decoration: none;
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        font-size: 15px;
     }
     
     .hero-btn-primary:hover {
         background: var(--accent-hover);
-        transform: translateY(-2px);
-        box-shadow: 0 12px 24px rgba(108,143,255,0.4);
+        transform: translateY(-3px);
+        box-shadow: 0 14px 28px rgba(108,143,255,0.45);
         color: #fff;
     }
     
@@ -227,7 +322,7 @@
         background: rgba(255, 255, 255, 0.03);
         color: var(--text);
         font-weight: 600;
-        padding: 14px 28px;
+        padding: 16px 36px;
         border-radius: 980px;
         border: 1px solid var(--border);
         transition: all var(--transition);
@@ -235,366 +330,723 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        font-size: 15px;
     }
     
     .hero-btn-ghost:hover {
         background: rgba(255, 255, 255, 0.08);
         border-color: rgba(255, 255, 255, 0.15);
-        transform: translateY(-2px);
+        transform: translateY(-3px);
+        color: #fff;
     }
 
-    /* Секция категорий */
-    .section-title-alt {
-        font-size: 12px;
+    /* Scroll Down Indicator */
+    .scroll-indicator {
+        position: absolute;
+        bottom: 28px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        color: var(--text-tertiary);
+        font-size: 11px;
         font-weight: 700;
-        color: var(--text-secondary);
         text-transform: uppercase;
-        letter-spacing: 2px;
-        margin-bottom: 24px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
+        letter-spacing: 2.5px;
+        transition: opacity 0.3s, color 0.3s;
+        pointer-events: none;
+        z-index: 10;
     }
 
-    .section-title-alt::after {
-        content: "";
-        flex: 1;
-        height: 1px;
-        background: linear-gradient(90deg, rgba(255,255,255,0.08), transparent);
-    }
-
-    .categories-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-        gap: 16px;
-        margin-bottom: 64px;
-    }
-
-    .category-card {
-        background: rgba(255, 255, 255, 0.02);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        border-radius: 20px;
-        padding: 24px 16px;
-        text-align: center;
-        text-decoration: none;
-        color: var(--text-secondary);
-        font-weight: 600;
-        font-size: 13px;
-        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 12px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-
-    .category-card:hover {
-        background: rgba(108, 143, 255, 0.06);
-        border-color: rgba(108, 143, 255, 0.3);
-        transform: translateY(-4px);
-        color: var(--text);
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25), 0 0 15px rgba(108,143,255,0.1);
-    }
-
-    .category-icon {
-        width: 48px;
-        height: 48px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        border-radius: 14px;
-        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    .hero-fullscreen-wrap:hover .scroll-indicator {
         color: var(--text-secondary);
     }
-    
-    .category-icon svg {
-        transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-    }
 
-    .category-card:hover .category-icon {
-        background: rgba(108, 143, 255, 0.15);
-        border-color: rgba(108, 143, 255, 0.25);
-        color: #8aa3ff;
-        box-shadow: 0 0 10px rgba(108,143,255,0.15);
-    }
-    
-    .category-card:hover .category-icon svg {
-        transform: scale(1.1);
-    }
-
-    /* Product Cards Enhancements */
-    .products-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-        gap: 24px;
-    }
-
-    .product-card {
-        background: rgba(255, 255, 255, 0.02) !important;
-        border: 1px solid rgba(255, 255, 255, 0.05) !important;
-        border-radius: 20px !important;
-        overflow: hidden;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-    }
-
-    .product-card:hover {
-        transform: translateY(-6px);
-        border-color: rgba(108, 143, 255, 0.3) !important;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(108, 143, 255, 0.05) !important;
-    }
-
-    .product-card-img-link {
-        position: relative;
-        display: block;
-        overflow: hidden;
-        aspect-ratio: 4/3;
-        background: rgba(255,255,255,0.01);
-    }
-
-    .product-card-img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    }
-
-    .product-card:hover .product-card-img {
-        transform: scale(1.05);
-    }
-
-    .product-card-body {
-        padding: 20px;
-        flex-grow: 1;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .product-card-category {
-        font-size: 10px;
-        font-weight: 700;
+    .scroll-arrow {
+        animation: bounce 2s infinite;
         color: var(--accent);
-        text-transform: uppercase;
-        letter-spacing: 1.2px;
-        margin-bottom: 8px;
     }
 
-    .product-card-name {
-        font-size: 17px;
-        font-weight: 650;
-        line-height: 1.4;
-        margin-bottom: 6px;
-    }
-
-    .product-card-name a {
-        color: var(--text);
-        text-decoration: none;
-        transition: color 0.2s;
-    }
-
-    .product-card-name a:hover {
-        color: #8aa3ff;
-    }
-
-    .product-card-mfr {
-        font-size: 13px;
-        color: var(--text-secondary);
-        margin-top: auto;
-    }
-
-    .product-card-footer {
-        padding: 16px 20px;
-        border-top: 1px solid rgba(255, 255, 255, 0.04);
-        background: rgba(0, 0, 0, 0.1);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .price {
-        font-size: 19px;
-        font-weight: 800;
-        color: #ffffff;
-        letter-spacing: -0.3px;
-    }
-
-    .btn-cart-add {
-        border-radius: 980px !important;
-        padding: 8px 16px !important;
-        font-size: 13px !important;
-        font-weight: 600 !important;
-        transition: all 0.2s !important;
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+        40% { transform: translateY(-6px); }
+        60% { transform: translateY(-3px); }
     }
 
     /* Адаптивность для героя */
-    @media (max-width: 768px) {
-        .hero-section {
-            grid-template-columns: 1fr;
-            padding: 48px 32px;
-            margin-bottom: 40px;
-            text-align: center;
+    @media (max-width: 1200px) {
+        /* Прижимаем карты ближе к центру на средних экранах */
+        .card-premium-shopex { left: 2%; top: 22%; width: 240px; }
+        .card-delivery-badge { left: 4%; bottom: 20%; width: 210px; }
+        .card-ultrabook-mock { right: 2%; top: 20%; width: 240px; }
+        .card-warranty-badge { right: 4%; bottom: 18%; width: 210px; }
+    }
+
+    @media (max-width: 1024px) {
+        .hero-cards-layer {
+            display: none; /* Скрываем карты на планшетах и мобильных */
         }
-        .hero-visual {
+        .hero-ambient-glow-left, .hero-ambient-glow-right {
             display: none;
         }
+        .hero-fullscreen-wrap {
+            height: auto;
+            min-height: calc(100vh - 68px);
+            padding: 100px 0;
+        }
+        .scroll-indicator {
+            display: none;
+        }
+    }
+
+    @media (max-width: 768px) {
         .hero-title {
-            font-size: 36px;
-            letter-spacing: -1px;
+            font-size: 44px;
+            letter-spacing: -1.2px;
         }
         .hero-desc {
-            font-size: 15px;
-            margin-bottom: 32px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .hero-actions {
-            justify-content: center;
-        }
-        .categories-grid {
-            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-            gap: 12px;
+            font-size: 16px;
+            margin-bottom: 40px;
         }
     }
 </style>
 
-<!-- Герой-секция -->
-<div class="hero-section">
-    <!-- Левая часть с текстом -->
-    <div class="hero-content">
-        <span class="hero-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px; vertical-align: middle;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Обновленная витрина</span>
-        <h1 class="hero-title">Умные технологии<br>для вашей жизни.</h1>
-        <p class="hero-desc">Премиальный каталог сертифицированной электроники от ведущих брендов. Цены указаны в белорусских рублях (Br). Быстрая доставка по всей стране.</p>
-        <div class="hero-actions">
-            <a href="{% url 'product_list' %}" class="hero-btn-primary">Перейти в каталог</a>
-            <a href="{% url 'shop_info' %}" class="hero-btn-ghost">О магазине</a>
-        </div>
-    </div>
+<!-- Герой-секция на весь экран -->
+<div class="hero-fullscreen-wrap">
+    <!-- Фоновые свечения -->
+    <div class="hero-ambient-glow-left"></div>
+    <div class="hero-ambient-glow-right"></div>
 
-    <!-- Правая интерактивная часть -->
-    <div class="hero-visual">
-        <div class="visual-glow"></div>
-        
-        <!-- Задняя карточка: Макет товара -->
-        <div class="visual-card visual-card-1">
-            <div>
-                <span class="visual-dot red"></span>
-                <span class="visual-dot yellow"></span>
-                <span class="visual-dot green"></span>
-            </div>
-            <div class="mock-device-title">Shopex UltraBook</div>
-            <div class="mock-device-price">2999 Br</div>
-            <span class="mock-badge">Хит продаж</span>
-        </div>
-
-        <!-- Передняя карточка: Премиум-карта Shopex -->
-        <div class="visual-card visual-card-2">
-            <div class="card-logo">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-            </div>
-            <div class="card-number">•••• •••• •••• 2026</div>
-            <div class="card-holder">PREMIUM USER</div>
-        </div>
-    </div>
-</div>
-
-<!-- Блок категорий с иконками -->
-{% if categories %}
-<div>
-    <div class="section-title-alt">Быстрый поиск по категориям</div>
-    <div class="categories-grid">
-        {% for category in categories %}
-            <a href="{% url 'product_list' %}?category={{ category.id }}" class="category-card">
-                <div class="category-icon">
-                    {% if category.id == 1 %}
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
-                    {% elif category.id == 2 %}
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="2" y1="20" x2="22" y2="20"/><line x1="12" y1="17" x2="12" y2="20"/></svg>
-                    {% elif category.id == 3 %}
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/><line x1="12" y1="20" x2="12" y2="20"/></svg>
-                    {% elif category.id == 4 %}
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                    {% elif category.id == 5 %}
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>
-                    {% elif category.id == 6 %}
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7"/><polyline points="12 9 12 12 13.5 13.5"/><path d="M16.51 17.51 18.5 22h-13l2-4.5"/></svg>
-                    {% elif category.id == 7 %}
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><line x1="15" y1="13" x2="15.01" y2="13"/><line x1="18" y1="11" x2="18.01" y2="11"/><rect x="2" y="6" width="20" height="12" rx="3"/></svg>
-                    {% elif category.id == 8 %}
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
-                    {% elif category.id == 9 %}
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="9" height="18" rx="2"/><rect x="5" y="5" width="2" height="3" rx="0.5"/><rect x="15" y="9" width="6" height="12" rx="1.5"/><line x1="18" y1="7" x2="18" y2="9"/><path d="M18 13v4"/></svg>
-                    {% elif category.id == 10 %}
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><circle cx="12" cy="8" r="3"/><circle cx="12" cy="16" r="4"/><circle cx="12" cy="16" r="1"/></svg>
-                    {% else %}
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
-                    {% endif %}
+    <div class="hero-section">
+        <!-- Слой с абсолютно позиционированными картами по бокам -->
+        <div class="hero-cards-layer">
+            <!-- Левая колонка карт -->
+            <div class="visual-card card-premium-shopex">
+                <div class="card-logo">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
                 </div>
-                <span>{{ category.name }}</span>
-            </a>
-        {% endfor %}
+                <div class="card-number">•••• •••• •••• 2026</div>
+                <div class="card-holder">PREMIUM USER</div>
+            </div>
+            
+            <div class="visual-card card-delivery-badge">
+                <div class="card-badge-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                </div>
+                <div>
+                    <div class="card-badge-title">Доставка 0 Br</div>
+                    <div class="card-badge-desc">По всей Беларуси</div>
+                </div>
+            </div>
+
+            <!-- Правая колонка карт -->
+            <div class="visual-card card-ultrabook-mock">
+                <div>
+                    <span class="visual-dot red"></span>
+                    <span class="visual-dot yellow"></span>
+                    <span class="visual-dot green"></span>
+                </div>
+                <div class="mock-device-title">Shopex UltraBook</div>
+                <div class="mock-device-price">2999 Br</div>
+                <span class="mock-badge">Хит продаж</span>
+            </div>
+            
+            <div class="visual-card card-warranty-badge">
+                <div class="card-badge-icon">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <div>
+                    <div class="card-badge-title">100% Гарантия</div>
+                    <div class="card-badge-desc">Официальный сервис</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Центральная часть с текстом -->
+        <div class="hero-content">
+            <span class="hero-badge">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px; vertical-align: middle;">
+                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                </svg>Обновленная витрина
+            </span>
+            <h1 class="hero-title">Умные технологии для вашей жизни.</h1>
+            <p class="hero-desc">Премиальный каталог сертифицированной электроники от ведущих брендов. Цены указаны в белорусских рублях (Br). Быстрая доставка по всей стране.</p>
+            <div class="hero-actions">
+                <a href="{% url 'product_list' %}" class="hero-btn-primary">Перейти в каталог</a>
+                <a href="{% url 'shop_info' %}" class="hero-btn-ghost">О магазине</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Индикатор прокрутки -->
+    <div class="scroll-indicator">
+        <span>Листайте вниз</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="scroll-arrow">
+            <line x1="12" y1="5" x2="12" y2="19"/>
+            <polyline points="19 12 12 19 5 12"/>
+        </svg>
     </div>
 </div>
-{% endif %}
+{% endblock %}
 
-<!-- Блок новинок -->
-{% if latest_products %}
-<div>
-    <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 24px;">
-        <h2 style="margin-bottom: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.5px;">Новые поступления</h2>
-        <a href="{% url 'product_list' %}" style="font-size: 14px; color: var(--accent); text-decoration: none; font-weight: 500; transition: color var(--transition);" onmouseover="this.style.color='var(--accent-hover)'" onmouseout="this.style.color='var(--accent)'">Смотреть все →</a>
-    </div>
+{% block content %}
+<style>
+    /* Стили для премиум-лендинга */
+    .landing-section {
+        padding: 90px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 80px;
+        align-items: center;
+    }
     
-    <div class="products-grid">
-        {% for product in latest_products %}
-        <div class="product-card">
-            <!-- Картинка теперь является ссылкой на страницу товара -->
-            <a href="{% url 'product_detail' product.pk %}" class="product-card-img-link">
-                {% if product.image %}
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-card-img">
-                {% else %}
-                    {% if product.category.id == 5 %}
-                        {% if "Buds" in product.name or "AirPods" in product.name %}
-                            <img src="{% static 'images/products/5_buds.png' %}?v=2" alt="{{ product.name }}" class="product-card-img">
-                        {% else %}
-                            <img src="{% static 'images/products/5.png' %}?v=2" alt="{{ product.name }}" class="product-card-img">
-                        {% endif %}
-                    {% else %}
-                        <img src="{% static 'images/products/' %}{{ product.category.id }}.png?v=2" alt="{{ product.name }}" class="product-card-img">
-                    {% endif %}
-                {% endif %}
-            </a>
-            
-            <div class="product-card-body">
-                <div class="product-card-category">{{ product.category.name }}</div>
-                <div class="product-card-name">
-                    <!-- Ссылка на товар -->
-                    <a href="{% url 'product_detail' product.pk %}">{{ product.name }}</a>
-                </div>
-                <div class="product-card-mfr">{{ product.manufacturer.name }}</div>
+    .landing-section:nth-child(even) {
+        grid-template-columns: 0.9fr 1.1fr;
+    }
+    
+    .landing-section:last-child {
+        border-bottom: none;
+        padding-bottom: 40px;
+    }
+    
+    .landing-text {
+        text-align: left;
+    }
+    
+    .landing-badge {
+        font-size: 11px;
+        font-weight: 800;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 2.5px;
+        margin-bottom: 20px;
+        display: inline-block;
+        background: rgba(108, 143, 255, 0.08);
+        padding: 4px 12px;
+        border-radius: 6px;
+        border: 1px solid rgba(108, 143, 255, 0.12);
+    }
+    
+    .landing-title {
+        font-size: 42px;
+        font-weight: 850;
+        line-height: 1.25;
+        margin-bottom: 24px;
+        letter-spacing: -1.5px;
+        background: linear-gradient(135deg, #ffffff 60%, #c7d2fe 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .landing-desc {
+        font-size: 16.5px;
+        color: var(--text-secondary);
+        line-height: 1.8;
+        margin-bottom: 36px;
+    }
+
+    .landing-btn {
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--text);
+        font-weight: 600;
+        padding: 12px 28px;
+        border-radius: 980px;
+        border: 1px solid var(--border);
+        transition: all var(--transition);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .landing-btn:hover {
+        background: rgba(108, 143, 255, 0.08);
+        border-color: var(--accent);
+        color: #fff;
+        transform: translateY(-2px);
+    }
+    
+    /* Интерактивные превью-блоки (Иллюстрации на CSS) */
+    .landing-preview {
+        background: radial-gradient(circle at 50% 50%, rgba(108, 143, 255, 0.05), transparent 75%),
+                    rgba(255, 255, 255, 0.01);
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        border-radius: 32px;
+        height: 340px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+        transition: border-color 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .landing-preview:hover {
+        border-color: rgba(108, 143, 255, 0.2);
+        box-shadow: 0 20px 45px rgba(0,0,0,0.35), 0 0 20px rgba(108, 143, 255, 0.04);
+    }
+    
+    .preview-glow {
+        position: absolute;
+        width: 180px;
+        height: 180px;
+        background: radial-gradient(circle, rgba(108, 143, 255, 0.15) 0%, transparent 70%);
+        filter: blur(35px);
+        pointer-events: none;
+    }
+
+    .preview-glow-alt {
+        position: absolute;
+        width: 180px;
+        height: 180px;
+        background: radial-gradient(circle, rgba(62, 207, 110, 0.08) 0%, transparent 70%);
+        filter: blur(35px);
+        pointer-events: none;
+    }
+    
+    /* Компактные теги категорий */
+    .compact-category-pills {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 28px;
+    }
+    
+    .compact-pill {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        color: var(--text-secondary);
+        padding: 8px 16px;
+        border-radius: 980px;
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.25s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    
+    .compact-pill:hover {
+        background: rgba(108, 143, 255, 0.08);
+        border-color: rgba(108, 143, 255, 0.3);
+        color: #fff;
+        transform: translateY(-1px);
+    }
+
+    /* CSS Иллюстрации внутри превью */
+    .preview-box-shopex {
+        width: 230px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        transform: rotate(-4deg);
+        transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    .landing-preview:hover .preview-box-shopex {
+        transform: rotate(0deg) scale(1.03);
+    }
+
+    .preview-row-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .preview-row-item:last-child {
+        border-bottom: none;
+    }
+
+    .preview-circle-icon {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: rgba(108, 143, 255, 0.1);
+        border: 1px solid rgba(108, 143, 255, 0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--accent);
+    }
+
+    .preview-circle-icon.success {
+        background: rgba(62, 207, 110, 0.08);
+        border-color: rgba(62, 207, 110, 0.15);
+        color: var(--success);
+    }
+
+    .preview-text-line {
+        height: 8px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 4px;
+    }
+
+    .preview-user-avatar {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        border: 2px dashed var(--accent);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--accent);
+        margin-bottom: 16px;
+        animation: spin-dashed 20s linear infinite;
+    }
+
+    @keyframes spin-dashed {
+        100% { transform: rotate(360deg); }
+    }
+
+    .preview-tech-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        transform: translateY(10px);
+        transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    .landing-preview:hover .preview-tech-stack {
+        transform: translateY(0);
+    }
+
+    .tech-badge-inline {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 10px 18px;
+        font-size: 13px;
+        font-family: monospace;
+        color: var(--text-secondary);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .tech-badge-inline strong {
+        color: #fff;
+    }
+
+    @media (max-width: 992px) {
+        .landing-section {
+            grid-template-columns: 1fr !important;
+            gap: 48px;
+            padding: 60px 0;
+        }
+        .landing-text {
+            text-align: center;
+        }
+        .landing-preview {
+            height: 280px;
+            order: 2;
+        }
+        .landing-section:nth-child(even) .landing-preview {
+            order: 2;
+        }
+    }
+
+    /* Интерактивное облако категорий */
+    /* Стили для интерактивного облака категорий (Отдельная секция) */
+    .categories-cloud-section {
+        padding: 90px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        position: relative;
+    }
+    
+    .cloud-wrapper {
+        position: relative;
+        width: 100%;
+        height: 520px;
+        margin-top: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: visible;
+    }
+    
+    .cloud-center-content {
+        max-width: 600px;
+        z-index: 10;
+        text-align: center;
+        padding: 40px;
+        background: radial-gradient(circle, rgba(108, 143, 255, 0.05) 0%, transparent 70%);
+    }
+    
+    .cloud-center-title {
+        font-size: 38px;
+        font-weight: 850;
+        letter-spacing: -1.2px;
+        line-height: 1.3;
+        margin-bottom: 16px;
+        color: #fff;
+        background: linear-gradient(135deg, #ffffff 60%, #c7d2fe 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .cloud-center-desc {
+        font-size: 16.5px;
+        color: var(--text-secondary);
+        line-height: 1.7;
+    }
+    
+    .cloud-bubble {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.015);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 980px;
+        padding: 13px 26px; /* Увеличили размер карточек */
+        font-size: 14.5px; /* Увеличили текст */
+        font-weight: 650;
+        color: var(--text-secondary);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+        transition: border-color 0.4s ease, box-shadow 0.4s ease, background-color 0.4s ease, color 0.4s ease;
+        z-index: 6;
+    }
+    
+    .cloud-bubble:hover {
+        background: rgba(108, 143, 255, 0.08) !important;
+        border-color: rgba(108, 143, 255, 0.35) !important;
+        color: #fff !important;
+        box-shadow: 0 12px 30px rgba(108, 143, 255, 0.2) !important;
+    }
+    
+    /* Координаты для 10 пузырей (равномерно распределенных по всему полю 520px) */
+    .bubble-1 { top: 12%; left: 6%; animation: float-gentle-1 14s ease-in-out infinite; }
+    .bubble-2 { top: 18%; right: 6%; animation: float-gentle-2 15s ease-in-out infinite; }
+    .bubble-3 { bottom: 12%; left: 8%; animation: float-gentle-3 16s ease-in-out infinite; }
+    .bubble-4 { bottom: 10%; right: 10%; animation: float-gentle-4 13s ease-in-out infinite; }
+    .bubble-5 { top: 46%; left: 1%; animation: float-gentle-2 15s ease-in-out infinite; }
+    .bubble-6 { top: 48%; right: 2%; animation: float-gentle-4 12s ease-in-out infinite; }
+    .bubble-7 { top: 5%; left: 34%; animation: float-gentle-3 13s ease-in-out infinite; }
+    .bubble-8 { top: 8%; right: 30%; animation: float-gentle-1 17s ease-in-out infinite; }
+    .bubble-9 { bottom: 5%; left: 30%; animation: float-gentle-4 14s ease-in-out infinite; }
+    .bubble-10 { bottom: 4%; right: 28%; animation: float-gentle-2 16s ease-in-out infinite; }
+
+    /* Едва заметные очень плавные колебания */
+    @keyframes float-gentle-1 {
+        0%, 100% { transform: translateY(0) translateX(0); }
+        50% { transform: translateY(-5px) translateX(2px); }
+    }
+    @keyframes float-gentle-2 {
+        0%, 100% { transform: translateY(0) translateX(0); }
+        50% { transform: translateY(-6px) translateX(-2px); }
+    }
+    @keyframes float-gentle-3 {
+        0%, 100% { transform: translateY(0) translateX(0); }
+        50% { transform: translateY(-4px) translateX(3px); }
+    }
+    @keyframes float-gentle-4 {
+        0%, 100% { transform: translateY(0) translateX(0); }
+        50% { transform: translateY(-7px) translateX(-3px); }
+    }
+
+    @media (max-width: 992px) {
+        .cloud-wrapper {
+            height: auto;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 32px;
+            overflow: visible;
+        }
+        .cloud-bubble {
+            position: relative !important;
+            top: auto !important;
+            left: auto !important;
+            right: auto !important;
+            bottom: auto !important;
+            animation: none !important;
+            display: inline-flex;
+            margin: 4px;
+        }
+        .cloud-center-content {
+            padding: 20px;
+        }
+    }
+</style>
+
+<!-- СЕКЦИЯ 1: КАТАЛОГ -->
+<div class="landing-section">
+    <div class="landing-text">
+        <span class="landing-badge">Каталог</span>
+        <h2 class="landing-title">Умная витрина техники.</h2>
+        <p class="landing-desc">Наш каталог собран с акцентом на качество и производительность. Мы поставляем оригинальные гаджеты с предпродажной проверкой и гарантией, обеспечивая высочайшие стандарты обслуживания на каждом этапе.</p>
+        
+        <a href="{% url 'product_list' %}" class="landing-btn">
+            Открыть каталог
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+    </div>
+
+    <div class="landing-preview">
+        <div class="preview-glow" style="top: 20%; left: 20%;"></div>
+        <div class="preview-box-shopex" style="width: 250px;">
+            <div style="font-weight: 700; color: #fff; font-size: 14px; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
+                <span>Каталог</span>
+                <span style="font-size: 11px; color: var(--accent);">100+ товаров</span>
             </div>
-            
-            <div class="product-card-footer">
-                <span class="price">{{ product.price }} Br</span>
-                {% if user.is_authenticated and product.stock > 0 %}
-                    <form method="post" action="{% url 'add_to_cart' product.id %}" style="margin: 0;">
-                        {% csrf_token %}
-                        <input type="hidden" name="quantity" value="1">
-                        <button type="submit" class="btn btn-primary btn-sm btn-cart-add">В корзину</button>
-                    </form>
-                {% elif product.stock == 0 %}
-                    <span class="stock-badge out">Нет в наличии</span>
-                {% else %}
-                    <a href="{% url 'login' %}?next={% url 'index' %}" class="btn btn-ghost btn-sm btn-cart-add">Войти</a>
-                {% endif %}
+            <div class="preview-row-item">
+                <div class="preview-circle-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/></svg></div>
+                <div style="flex: 1;"><div class="preview-text-line" style="width: 60%;"></div></div>
+            </div>
+            <div class="preview-row-item">
+                <div class="preview-circle-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="2" y1="20" x2="22" y2="20"/></svg></div>
+                <div style="flex: 1;"><div class="preview-text-line" style="width: 45%;"></div></div>
+            </div>
+            <div class="preview-row-item">
+                <div class="preview-circle-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/></svg></div>
+                <div style="flex: 1;"><div class="preview-text-line" style="width: 50%;"></div></div>
             </div>
         </div>
-        {% endfor %}
     </div>
 </div>
-{% endif %}
+
+<!-- СЕКЦИЯ 2: ОБЛАКО КАТЕГОРИЙ (ОТДЕЛЬНАЯ СЕКЦИЯ) -->
+<div class="categories-cloud-section">
+    <div class="cloud-wrapper">
+        <!-- Текст в центре -->
+        <div class="cloud-center-content">
+            <span class="landing-badge">Устройства</span>
+            <h3 class="cloud-center-title">Огромное разнообразие товаров</h3>
+            <p class="cloud-center-desc">Мы предоставляем широкий выбор сертифицированной электроники для любых ваших потребностей. Выберите интересующую категорию, чтобы начать поиск.</p>
+        </div>
+        
+        <!-- Пузыри категорий вокруг центра -->
+        {% if categories %}
+            {% for category in categories %}
+                <a href="{% url 'product_list' %}?category={{ category.id }}" class="cloud-bubble bubble-{{ forloop.counter }}" title="Перейти к категории: {{ category.name }}">
+                    {% if category.id == 1 %}
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                    {% elif category.id == 2 %}
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="2" y1="20" x2="22" y2="20"/></svg>
+                    {% elif category.id == 3 %}
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"/></svg>
+                    {% elif category.id == 4 %}
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="12" y1="17" x2="12" y2="21"/><line x1="8" y1="21" x2="16" y2="21"/></svg>
+                    {% elif category.id == 5 %}
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><rect x="3" y="12" width="4" height="7" rx="1"/><rect x="17" y="12" width="4" height="7" rx="1"/></svg>
+                    {% elif category.id == 6 %}
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7"/><polyline points="12 9 12 12 13.5 13.5"/><path d="M16.51 17.51 18.5 22h-13l2-4.5"/></svg>
+                    {% elif category.id == 7 %}
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="3"/><line x1="6" y1="12" x2="10" y2="12"/><line x1="8" y1="10" x2="8" y2="14"/><circle cx="15.5" cy="12.5" r="1.5"/><circle cx="18.5" cy="10.5" r="1.5"/></svg>
+                    {% elif category.id == 9 %}
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="9" height="18" rx="2"/><rect x="15" y="9" width="6" height="12" rx="1.5"/><path d="M18 13v4"/></svg>
+                    {% else %}
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+                    {% endif %}
+                    {{ category.name }}
+                </a>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+<!-- СЕКЦИЯ 2: О МАГАЗИНЕ -->
+<div class="landing-section">
+    <div class="landing-preview">
+        <div class="preview-glow-alt" style="bottom: 20%; right: 20%;"></div>
+        <div class="preview-box-shopex" style="transform: rotate(3deg); width: 250px;">
+            <div style="font-weight: 700; color: #fff; font-size: 14px; margin-bottom: 12px;">Сервис Shopex</div>
+            <div class="preview-row-item">
+                <div class="preview-circle-icon success"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <div style="font-size: 12px; color: #fff; font-weight: 600;">100% Оригинал</div>
+            </div>
+            <div class="preview-row-item">
+                <div class="preview-circle-icon success"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <div style="font-size: 12px; color: #fff; font-weight: 600;">Быстрая доставка</div>
+            </div>
+            <div class="preview-row-item">
+                <div class="preview-circle-icon success"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+                <div style="font-size: 12px; color: #fff; font-weight: 600;">Сервис-центр</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="landing-text">
+        <span class="landing-badge">О магазине</span>
+        <h2 class="landing-title">Премиальный стандарт.</h2>
+        <p class="landing-desc">Shopex — это больше, чем просто каталог. Мы выстраиваем надежную экосистему обслуживания. Каждый заказ проходит предпродажную проверку, комплектуется гарантийным талоном и доставляется по всей стране без лишних задержек.</p>
+        
+        <a href="{% url 'shop_info' %}" class="landing-btn">
+            Подробнее о магазине
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+    </div>
+</div>
+
+<!-- СЕКЦИЯ 3: ПРОФИЛЬ И ЗАКАЗЫ -->
+<div class="landing-section">
+    <div class="landing-text">
+        <span class="landing-badge">Профиль</span>
+        <h2 class="landing-title">Управление покупками.</h2>
+        <p class="landing-desc">Создайте аккаунт, чтобы получить доступ к истории ваших покупок и персонализированным настройкам. Удобный интерфейс личного кабинета позволяет отслеживать заказы, управлять профилем, а для менеджеров — контролировать общую базу заказов прямо из панели управления.</p>
+        
+        <a href="{% url 'profile_view' %}" class="landing-btn">
+            Перейти в кабинет
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+    </div>
+
+    <div class="landing-preview">
+        <div class="preview-glow" style="bottom: 10%; left: 30%;"></div>
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 5;">
+            <div class="preview-user-avatar">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div style="text-align: center;">
+                <div style="font-weight: 700; color: #fff; font-size: 15px;">Личный кабинет</div>
+                <div style="font-size: 11px; color: var(--text-secondary); margin-top: 4px; font-family: monospace;">STATUS: ACTIVE</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- СЕКЦИЯ 4: ОБ АВТОРЕ -->
+<div class="landing-section">
+    <div class="landing-preview">
+        <div class="preview-glow-alt" style="top: 10%; right: 30%;"></div>
+        <div class="preview-tech-stack">
+            <div class="tech-badge-inline">
+                <span>🐍</span>
+                <span><strong>Django</strong> v5.0</span>
+            </div>
+            <div class="tech-badge-inline" style="transform: translateX(15px);">
+                <span>⚡</span>
+                <span><strong>Vanilla JS</strong> ES6</span>
+            </div>
+            <div class="tech-badge-inline" style="transform: translateX(-10px);">
+                <span>🎨</span>
+                <span><strong>Glassmorphism</strong> UI</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="landing-text">
+        <span class="landing-badge">Технологии</span>
+        <h2 class="landing-title">Об авторе и проекте.</h2>
+        <p class="landing-desc">Проект разработан студентом МГКЦТ в рамках лабораторных работ по программированию. В основе платформы лежат современные паттерны веб-разработки: быстрый рендеринг Django-шаблонов, стилизация Vanilla CSS, интерактивные сценарии на чистом JavaScript и интеграция с базой данных SQLite.</p>
+        
+        <a href="{% url 'about' %}" class="landing-btn">
+            Информация об авторе
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+    </div>
+</div>
 {% endblock %}
