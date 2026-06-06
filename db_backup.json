@@ -315,7 +315,7 @@
         "name": "Samsung Galaxy S24",
         "description": "Флагманский смартфон Samsung",
         "image": "",
-        "price": "79990.00",
+        "price": "2666.33",
         "stock": 48,
         "category": 1,
         "manufacturer": 1
@@ -328,7 +328,7 @@
         "name": "iPhone 15 Pro",
         "description": "Флагманский смартфон Apple",
         "image": "",
-        "price": "119990.00",
+        "price": "3999.67",
         "stock": 30,
         "category": 1,
         "manufacturer": 2
@@ -341,7 +341,7 @@
         "name": "Xiaomi 14",
         "description": "Смартфон Xiaomi",
         "image": "",
-        "price": "49990.00",
+        "price": "1666.33",
         "stock": 100,
         "category": 1,
         "manufacturer": 3
@@ -354,7 +354,7 @@
         "name": "Sony Xperia 1 V",
         "description": "Смартфон Sony",
         "image": "",
-        "price": "89990.00",
+        "price": "2999.67",
         "stock": 20,
         "category": 1,
         "manufacturer": 4
@@ -367,7 +367,7 @@
         "name": "Samsung Galaxy Book",
         "description": "Ноутбук Samsung",
         "image": "",
-        "price": "69990.00",
+        "price": "2333.00",
         "stock": 25,
         "category": 2,
         "manufacturer": 1
@@ -380,7 +380,7 @@
         "name": "MacBook Air M3",
         "description": "Ноутбук Apple",
         "image": "",
-        "price": "129990.00",
+        "price": "4333.00",
         "stock": 15,
         "category": 2,
         "manufacturer": 2
@@ -393,7 +393,7 @@
         "name": "Xiaomi RedmiBook",
         "description": "Ноутбук Xiaomi",
         "image": "",
-        "price": "44990.00",
+        "price": "1499.67",
         "stock": 40,
         "category": 2,
         "manufacturer": 3
@@ -406,7 +406,7 @@
         "name": "Sony VAIO SX14",
         "description": "Ноутбук Sony",
         "image": "",
-        "price": "99990.00",
+        "price": "3333.00",
         "stock": 10,
         "category": 2,
         "manufacturer": 4
@@ -419,7 +419,7 @@
         "name": "Samsung Galaxy Tab S9",
         "description": "Планшет Samsung",
         "image": "",
-        "price": "59990.00",
+        "price": "1999.67",
         "stock": 35,
         "category": 3,
         "manufacturer": 1
@@ -432,7 +432,7 @@
         "name": "iPad Pro M2",
         "description": "Планшет Apple",
         "image": "",
-        "price": "99990.00",
+        "price": "3333.00",
         "stock": 20,
         "category": 3,
         "manufacturer": 2
@@ -445,7 +445,7 @@
         "name": "Xiaomi Pad 6",
         "description": "Планшет Xiaomi",
         "image": "",
-        "price": "29990.00",
+        "price": "999.67",
         "stock": 60,
         "category": 3,
         "manufacturer": 3
@@ -458,7 +458,7 @@
         "name": "Samsung QLED 55\"",
         "description": "Телевизор Samsung 55 дюймов",
         "image": "",
-        "price": "89990.00",
+        "price": "2999.67",
         "stock": 15,
         "category": 4,
         "manufacturer": 1
@@ -471,7 +471,7 @@
         "name": "LG OLED 65\"",
         "description": "Телевизор LG 65 дюймов",
         "image": "",
-        "price": "149990.00",
+        "price": "4999.67",
         "stock": 9,
         "category": 4,
         "manufacturer": 5
@@ -484,7 +484,7 @@
         "name": "Sony Bravia 55\"",
         "description": "Телевизор Sony 55 дюймов",
         "image": "",
-        "price": "109990.00",
+        "price": "3666.33",
         "stock": 12,
         "category": 4,
         "manufacturer": 4
@@ -497,7 +497,7 @@
         "name": "Xiaomi TV A Pro 55\"",
         "description": "Телевизор Xiaomi",
         "image": "",
-        "price": "39990.00",
+        "price": "1333.00",
         "stock": 30,
         "category": 4,
         "manufacturer": 3
@@ -510,7 +510,7 @@
         "name": "Samsung Galaxy Buds2 Pro",
         "description": "Беспроводные наушники Samsung",
         "image": "",
-        "price": "12990.00",
+        "price": "433.00",
         "stock": 80,
         "category": 5,
         "manufacturer": 1
@@ -523,7 +523,7 @@
         "name": "AirPods Pro 2",
         "description": "Беспроводные наушники Apple",
         "image": "",
-        "price": "24990.00",
+        "price": "833.00",
         "stock": 37,
         "category": 5,
         "manufacturer": 2
@@ -536,7 +536,7 @@
         "name": "Sony WH-1000XM5",
         "description": "Полноразмерные наушники Sony",
         "image": "",
-        "price": "29990.00",
+        "price": "999.67",
         "stock": 25,
         "category": 5,
         "manufacturer": 4
@@ -549,7 +549,7 @@
         "name": "Xiaomi Buds 4 Pro",
         "description": "Беспроводные наушники Xiaomi",
         "image": "",
-        "price": "7990.00",
+        "price": "266.33",
         "stock": 100,
         "category": 5,
         "manufacturer": 3
@@ -562,7 +562,7 @@
         "name": "Samsung Galaxy Watch 6",
         "description": "Умные часы Samsung",
         "image": "",
-        "price": "24990.00",
+        "price": "833.00",
         "stock": 40,
         "category": 6,
         "manufacturer": 1
@@ -575,7 +575,7 @@
         "name": "Apple Watch Series 9",
         "description": "Умные часы Apple",
         "image": "",
-        "price": "39990.00",
+        "price": "1333.00",
         "stock": 30,
         "category": 6,
         "manufacturer": 2
@@ -588,7 +588,7 @@
         "name": "Xiaomi Watch S3",
         "description": "Умные часы Xiaomi",
         "image": "",
-        "price": "9990.00",
+        "price": "333.00",
         "stock": 70,
         "category": 6,
         "manufacturer": 3
@@ -601,7 +601,7 @@
         "name": "Sony PlayStation 5",
         "description": "Игровая консоль Sony",
         "image": "",
-        "price": "49990.00",
+        "price": "1666.33",
         "stock": 20,
         "category": 7,
         "manufacturer": 4
@@ -614,7 +614,7 @@
         "name": "Sony PlayStation 5 Digital",
         "description": "Цифровая версия PS5",
         "image": "",
-        "price": "39990.00",
+        "price": "1333.00",
         "stock": 25,
         "category": 7,
         "manufacturer": 4
@@ -627,7 +627,7 @@
         "name": "Sony Alpha A7 IV",
         "description": "Полнокадровая камера Sony",
         "image": "",
-        "price": "199990.00",
+        "price": "6666.33",
         "stock": 10,
         "category": 8,
         "manufacturer": 4
@@ -640,7 +640,7 @@
         "name": "Sony ZV-E10",
         "description": "Камера для блогеров Sony",
         "image": "",
-        "price": "59990.00",
+        "price": "1999.67",
         "stock": 15,
         "category": 8,
         "manufacturer": 4
@@ -653,7 +653,7 @@
         "name": "Samsung зарядка 25W",
         "description": "Быстрая зарядка Samsung",
         "image": "",
-        "price": "1990.00",
+        "price": "66.33",
         "stock": 200,
         "category": 9,
         "manufacturer": 1
@@ -666,7 +666,7 @@
         "name": "Apple MagSafe зарядка",
         "description": "Беспроводная зарядка Apple",
         "image": "",
-        "price": "4490.00",
+        "price": "149.67",
         "stock": 90,
         "category": 9,
         "manufacturer": 2
@@ -679,7 +679,7 @@
         "name": "Xiaomi Power Bank 20000",
         "description": "Внешний аккумулятор Xiaomi",
         "image": "",
-        "price": "2490.00",
+        "price": "83.00",
         "stock": 150,
         "category": 9,
         "manufacturer": 3
@@ -692,7 +692,7 @@
         "name": "Чехол Samsung Galaxy S24",
         "description": "Оригинальный чехол Samsung",
         "image": "",
-        "price": "2990.00",
+        "price": "99.67",
         "stock": 120,
         "category": 9,
         "manufacturer": 1
@@ -705,7 +705,7 @@
         "name": "Sony SRS-XB100",
         "description": "Портативная колонка Sony",
         "image": "",
-        "price": "4990.00",
+        "price": "166.33",
         "stock": 60,
         "category": 10,
         "manufacturer": 4
@@ -718,7 +718,7 @@
         "name": "LG XBOOM Go PL5",
         "description": "Портативная колонка LG",
         "image": "",
-        "price": "6990.00",
+        "price": "233.00",
         "stock": 25,
         "category": 10,
         "manufacturer": 5
@@ -731,7 +731,7 @@
         "name": "Samsung Wireless Speaker",
         "description": "Беспроводная колонка Samsung",
         "image": "",
-        "price": "8990.00",
+        "price": "299.67",
         "stock": 25,
         "category": 10,
         "manufacturer": 1
@@ -744,7 +744,7 @@
         "name": "Apple HomePod Mini",
         "description": "Умная колонка Apple",
         "image": "",
-        "price": "9990.00",
+        "price": "333.00",
         "stock": 29,
         "category": 10,
         "manufacturer": 2

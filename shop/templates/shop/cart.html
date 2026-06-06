@@ -1,4 +1,5 @@
 {% extends 'shop/base.html' %}
+{% load static %}
 
 {% block title %}Корзина — Shopex{% endblock %}
 
@@ -18,9 +19,15 @@
             {% if item.product.image %}
                 <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="cart-item-img">
             {% else %}
-                <div class="cart-item-no-img">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-                </div>
+                {% if item.product.category.id == 5 %}
+                    {% if "Buds" in item.product.name or "AirPods" in item.product.name %}
+                        <img src="{% static 'images/products/5_buds.png' %}" alt="{{ item.product.name }}" class="cart-item-img">
+                    {% else %}
+                        <img src="{% static 'images/products/5.png' %}" alt="{{ item.product.name }}" class="cart-item-img">
+                    {% endif %}
+                {% else %}
+                    <img src="{% static 'images/products/' %}{{ item.product.category.id }}.png" alt="{{ item.product.name }}" class="cart-item-img">
+                {% endif %}
             {% endif %}
 
             <div>
@@ -28,7 +35,7 @@
                 <div class="cart-item-mfr">{{ item.product.manufacturer.name }}</div>
             </div>
 
-            <span style="font-size: 15px; color: var(--text-secondary);">{{ item.product.price }} ₽</span>
+            <span style="font-size: 15px; color: var(--text-secondary);">{{ item.product.price }} Br</span>
 
             <form method="post" action="{% url 'update_cart' item.id %}" class="qty-form">
                 {% csrf_token %}
@@ -39,7 +46,7 @@
             </form>
 
             <div style="display: flex; align-items: center; gap: 16px;">
-                <span style="font-size: 16px; font-weight: 600; min-width: 80px; text-align: right;">{{ item.item_cost }} ₽</span>
+                <span style="font-size: 16px; font-weight: 600; min-width: 80px; text-align: right;">{{ item.item_cost }} Br</span>
                 <form method="post" action="{% url 'remove_from_cart' item.id %}">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
@@ -52,7 +59,7 @@
     <div class="cart-summary">
         <div>
             <div class="cart-total-label">Итого</div>
-            <div class="cart-total-value">{{ total_cost }} ₽</div>
+            <div class="cart-total-value">{{ total_cost }} Br</div>
         </div>
         <a href="{% url 'checkout' %}" class="btn btn-primary btn-lg">Оформить заказ</a>
     </div>

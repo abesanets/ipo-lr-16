@@ -1,173 +1,482 @@
 {% extends 'shop/base.html' %}
+{% load static %}
 
 {% block title %}{{ product.name }} — Shopex{% endblock %}
 
 {% block content %}
-<div class="breadcrumb">
-    <a href="{% url 'index' %}">Главная</a>
-    <span class="breadcrumb-sep">›</span>
-    <a href="{% url 'product_list' %}">Каталог</a>
-    <span class="breadcrumb-sep">›</span>
-    <a href="{% url 'product_list' %}?category={{ product.category.id }}">{{ product.category.name }}</a>
-    <span class="breadcrumb-sep">›</span>
-    <span>{{ product.name }}</span>
-</div>
-
-<div class="product-detail">
-    <!-- Левая колонка: изображение -->
-    <div class="product-detail-media">
-        {% if product.image %}
-            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-detail-img">
-        {% else %}
-            <div class="product-detail-no-img">
-                <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-            </div>
-        {% endif %}
-    </div>
-
-    <!-- Правая колонка: инфо -->
-    <div class="product-detail-info">
-        <p class="product-detail-category">{{ product.category.name }}</p>
-        <h1 class="product-detail-title">{{ product.name }}</h1>
-        <p class="product-detail-price">{{ product.price }} ₽</p>
-
-        <div class="product-detail-meta">
-            <div class="product-meta-row">
-                <span class="product-meta-label">Производитель</span>
-                <span class="product-meta-value">{{ product.manufacturer.name }}</span>
-            </div>
-            <div class="product-meta-row">
-                <span class="product-meta-label">Страна</span>
-                <span class="product-meta-value">{{ product.manufacturer.country }}</span>
-            </div>
-            <div class="product-meta-row">
-                <span class="product-meta-label">Наличие</span>
-                <span class="product-meta-value">
-                    {% if product.stock > 0 %}
-                        <span class="stock-badge in">{{ product.stock }} шт.</span>
-                    {% else %}
-                        <span class="stock-badge out">Нет в наличии</span>
-                    {% endif %}
-                </span>
-            </div>
-        </div>
-
-        {% if product.description %}
-        <p class="product-description">{{ product.description }}</p>
-        {% endif %}
-
-        <div class="product-detail-actions">
-            {% if user.is_authenticated and product.stock > 0 %}
-                <form method="post" action="{% url 'add_to_cart' product.id %}" class="add-form">
-                    {% csrf_token %}
-                    <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ product.stock }}" class="qty-input">
-                    <button type="submit" class="btn btn-primary btn-lg">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-                        Добавить в корзину
-                    </button>
-                </form>
-            {% elif not user.is_authenticated %}
-                <a href="{% url 'login' %}" class="btn btn-primary btn-lg">Войдите для покупки</a>
-            {% else %}
-                <div class="product-out-of-stock">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                    Товар закончился
-                </div>
-            {% endif %}
-        </div>
-    </div>
-</div>
-
+<!-- Стили для редизайна детальной страницы товара -->
 <style>
-    .product-detail {
+    /* Хлебные крошки */
+    .breadcrumb-detail {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 24px;
+        font-size: 13px;
+    }
+    .breadcrumb-detail a {
+        color: var(--text-secondary);
+        text-decoration: none;
+        transition: color var(--transition);
+    }
+    .breadcrumb-detail a:hover {
+        color: var(--accent);
+    }
+    .breadcrumb-detail .sep {
+        color: var(--text-tertiary);
+    }
+
+    /* Главная карточка товара */
+    .product-detail-card {
+        background: linear-gradient(135deg, rgba(30, 33, 48, 0.65) 0%, rgba(15, 17, 23, 0.85) 100%);
+        border: 1px solid rgba(108, 143, 255, 0.15);
+        border-radius: 24px;
+        padding: 48px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        margin-bottom: 32px;
+    }
+
+    .product-detail-grid {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1.1fr 1.3fr;
         gap: 56px;
         align-items: start;
     }
 
-    .product-detail-media {
+    /* Медиа-колонка */
+    .detail-media-container {
         position: sticky;
-        top: 72px;
+        top: 80px;
     }
 
-    .product-detail-img {
-        width: 100%;
-        border-radius: 16px;
-        object-fit: cover;
-        box-shadow: 0 4px 32px rgba(0,0,0,0.4);
-    }
-
-    .product-detail-no-img {
-        width: 100%;
-        aspect-ratio: 1;
+    .detail-img-wrapper {
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
         background: var(--bg-secondary);
-        border-radius: 16px;
+        position: relative;
+    }
+
+    .detail-product-img {
+        width: 100%;
+        display: block;
+        object-fit: cover;
+        aspect-ratio: 4/3;
+        transition: transform 0.5s ease;
+    }
+
+    .detail-img-wrapper:hover .detail-product-img {
+        transform: scale(1.03);
+    }
+
+    /* Инфо-колонка */
+    .detail-info-container {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .detail-header {
+        border-bottom: 1px solid var(--border-light);
+        padding-bottom: 20px;
+    }
+
+    .detail-category-badge {
+        display: inline-block;
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        background: rgba(108, 143, 255, 0.1);
+        padding: 4px 12px;
+        border-radius: 6px;
+        margin-bottom: 12px;
+        border: 1px solid rgba(108, 143, 255, 0.15);
+    }
+
+    .detail-title {
+        font-size: 38px;
+        font-weight: 800;
+        letter-spacing: -1px;
+        line-height: 1.2;
+        color: var(--text);
+        margin: 0 0 12px 0;
+    }
+
+    .detail-mfr-link {
+        font-size: 16px;
+        color: var(--text-secondary);
+        font-weight: 500;
+    }
+
+    .detail-mfr-link strong {
+        color: var(--text);
+    }
+
+    /* Мета-виджеты (плитка с техническими данными) */
+    .meta-widgets {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+    }
+
+    .meta-widget-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 14px;
+        text-align: center;
+    }
+
+    .meta-widget-label {
+        font-size: 11px;
+        color: var(--text-tertiary);
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        margin-bottom: 4px;
+    }
+
+    .meta-widget-value {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text);
+    }
+
+    /* Описание товара */
+    .detail-description-section {
+        border-bottom: 1px solid var(--border-light);
+        padding-bottom: 24px;
+    }
+
+    .detail-section-title {
+        font-size: 15px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--text-secondary);
+        margin-bottom: 12px;
+    }
+
+    .detail-description-text {
+        font-size: 15px;
+        line-height: 1.7;
+        color: var(--text-secondary);
+        margin: 0;
+    }
+
+    /* Карточка покупки */
+    .purchase-action-card {
+        background: rgba(108, 143, 255, 0.03);
+        border: 1px solid rgba(108, 143, 255, 0.15);
+        border-radius: 18px;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .purchase-price-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .purchase-price-label {
+        font-size: 14px;
+        color: var(--text-secondary);
+    }
+
+    .purchase-price-value {
+        font-size: 32px;
+        font-weight: 800;
+        color: var(--text);
+        letter-spacing: -0.5px;
+    }
+
+    /* Кастомный селектор количества */
+    .qty-selector {
+        display: inline-flex;
+        align-items: center;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border);
+        border-radius: 980px;
+        padding: 4px;
+    }
+
+    .qty-control-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: none;
+        background: transparent;
+        color: var(--text);
+        font-size: 16px;
+        cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
+        transition: background var(--transition);
     }
 
-    .product-detail-category {
-        font-size: 12px;
-        color: var(--text-tertiary);
-        text-transform: uppercase;
-        letter-spacing: 1px;
+    .qty-control-btn:hover {
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    .qty-num-input {
+        width: 48px;
+        border: none !important;
+        background: transparent !important;
+        color: var(--text) !important;
+        text-align: center;
         font-weight: 600;
-        margin-bottom: 10px;
+        font-size: 15px;
+        -moz-appearance: textfield;
     }
 
-    .product-detail-title {
-        font-size: 36px;
-        font-weight: 700;
-        letter-spacing: -0.8px;
-        line-height: 1.2;
-        margin-bottom: 16px;
+    .qty-num-input::-webkit-outer-spin-button,
+    .qty-num-input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
     }
 
-    .product-detail-price {
-        font-size: 34px;
-        font-weight: 700;
-        letter-spacing: -1px;
-        color: var(--text);
-        margin-bottom: 28px;
+    .action-row {
+        display: flex;
+        gap: 16px;
+        align-items: center;
     }
 
-    .product-detail-meta {
-        background: var(--bg-secondary);
-        border-radius: var(--radius);
-        padding: 4px 16px;
+    .buy-btn-detail {
+        flex: 1;
+        background: var(--accent);
+        color: #fff;
+        padding: 14px 28px;
+        font-size: 16px;
+        font-weight: 600;
+        border-radius: 980px;
+        border: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        cursor: pointer;
+        transition: all var(--transition);
+        box-shadow: 0 4px 16px rgba(108, 143, 255, 0.3);
+    }
+
+    .buy-btn-detail:hover {
+        background: var(--accent-hover);
+        box-shadow: 0 6px 24px rgba(108, 143, 255, 0.45);
+        transform: translateY(-1px);
+    }
+
+    .buy-btn-detail svg {
+        transition: transform 0.2s ease;
+    }
+
+    .buy-btn-detail:hover svg {
+        transform: scale(1.1);
+    }
+
+    .out-of-stock-box {
+        background: rgba(255, 92, 92, 0.08);
+        border: 1px solid rgba(255, 92, 92, 0.2);
+        color: #ff8f8f;
+        padding: 16px;
+        border-radius: 14px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 15px;
+    }
+
+    /* Кнопка назад */
+    .back-btn-wrapper {
         margin-bottom: 24px;
     }
-
-    .product-detail-meta .product-meta-row {
-        padding: 12px 0;
-        border-bottom: 1px solid var(--border-light);
-    }
-
-    .product-detail-meta .product-meta-row:last-child {
-        border-bottom: none;
-    }
-
-    .product-detail-actions {
-        margin-top: 8px;
-    }
-
-    .product-out-of-stock {
+    .btn-back-link {
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        color: var(--danger);
-        font-size: 15px;
+        color: var(--text-secondary);
+        text-decoration: none;
+        font-size: 14px;
         font-weight: 500;
-        padding: 14px 0;
+        transition: color var(--transition);
+    }
+    .btn-back-link:hover {
+        color: var(--text);
     }
 
-    @media (max-width: 768px) {
-        .product-detail { grid-template-columns: 1fr; gap: 24px; }
-        .product-detail-media { position: static; }
-        .product-detail-title { font-size: 26px; }
-        .product-detail-price { font-size: 26px; }
+    /* Адаптивность */
+    @media (max-width: 900px) {
+        .product-detail-grid {
+            grid-template-columns: 1fr;
+            gap: 32px;
+        }
+        .detail-media-container {
+            position: static;
+        }
+        .product-detail-card {
+            padding: 24px;
+        }
+        .detail-title {
+            font-size: 28px;
+        }
+        .meta-widgets {
+            grid-template-columns: 1fr;
+        }
     }
 </style>
+
+<!-- Кнопка Назад и Хлебные крошки -->
+<div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
+    <div class="back-btn-wrapper mb-0">
+        <a href="{% url 'product_list' %}" class="btn-back-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            Назад в каталог
+        </a>
+    </div>
+
+    <div class="breadcrumb-detail mb-0">
+        <a href="{% url 'index' %}">Главная</a>
+        <span class="sep">/</span>
+        <a href="{% url 'product_list' %}">Каталог</a>
+        <span class="sep">/</span>
+        <a href="{% url 'product_list' %}?category={{ product.category.id }}">{{ product.category.name }}</a>
+        <span class="sep">/</span>
+        <span class="text-white text-truncate" style="max-width: 150px;" title="{{ product.name }}">{{ product.name }}</span>
+    </div>
+</div>
+
+<!-- Карточка товара -->
+<div class="product-detail-card">
+    <div class="product-detail-grid">
+        
+        <!-- Левая колонка: Изображение -->
+        <div class="detail-media-container">
+            <div class="detail-img-wrapper">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="detail-product-img">
+                {% else %}
+                    {% if product.category.id == 5 %}
+                        {% if "Buds" in product.name or "AirPods" in product.name %}
+                            <img src="{% static 'images/products/5_buds.png' %}" alt="{{ product.name }}" class="detail-product-img">
+                        {% else %}
+                            <img src="{% static 'images/products/5.png' %}" alt="{{ product.name }}" class="detail-product-img">
+                        {% endif %}
+                    {% else %}
+                        <img src="{% static 'images/products/' %}{{ product.category.id }}.png" alt="{{ product.name }}" class="detail-product-img">
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Правая колонка: Описание и Покупка -->
+        <div class="detail-info-container">
+            
+            <!-- Заголовок и категория -->
+            <div class="detail-header">
+                <span class="detail-category-badge">{{ product.category.name }}</span>
+                <h1 class="detail-title">{{ product.name }}</h1>
+                <div class="detail-mfr-link">
+                    Бренд: <strong>{{ product.manufacturer.name }}</strong>
+                </div>
+            </div>
+
+            <!-- Мета-виджеты -->
+            <div class="meta-widgets">
+                <div class="meta-widget-card">
+                    <div class="meta-widget-label">Производитель</div>
+                    <div class="meta-widget-value">{{ product.manufacturer.name }}</div>
+                </div>
+                <div class="meta-widget-card">
+                    <div class="meta-widget-label">Страна</div>
+                    <div class="meta-widget-value">{{ product.manufacturer.country }}</div>
+                </div>
+                <div class="meta-widget-card">
+                    <div class="meta-widget-label">Статус склада</div>
+                    <div class="meta-widget-value">
+                        {% if product.stock > 0 %}
+                            <span style="color: var(--success);">{{ product.stock }} шт.</span>
+                        {% else %}
+                            <span style="color: var(--danger);">Нет на складе</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Раздел описания -->
+            <div class="detail-description-section">
+                <div class="detail-section-title">Описание товара</div>
+                <p class="detail-description-text">
+                    {{ product.description|default:"Производитель не предоставил подробное описание для данной модели." }}
+                </p>
+            </div>
+
+            <!-- Блок управления покупкой -->
+            <div class="purchase-action-card">
+                <div class="purchase-price-row">
+                    <span class="purchase-price-label">Цена</span>
+                    <span class="purchase-price-value">{{ product.price }} Br</span>
+                </div>
+
+                {% if user.is_authenticated and product.stock > 0 %}
+                    <form method="post" action="{% url 'add_to_cart' product.id %}" style="margin: 0;">
+                        {% csrf_token %}
+                        <div class="action-row">
+                            <!-- Кастомный переключатель количества -->
+                            <div class="qty-selector">
+                                <button type="button" class="qty-control-btn" onclick="changeQty(-1)">−</button>
+                                <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ product.stock }}" class="qty-num-input" readonly>
+                                <button type="button" class="qty-control-btn" onclick="changeQty(1)">+</button>
+                            </div>
+
+                            <button type="submit" class="buy-btn-detail">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                                Добавить в корзину
+                            </button>
+                        </div>
+                    </form>
+                {% elif not user.is_authenticated %}
+                    <div class="d-flex flex-column gap-2">
+                        <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-primary btn-lg w-100" style="border-radius: 980px;">
+                            Войдите для покупки
+                        </a>
+                        <span class="text-center text-muted small">Добавление в корзину и оформление заказов доступны только зарегистрированным пользователям.</span>
+                    </div>
+                {% else %}
+                    <div class="out-of-stock-box">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        Данный товар закончился на складе и временно недоступен для заказа.
+                    </div>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Скрипт для инпута количества -->
+<script>
+    function changeQty(amount) {
+        const input = document.getElementById('quantity');
+        if (!input) return;
+        
+        let currentVal = parseInt(input.value) || 1;
+        let newVal = currentVal + amount;
+        
+        const min = parseInt(input.min) || 1;
+        const max = parseInt(input.max) || 1;
+        
+        if (newVal < min) newVal = min;
+        if (newVal > max) newVal = max;
+        
+        input.value = newVal;
+    }
+</script>
 {% endblock %}

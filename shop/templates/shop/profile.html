@@ -1,62 +1,167 @@
 {% extends 'shop/base.html' %}
+{% load static %}
 
 {% block title %}Личный кабинет — Shopex{% endblock %}
 
 {% block content %}
+<style>
+    /* Кастомная стилизация личного кабинета */
+    .profile-card {
+        background: linear-gradient(135deg, rgba(30, 33, 48, 0.65) 0%, rgba(15, 17, 23, 0.85) 100%);
+        border: 1px solid rgba(108, 143, 255, 0.15);
+        border-radius: 20px;
+        padding: 32px;
+        box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        margin-bottom: 24px;
+        height: 100%;
+    }
+
+    .profile-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--border-light);
+        padding-bottom: 16px;
+        margin-bottom: 24px;
+    }
+
+    .profile-role-badge {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        background: rgba(108, 143, 255, 0.1);
+        padding: 4px 12px;
+        border-radius: 6px;
+        border: 1px solid rgba(108, 143, 255, 0.15);
+    }
+
+    /* Таблица заказов */
+    .orders-table {
+        background: transparent !important;
+        color: var(--text) !important;
+    }
+
+    .orders-table th {
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--text-secondary) !important;
+        border-bottom: 1px solid var(--border) !important;
+        padding: 12px 8px !important;
+        background: rgba(0, 0, 0, 0.25) !important; /* Темная подложка для верхушки таблицы */
+    }
+
+    .orders-table td {
+        padding: 16px 8px !important;
+        border-bottom: 1px solid var(--border-light) !important;
+        color: var(--text) !important;
+        background: transparent !important;
+    }
+
+    .orders-table tr {
+        transition: background var(--transition);
+    }
+
+    .orders-table tbody tr:hover {
+        background: rgba(255, 255, 255, 0.01) !important;
+    }
+
+    .btn-details {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border);
+        color: var(--text-secondary);
+        font-size: 12px;
+        padding: 6px 14px;
+        border-radius: 8px;
+        transition: all var(--transition);
+    }
+
+    .btn-details:hover {
+        background: var(--accent-dim);
+        border-color: var(--accent);
+        color: var(--accent);
+    }
+
+    /* Аватарка в кабинете */
+    .profile-user-avatar-small {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: var(--accent-dim);
+        border: 1px solid rgba(108, 143, 255, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--accent);
+    }
+</style>
+
 <div class="breadcrumb">
     <a href="{% url 'index' %}">Главная</a>
     <span class="breadcrumb-sep">›</span>
     <span>Личный кабинет</span>
 </div>
 
-<h1 style="margin-bottom: 32px;">Личный кабинет</h1>
+<h1 style="margin-bottom: 32px; font-weight: 800; letter-spacing: -1px;">Личный кабинет</h1>
 
 <div class="row g-4">
     <!-- Блок информации и редактирования профиля -->
     <div class="col-md-5">
-        <div class="page-content" style="height: 100%;">
-            <div class="d-flex align-items-center justify-content-between mb-4">
-                <h2 class="m-0">Мой профиль</h2>
-                <span class="stock-badge in">
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="profile-user-avatar-small">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    </div>
+                    <h2 class="m-0" style="font-size: 20px; font-weight: 700;">Мой профиль</h2>
+                </div>
+                <span class="profile-role-badge">
                     {{ profile.get_role_display }}
                 </span>
             </div>
 
-            <div class="mb-4 text-secondary" style="font-size: 14px;">
-                <div class="d-flex justify-content-between border-bottom border-secondary-subtle py-2">
+            <!-- Системные данные пользователя -->
+            <div class="mb-4 text-secondary" style="font-size: 14px; background: rgba(255,255,255,0.01); border-radius: 12px; border: 1px solid var(--border-light); padding: 12px 18px;">
+                <div class="d-flex justify-content-between py-2" style="border-bottom: 1px solid rgba(255,255,255,0.04);">
                     <span>Имя пользователя:</span>
                     <strong class="text-white">{{ profile.user.username }}</strong>
                 </div>
-                <div class="d-flex justify-content-between border-bottom border-secondary-subtle py-2">
-                    <span>Email:</span>
+                <div class="d-flex justify-content-between py-2">
+                    <span>Email адрес:</span>
                     <strong class="text-white">{{ profile.user.email|default:"Не указан" }}</strong>
                 </div>
             </div>
 
+            <!-- Форма изменения контактной информации -->
             <form id="profile-form">
                 {% csrf_token %}
                 <div class="form-group">
                     <label for="id_full_name">ФИО</label>
-                    <input type="text" id="id_full_name" name="full_name" value="{{ profile.full_name }}" placeholder="Введите ФИО">
+                    <input type="text" id="id_full_name" name="full_name" value="{{ profile.full_name }}" placeholder="Введите ваше ФИО">
                 </div>
                 <div class="form-group">
                     <label for="id_phone">Телефон</label>
-                    <input type="text" id="id_phone" name="phone" value="{{ profile.phone }}" placeholder="+7 (999) 123-45-67">
+                    <input type="text" id="id_phone" name="phone" value="{{ profile.phone }}" placeholder="+375 (29) 123-45-67">
                 </div>
                 <div class="form-group">
                     <label for="id_delivery_city">Город доставки</label>
-                    <input type="text" id="id_delivery_city" name="delivery_city" value="{{ profile.delivery_city }}" placeholder="Город">
+                    <input type="text" id="id_delivery_city" name="delivery_city" value="{{ profile.delivery_city }}" placeholder="Минск">
                 </div>
                 <div class="form-group">
                     <label for="id_postal_code">Индекс</label>
-                    <input type="text" id="id_postal_code" name="postal_code" value="{{ profile.postal_code }}" placeholder="123456">
+                    <input type="text" id="id_postal_code" name="postal_code" value="{{ profile.postal_code }}" placeholder="220000">
                 </div>
                 <div class="form-group">
                     <label for="id_address">Адрес доставки</label>
-                    <textarea id="id_address" name="address" rows="3" placeholder="Улица, дом, квартира...">{{ profile.address }}</textarea>
+                    <textarea id="id_address" name="address" rows="3" placeholder="Улица, дом, корпус, квартира...">{{ profile.address }}</textarea>
                 </div>
                 
-                <button type="submit" class="btn btn-primary w-100 mt-2">
+                <button type="submit" class="btn btn-primary w-100 mt-2" style="padding: 12px 0; border-radius: 10px;">
                     Сохранить изменения
                 </button>
             </form>
@@ -65,28 +170,30 @@
 
     <!-- Блок истории заказов -->
     <div class="col-md-7">
-        <div class="page-content" style="height: 100%;">
-            <h2>{% if is_privileged %}Управление заказами (Все заказы){% else %}История заказов{% endif %}</h2>
+        <div class="profile-card">
+            <h2 style="font-size: 20px; font-weight: 700; margin-bottom: 24px; border-bottom: 1px solid var(--border-light); padding-bottom: 16px;">
+                {% if is_privileged %}Управление заказами (Все заказы){% else %}История заказов{% endif %}
+            </h2>
             
             {% if orders %}
                 <div class="table-responsive">
-                    <table class="table table-dark table-hover align-middle" style="background: transparent;">
+                    <table class="table orders-table align-middle">
                         <thead>
-                            <tr style="border-bottom: 1px solid var(--border);">
-                                <th style="color: var(--text-secondary); font-size: 13px;">Заказ</th>
+                            <tr>
+                                <th>Заказ</th>
                                 {% if is_privileged %}
-                                    <th style="color: var(--text-secondary); font-size: 13px;">Покупатель</th>
+                                    <th>Покупатель</th>
                                 {% endif %}
-                                <th style="color: var(--text-secondary); font-size: 13px;">Дата</th>
-                                <th style="color: var(--text-secondary); font-size: 13px;">Сумма</th>
-                                <th style="color: var(--text-secondary); font-size: 13px; text-align: right;">Действие</th>
+                                <th>Дата</th>
+                                <th>Сумма</th>
+                                <th style="text-align: right;">Действие</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for order in orders %}
-                                <tr style="border-bottom: 1px solid var(--border-light);">
+                                <tr>
                                     <td>
-                                        <span class="fw-bold">#{{ order.id }}</span>
+                                        <span class="fw-bold text-white">#{{ order.id }}</span>
                                     </td>
                                     {% if is_privileged %}
                                         <td style="font-size: 14px;">
@@ -97,10 +204,10 @@
                                         {{ order.created_at|date:"d.m.Y H:i" }}
                                     </td>
                                     <td>
-                                        <span class="price" style="font-size: 15px;">{{ order.total_cost }} ₽</span>
+                                        <span class="fw-bold" style="color: var(--accent); font-size: 15px;">{{ order.total_cost }} Br</span>
                                     </td>
                                     <td style="text-align: right;">
-                                        <a href="{% url 'order_success' order.id %}" class="btn btn-secondary btn-sm">
+                                        <a href="{% url 'order_success' order.id %}" class="btn-details text-decoration-none">
                                             Подробнее
                                         </a>
                                     </td>
@@ -115,7 +222,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 1 0-7.5 0v4.5m11.356-1.993 1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 0 1-1.12-1.243l1.264-12A1.125 1.125 0 0 1 5.513 7.5h12.974c.576 0 1.059.435 1.119 1.007ZM8.625 10.5a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm7.5 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
                     </svg>
                     <p class="m-0">У вас пока нет оформленных заказов.</p>
-                    <a href="{% url 'product_list' %}" class="btn btn-primary btn-sm mt-3">Перейти в каталог</a>
+                    <a href="{% url 'product_list' %}" class="btn btn-primary btn-sm mt-3" style="border-radius: 8px;">Перейти в каталог</a>
                 </div>
             {% endif %}
         </div>

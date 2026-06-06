@@ -122,6 +122,7 @@ input:focus, select:focus, textarea:focus {
 
 /* Карточки товаров — hover эффект */
 .product-card {
+    cursor: pointer;
     transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
 }
 

@@ -252,7 +252,7 @@ def checkout(request):
                     body=(
                         f'Здравствуйте, {request.user.get_full_name() or request.user.username}!\n\n'
                         f'Ваш заказ #{order.id} успешно оформлен.\n'
-                        f'Сумма заказа: {order.total_cost} ₽\n'
+                        f'Сумма заказа: {order.total_cost} Br\n'
                         f'Адрес доставки: {order.address}\n\n'
                         f'Чек заказа прикреплён к этому письму.\n\n'
                         f'Спасибо за покупку!'

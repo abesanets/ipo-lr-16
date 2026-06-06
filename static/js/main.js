@@ -62,32 +62,31 @@ function loadProducts(containerId, apiUrl = '/api/products/') {
             }
 
             container.innerHTML = '';
-            products.forEach(product => {
-                const imgHtml = product.image
-                    ? `<img src="${product.image}" class="card-img-top product-card-img" alt="${product.name}">`
-                    : `<div class="card-img-top product-card-img bg-light d-flex align-items-center justify-content-center">
-                           <svg width="48" height="48" fill="none" stroke="#aaa" stroke-width="1.5" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-                       </div>`;
+            // Проверяем авторизацию пользователя по наличию кнопки "Выйти" в шапке
+            const isAuthenticated = !!document.querySelector('.btn-nav-logout');
 
-                const cartBtn = product.stock > 0
-                    ? `<button class="btn btn-primary btn-sm" onclick="addToCart(${product.id}, '${product.name}')">В корзину</button>`
-                    : `<button class="btn btn-secondary btn-sm" disabled>Нет в наличии</button>`;
+            products.forEach(product => {
+                let cartBtn = '';
+                if (product.stock === 0) {
+                    cartBtn = `<span class="stock-badge out">Нет в наличии</span>`;
+                } else if (isAuthenticated) {
+                    cartBtn = `<button class="btn btn-primary btn-sm" onclick="addToCart(${product.id}, '${product.name}')">В корзину</button>`;
+                } else {
+                    cartBtn = `<a href="/login/?next=/catalog/" class="btn btn-ghost btn-sm">Войти</a>`;
+                }
 
                 container.innerHTML += `
-                    <div class="col-sm-6 col-md-4 col-lg-4 mb-4">
-                        <div class="card h-100 product-card shadow-sm">
-                            <a href="/catalog/${product.id}/">${imgHtml}</a>
-                            <div class="card-body">
-                                <p class="text-muted small mb-1">${product.category_name || ''}</p>
-                                <h5 class="card-title">
-                                    <a href="/catalog/${product.id}/" class="text-decoration-none text-dark">${product.name}</a>
-                                </h5>
-                                <p class="text-muted small">${product.manufacturer_name || ''}</p>
+                    <div class="product-card">
+                        <div class="product-card-body">
+                            <div class="product-card-category">${product.category_name || ''}</div>
+                            <div class="product-card-name">
+                                <a href="/catalog/${product.id}/">${product.name}</a>
                             </div>
-                            <div class="card-footer d-flex justify-content-between align-items-center">
-                                <span class="fw-bold fs-5">${product.price} ₽</span>
-                                ${cartBtn}
-                            </div>
+                            <div class="product-card-mfr">${product.manufacturer_name || ''}</div>
+                        </div>
+                        <div class="product-card-footer">
+                            <span class="price">${product.price} Br</span>
+                            ${cartBtn}
                         </div>
                     </div>`;
             });
@@ -128,3 +127,23 @@ function addToCart(productId, productName = 'Товар', quantity = 1) {
             showToast('Не удалось добавить товар в корзину', 'danger');
         });
 }
+
+// Делегирование кликов для всей карточки товара (за исключением интерактивных элементов)
+document.addEventListener('DOMContentLoaded', () => {
+    document.body.addEventListener('click', (e) => {
+        const card = e.target.closest('.product-card');
+        if (!card) return;
+
+        // Если кликнули по кнопке, форме или ссылке внутри карточки — ничего не делаем
+        if (e.target.closest('button') || e.target.closest('form') || e.target.closest('a')) {
+            return;
+        }
+
+        // Ищем ссылку на детальную страницу товара и переходим по ней
+        const link = card.querySelector('.product-card-img-link') || card.querySelector('.product-card-name a');
+        if (link) {
+            window.location.href = link.href;
+        }
+    });
+});
+

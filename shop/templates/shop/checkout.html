@@ -40,14 +40,14 @@
             <div class="checkout-order-item">
                 <div>
                     <div class="checkout-order-name">{{ item.product.name }}</div>
-                    <div class="checkout-order-sub">{{ item.quantity }} шт. × {{ item.product.price }} ₽</div>
+                    <div class="checkout-order-sub">{{ item.quantity }} шт. × {{ item.product.price }} Br</div>
                 </div>
-                <div class="checkout-order-price">{{ item.item_cost }} ₽</div>
+                <div class="checkout-order-price">{{ item.item_cost }} Br</div>
             </div>
             {% endfor %}
             <div class="checkout-total">
                 <span class="checkout-total-label">Итого</span>
-                <span class="checkout-total-value">{{ total_cost }} ₽</span>
+                <span class="checkout-total-value">{{ total_cost }} Br</span>
             </div>
         </div>
 

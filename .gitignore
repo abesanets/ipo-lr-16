@@ -8,3 +8,4 @@ __pycache__/
 .env
 staticfiles/
 media/
+generate_mock_images.py

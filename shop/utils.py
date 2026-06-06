@@ -84,7 +84,7 @@ def generate_receipt_excel(order):
         ws.cell(row=row, column=2).border = thin_border
 
         ws.cell(row=row, column=3, value=float(item.product_price)).font = normal_font
-        ws.cell(row=row, column=3).number_format = '#,##0.00 ₽'
+        ws.cell(row=row, column=3).number_format = '#,##0.00 "Br"'
         ws.cell(row=row, column=3).alignment = right_align
         ws.cell(row=row, column=3).border = thin_border
 
@@ -93,7 +93,7 @@ def generate_receipt_excel(order):
         ws.cell(row=row, column=4).border = thin_border
 
         ws.cell(row=row, column=5, value=float(item.item_cost())).font = normal_font
-        ws.cell(row=row, column=5).number_format = '#,##0.00 ₽'
+        ws.cell(row=row, column=5).number_format = '#,##0.00 "Br"'
         ws.cell(row=row, column=5).alignment = right_align
         ws.cell(row=row, column=5).border = thin_border
 
@@ -105,7 +105,7 @@ def generate_receipt_excel(order):
     ws.cell(row=row, column=1, value='ИТОГО:').font = total_font
     ws.cell(row=row, column=1).alignment = right_align
     ws.cell(row=row, column=5, value=float(order.total_cost)).font = total_font
-    ws.cell(row=row, column=5).number_format = '#,##0.00 ₽'
+    ws.cell(row=row, column=5).number_format = '#,##0.00 "Br"'
     ws.cell(row=row, column=5).alignment = right_align
 
     # === Футер ===

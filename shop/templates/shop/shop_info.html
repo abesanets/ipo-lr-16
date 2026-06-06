@@ -1,35 +1,194 @@
 {% extends 'shop/base.html' %}
+{% load static %}
 
 {% block title %}О магазине — Shopex{% endblock %}
 
 {% block content %}
+<style>
+    /* Карточка информации о магазине */
+    .shop-info-card {
+        background: linear-gradient(135deg, rgba(30, 33, 48, 0.65) 0%, rgba(15, 17, 23, 0.85) 100%);
+        border: 1px solid rgba(108, 143, 255, 0.15);
+        border-radius: 24px;
+        padding: 48px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        margin-bottom: 32px;
+    }
+
+    .shop-badge {
+        display: inline-block;
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        background: rgba(108, 143, 255, 0.1);
+        padding: 4px 12px;
+        border-radius: 6px;
+        margin-bottom: 16px;
+        border: 1px solid rgba(108, 143, 255, 0.15);
+    }
+
+    .shop-title {
+        font-size: 38px;
+        font-weight: 800;
+        letter-spacing: -1px;
+        line-height: 1.2;
+        margin-bottom: 16px;
+    }
+
+    .shop-subtitle {
+        color: var(--text-secondary);
+        font-size: 18px;
+        margin-bottom: 40px;
+        max-width: 620px;
+        line-height: 1.6;
+    }
+
+    /* Сетка статистики */
+    .stats-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        margin-bottom: 40px;
+    }
+
+    .stat-widget {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--border);
+        border-radius: 18px;
+        padding: 24px;
+        text-align: center;
+        transition: all var(--transition);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .stat-widget:hover {
+        border-color: var(--accent);
+        background: rgba(108, 143, 255, 0.04);
+        transform: translateY(-2px);
+    }
+
+    .stat-icon {
+        width: 44px;
+        height: 44px;
+        background: rgba(255, 255, 255, 0.03);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--accent);
+        transition: all var(--transition);
+    }
+
+    .stat-widget:hover .stat-icon {
+        background: var(--accent-dim);
+    }
+
+    .stat-number {
+        font-size: 42px;
+        font-weight: 800;
+        letter-spacing: -1px;
+        color: var(--text);
+        line-height: 1;
+    }
+
+    .stat-name {
+        font-size: 13px;
+        color: var(--text-secondary);
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+    }
+
+    /* Блок описания */
+    .shop-description-box {
+        background: rgba(255, 255, 255, 0.01);
+        border-top: 1px solid var(--border-light);
+        padding-top: 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .shop-description-box p {
+        font-size: 15px;
+        line-height: 1.8;
+        color: var(--text-secondary);
+        margin: 0;
+    }
+
+    .shop-highlight-text {
+        color: var(--text) !important;
+        font-weight: 500;
+    }
+
+    @media (max-width: 768px) {
+        .stats-container {
+            grid-template-columns: 1fr;
+        }
+        .shop-info-card {
+            padding: 24px;
+        }
+        .shop-title {
+            font-size: 28px;
+        }
+        .shop-subtitle {
+            font-size: 16px;
+        }
+    }
+</style>
+
 <div class="breadcrumb">
     <a href="{% url 'index' %}">Главная</a>
     <span class="breadcrumb-sep">›</span>
     <span>О магазине</span>
 </div>
 
-<h1 style="margin-bottom: 8px;">О магазине</h1>
-<p style="color: var(--text-secondary); font-size: 18px; margin-bottom: 40px; max-width: 560px;">Shopex — это современный интернет-магазин электроники с широким ассортиментом и честными ценами.</p>
+<div class="shop-info-card">
+    <span class="shop-badge">ℹ️ О проекте</span>
+    <h1 class="shop-title">Shopex Electronics</h1>
+    <p class="shop-subtitle">Shopex — это высокотехнологичный учебный интернет-магазин цифровой техники и электроники, построенный на связке Django REST Framework + Vanilla JS / Fetch API.</p>
 
-<div class="stats-grid" style="margin-bottom: 40px;">
-    <div class="stat-card">
-        <div class="stat-value">{{ categories_count }}</div>
-        <div class="stat-label">Категорий</div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-value">{{ products_count }}</div>
-        <div class="stat-label">Товаров</div>
-    </div>
-    <div class="stat-card">
-        <div class="stat-value">{{ manufacturers_count }}</div>
-        <div class="stat-label">Производителей</div>
-    </div>
-</div>
+    <!-- Сетка статистики -->
+    <div class="stats-container">
+        <div class="stat-widget">
+            <div class="stat-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+            </div>
+            <div class="stat-number">{{ categories_count }}</div>
+            <div class="stat-name">Категорий</div>
+        </div>
+        
+        <div class="stat-widget">
+            <div class="stat-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            </div>
+            <div class="stat-number">{{ products_count }}</div>
+            <div class="stat-name">Товаров</div>
+        </div>
 
-<div class="page-content">
-    <p>Мы предлагаем широкий ассортимент электроники — смартфоны, ноутбуки, планшеты, телевизоры, наушники, умные часы, игровые консоли, фотоаппараты и аксессуары.</p>
-    <p>Работаем с ведущими мировыми производителями: Samsung, Apple, Xiaomi, Sony, LG и другими.</p>
-    <p>Быстрая доставка, удобная оплата, чек на email после каждого заказа.</p>
+        <div class="stat-widget">
+            <div class="stat-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div class="stat-number">{{ manufacturers_count }}</div>
+            <div class="stat-name">Брендов</div>
+        </div>
+    </div>
+
+    <!-- Текстовое описание -->
+    <div class="shop-description-box">
+        <p class="shop-highlight-text">Проект демонстрирует полноценный стек разработки веб-приложений:</p>
+        <p>• <strong>Бэкенд:</strong> Реализован на Django 6, предоставляет гибкие представления для каталога товаров, корзины покупателя, системы заказов и API-эндпоинты на базе Django REST Framework с сессионной авторизацией.</p>
+        <p>• <strong>База данных:</strong> СУБД PostgreSQL/SQLite для хранения товаров, производителей, категорий, корзин, заказов и ролевых профилей пользователей.</p>
+        <p>• <strong>Фронтенд:</strong> Разработан в виде чистого CSS интерфейса с использованием Fetch API для динамической бесшовной загрузки каталога товаров в реальном времени.</p>
+        <p>• <strong>Дополнительно:</strong> Реализована отправка электронных писем с сформированными Excel-чеками заказов покупателям, сгенерированными с помощью библиотеки openpyxl.</p>
+    </div>
 </div>
 {% endblock %}
