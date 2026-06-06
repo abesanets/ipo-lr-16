@@ -1,0 +1,7 @@
+# Exclude HTML files from language statistics (mark as documentation)
+*.html linguist-documentation=true
+
+# Mark template directory as vendored/documentation
+shop/templates/** linguist-documentation=true
+static/** linguist-documentation=true
+staticfiles/** linguist-documentation=true
