@@ -5,44 +5,116 @@
 
 {% block content %}
 <style>
-    /* Кастомные панели настроек */
-    .settings-panel {
-        background: linear-gradient(135deg, rgba(30, 33, 48, 0.65) 0%, rgba(15, 17, 23, 0.85) 100%);
-        border: 1px solid rgba(108, 143, 255, 0.15);
-        border-radius: 20px;
-        padding: 32px;
-        box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        margin-bottom: 24px;
-        height: 100%;
+    /* Кастомная карточка настроек */
+    .settings-card {
+        background: linear-gradient(135deg, rgba(26, 29, 39, 0.5) 0%, rgba(15, 17, 23, 0.75) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 24px;
+        padding: 48px;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        max-width: 600px;
+        margin: 0 auto 32px auto;
     }
 
-    .settings-panel h2 {
-        font-size: 20px;
+    .settings-section h2 {
+        font-size: 19px;
+        font-weight: 750;
+        letter-spacing: -0.5px;
+        margin-bottom: 24px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        padding-bottom: 16px;
+        color: #fff;
+    }
+
+    .settings-section .form-group {
+        margin-bottom: 20px;
+    }
+
+    .settings-section label {
+        font-size: 11px;
         font-weight: 700;
-        margin-bottom: 24px;
-        border-bottom: 1px solid var(--border-light);
-        padding-bottom: 12px;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        margin-bottom: 8px;
+        display: block;
     }
 
-    .settings-panel input[type="text"],
-    .settings-panel input[type="email"],
-    .settings-panel input[type="password"] {
+    .settings-card input[type="text"],
+    .settings-card input[type="email"],
+    .settings-card input[type="password"] {
         width: 100%;
-        padding: 10px 14px;
+        padding: 12px 16px;
         border: 1px solid var(--border);
-        border-radius: 10px;
+        border-radius: 12px;
         font-size: 14px;
         color: var(--text) !important;
-        background: var(--bg-secondary) !important;
-        transition: border-color var(--transition);
+        background: rgba(255, 255, 255, 0.02) !important;
+        transition: all var(--transition);
         font-family: inherit;
     }
 
-    .settings-panel input:focus {
+    .settings-card input:focus {
         outline: none;
         border-color: var(--accent);
+        background: rgba(255, 255, 255, 0.04) !important;
+        box-shadow: 0 0 12px rgba(108, 143, 255, 0.15);
+    }
+
+    .settings-btn {
+        background: var(--accent);
+        color: #fff;
+        font-weight: 600;
+        padding: 12px 24px;
+        border-radius: 980px !important;
+        box-shadow: 0 4px 12px rgba(108, 143, 255, 0.2);
+        transition: all var(--transition);
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        margin-top: 8px;
+    }
+
+    .settings-btn:hover {
+        background: var(--accent-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(108, 143, 255, 0.35);
+        color: #fff;
+    }
+
+    .settings-divider {
+        height: 1px;
+        background: linear-gradient(90deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.01));
+        margin: 40px 0;
+    }
+
+    .form-error {
+        font-size: 12px;
+        color: var(--danger);
+        margin-top: 6px;
+        font-weight: 500;
+    }
+
+    .form-help {
+        font-size: 11px;
+        color: var(--text-tertiary);
+        margin-top: 8px;
+        line-height: 1.5;
+    }
+
+    .form-help a {
+        color: var(--accent);
+        text-decoration: none;
+    }
+
+    .form-help a:hover {
+        text-decoration: underline;
     }
 </style>
 
@@ -54,66 +126,64 @@
     <span>Настройки</span>
 </div>
 
-<h1 style="margin-bottom: 32px; font-weight: 800; letter-spacing: -1px;">Настройки аккаунта</h1>
+<h1 style="margin-bottom: 36px; font-weight: 800; letter-spacing: -1.5px; text-align: center;">Настройки аккаунта</h1>
 
-<div class="row g-4 justify-content-center">
+<div class="settings-card">
     <!-- Смена Email -->
-    <div class="col-md-5">
-        <div class="settings-panel">
-            <h2>Смена Email адреса</h2>
-            <form method="post" action="{% url 'settings_view' %}">
-                {% csrf_token %}
-                <input type="hidden" name="action" value="change_email">
-                
-                <div class="form-group">
-                    <label for="id_email_current">Текущий Email</label>
-                    <input type="email" id="id_email_current" value="{{ user.email }}" disabled style="opacity: 0.5; cursor: not-allowed;">
-                </div>
-                
-                <div class="form-group">
-                    <label for="id_email">Новый Email</label>
-                    <input type="email" id="id_email" name="email" required placeholder="new@example.com">
-                </div>
-                
-                <button type="submit" class="btn btn-primary w-100 mt-2" style="padding: 12px 0; border-radius: 10px;">
-                    Изменить Email
-                </button>
-            </form>
-        </div>
+    <div class="settings-section">
+        <h2>Смена Email адреса</h2>
+        <form method="post" action="{% url 'settings_view' %}">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="change_email">
+            
+            <div class="form-group">
+                <label for="id_email_current">Текущий Email</label>
+                <input type="email" id="id_email_current" value="{{ user.email }}" disabled style="opacity: 0.35; cursor: not-allowed; background: rgba(255, 255, 255, 0.01) !important; border-color: rgba(255,255,255,0.03) !important;">
+            </div>
+            
+            <div class="form-group">
+                <label for="id_email">Новый Email</label>
+                <input type="email" id="id_email" name="email" required placeholder="new@example.com">
+            </div>
+            
+            <button type="submit" class="settings-btn">
+                Изменить Email
+            </button>
+        </form>
     </div>
 
+    <div class="settings-divider"></div>
+
     <!-- Смена Пароля -->
-    <div class="col-md-5">
-        <div class="settings-panel">
-            <h2>Смена пароля</h2>
-            <form method="post" action="{% url 'settings_view' %}">
-                {% csrf_token %}
-                <input type="hidden" name="action" value="change_password">
-                
-                {% for field in password_form %}
-                    <div class="form-group">
-                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                        <input type="password" name="{{ field.html_name }}" id="{{ field.id_for_label }}" required>
-                        {% if field.errors %}
-                            <div class="form-error">
-                                {% for error in field.errors %}
-                                    <p class="m-0">{{ error }}</p>
-                                {% endfor %}
-                            </div>
-                        {% endif %}
-                        {% if field.help_text %}
-                            <div class="form-help" style="font-size: 11px; margin-top: 6px; line-height: 1.4;">
-                                {{ field.help_text|safe }}
-                            </div>
-                        {% endif %}
-                    </div>
-                {% endfor %}
-                
-                <button type="submit" class="btn btn-primary w-100 mt-2" style="padding: 12px 0; border-radius: 10px;">
-                    Обновить пароль
-                </button>
-            </form>
-        </div>
+    <div class="settings-section">
+        <h2>Смена пароля</h2>
+        <form method="post" action="{% url 'settings_view' %}">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="change_password">
+            
+            {% for field in password_form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    <input type="password" name="{{ field.html_name }}" id="{{ field.id_for_label }}" required>
+                    {% if field.errors %}
+                        <div class="form-error">
+                            {% for error in field.errors %}
+                                <p class="m-0">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    {% if field.help_text %}
+                        <div class="form-help">
+                            {{ field.help_text|safe }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            
+            <button type="submit" class="settings-btn">
+                Обновить пароль
+            </button>
+        </form>
     </div>
 </div>
 {% endblock %}

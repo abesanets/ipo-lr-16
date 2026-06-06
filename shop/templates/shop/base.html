@@ -60,98 +60,255 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(15,17,23,0.88);
-            backdrop-filter: saturate(180%) blur(20px);
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
-            border-bottom: 1px solid var(--border);
+            background: rgba(15, 17, 23, 0.75);
+            backdrop-filter: blur(20px) saturate(190%);
+            -webkit-backdrop-filter: blur(20px) saturate(190%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
         }
 
         .nav-inner {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 24px;
-            height: 52px;
+            height: 68px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 24px;
+            gap: 32px;
         }
 
         .logo {
-            font-size: 24px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
+            font-size: 22px;
+            font-weight: 850;
+            letter-spacing: -0.8px;
+            background: linear-gradient(135deg, #a3b8ff 0%, #6c8fff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.02);
+            opacity: 0.95;
+        }
+
+        .logo svg {
+            color: #6c8fff;
+            filter: drop-shadow(0 0 8px rgba(108,143,255,0.35));
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .logo:hover svg {
+            transform: rotate(-8deg) scale(1.1);
+        }
+
+        .nav-main-links {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-link-item {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 550;
+            padding: 8px 16px;
+            border-radius: 980px;
+            transition: all var(--transition);
+            border: 1px solid transparent;
+        }
+
+        .nav-link-item:hover {
             color: var(--text);
-            text-decoration: none;
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-right {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
         }
 
-        .logo svg { color: var(--accent); }
-
-        nav { display: flex; align-items: center; gap: 2px; }
-
-        nav a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-size: 14px;
-            padding: 6px 12px;
-            border-radius: 6px;
-            transition: color var(--transition), background var(--transition);
-        }
-
-        nav a:hover { color: var(--text); background: var(--bg-secondary); }
-
-        .nav-divider {
-            width: 1px;
-            height: 18px;
-            background: var(--border);
-            margin: 0 8px;
-        }
-
-        .nav-user {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .nav-username {
-            font-size: 14px;
-            color: var(--text-secondary);
-            padding: 6px 12px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .btn-nav-logout {
-            background: none;
-            border: none;
-            color: var(--text-secondary);
-            cursor: pointer;
-            font-size: 14px;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-family: inherit;
-            transition: color var(--transition), background var(--transition);
-        }
-
-        .btn-nav-logout:hover { color: var(--danger); background: rgba(255,92,92,0.1); }
-
-        .nav-cart-link {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            color: var(--text-secondary) !important;
-            text-decoration: none;
-            font-size: 14px;
-            padding: 6px 12px;
-            border-radius: 8px;
+        /* Profile Pill */
+        .user-profile-pill {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 980px;
+            padding: 4px 12px 4px 6px;
             transition: all var(--transition);
         }
 
-        .nav-cart-link:hover { color: var(--text) !important; background: var(--bg-secondary); }
+        .user-profile-pill:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: var(--accent);
+            box-shadow: 0 0 12px rgba(108,143,255,0.15);
+        }
+
+        .user-pill-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: var(--text);
+        }
+
+        .user-avatar-placeholder {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: var(--bg-hover);
+            color: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border);
+        }
+
+        .username-text {
+            font-size: 14px;
+            font-weight: 550;
+            max-width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .role-badge {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 8px;
+            background: var(--accent-dim);
+            border-radius: 980px;
+            color: var(--accent);
+            border: 1px solid rgba(108,143,255,0.2);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Icon Buttons */
+        .icon-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.02);
+            transition: all var(--transition);
+            text-decoration: none;
+        }
+
+        .icon-btn:hover {
+            color: var(--text);
+            border-color: var(--accent);
+            background: rgba(108,143,255,0.08);
+            transform: translateY(-1px);
+        }
+
+        /* Cart Button Modern */
+        .cart-btn-modern {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 980px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 550;
+            text-decoration: none;
+            transition: all var(--transition);
+        }
+
+        .cart-btn-modern:hover {
+            color: var(--text);
+            border-color: var(--accent);
+            background: rgba(108,143,255,0.08);
+            transform: translateY(-1px);
+        }
+
+        .cart-icon-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .cart-badge-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: var(--accent);
+            color: #fff;
+            font-size: 9px;
+            font-weight: 700;
+            height: 16px;
+            min-width: 16px;
+            padding: 0 4px;
+            border-radius: 980px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--bg);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
+
+        /* Logout button style */
+        .logout-form-header {
+            display: inline;
+        }
+
+        .logout-btn-modern {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.02);
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+
+        .logout-btn-modern:hover {
+            color: var(--danger);
+            border-color: var(--danger);
+            background: rgba(255, 92, 92, 0.08);
+            transform: translateY(-1px);
+        }
+
+        /* Login Link & Register Button */
+        .login-link-modern {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 550;
+            padding: 8px 16px;
+            transition: color var(--transition);
+        }
+        
+        .login-link-modern:hover {
+            color: var(--text);
+        }
+
+        .register-btn-modern {
+            padding: 8px 20px;
+            font-size: 14px;
+            font-weight: 550;
+            border-radius: 980px;
+            box-shadow: 0 4px 12px rgba(108,143,255,0.2);
+        }
 
         /* ── MESSAGES ── */
         .messages { margin-bottom: 24px; display: flex; flex-direction: column; gap: 8px; }
@@ -758,6 +915,39 @@
             .cart-item { grid-template-columns: 48px 1fr; }
             .cart-item > *:nth-child(n+3) { grid-column: 2; }
             h1 { font-size: 24px; }
+
+            /* Mobile Header styles */
+            .nav-inner {
+                height: auto !important;
+                padding: 12px 16px !important;
+                flex-wrap: wrap;
+                gap: 12px !important;
+                justify-content: space-between;
+            }
+            .nav-main-links {
+                order: 3;
+                width: 100%;
+                justify-content: center;
+                gap: 4px;
+                border-top: 1px solid rgba(255, 255, 255, 0.05);
+                padding-top: 8px;
+            }
+            .nav-right {
+                order: 2;
+                gap: 8px !important;
+            }
+            .logo {
+                order: 1;
+            }
+            .username-text {
+                max-width: 80px;
+            }
+            .cart-btn-modern {
+                padding: 8px 12px !important;
+            }
+            .cart-btn-text {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -766,48 +956,64 @@
         <div class="nav-inner">
             <a href="{% url 'index' %}" class="logo">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                Shopex
+                <span>Shopex</span>
             </a>
-            <nav>
-                <a href="{% url 'product_list' %}">Каталог</a>
-                <a href="{% url 'shop_info' %}">О магазине</a>
-                <a href="{% url 'about' %}">Об авторе</a>
+            
+            <div class="nav-main-links">
+                <a href="{% url 'product_list' %}" class="nav-link-item">Каталог</a>
+                <a href="{% url 'shop_info' %}" class="nav-link-item">О магазине</a>
+                <a href="{% url 'about' %}" class="nav-link-item">Об авторе</a>
+            </div>
 
-                <div class="nav-divider"></div>
-
-                <div class="nav-user">
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'profile_view' %}" class="nav-username" style="text-decoration: none; color: var(--text-secondary); transition: color var(--transition);">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-                            {{ user.username }} <span style="font-size: 11px; opacity: 0.9; margin-left: 4px; padding: 2px 6px; background: var(--border); border-radius: 4px; color: var(--accent);">{{ user.profile.get_role_display }}</span>
+            <div class="nav-right">
+                {% if user.is_authenticated %}
+                    <div class="user-profile-pill">
+                        <a href="{% url 'profile_view' %}" class="user-pill-info">
+                            <div class="user-avatar-placeholder">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            </div>
+                            <span class="username-text">{{ user.username }}</span>
+                            <span class="role-badge">{{ user.profile.get_role_display }}</span>
                         </a>
-                        <a href="{% url 'settings_view' %}" title="Настройки" style="color: var(--text-secondary); display: flex; align-items: center; padding: 6px 12px; border-radius: 6px; transition: color var(--transition), background var(--transition);">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-                        </a>
-                        <a href="{% url 'cart_view' %}" class="nav-cart-link" style="color: var(--text-secondary); text-decoration: none; font-size: 14px; padding: 6px 12px; border-radius: 6px; transition: all 0.2s;">
+                    </div>
+                    
+                    <a href="{% url 'settings_view' %}" class="icon-btn" title="Настройки">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    </a>
+                    
+                    <a href="{% url 'cart_view' %}" class="cart-btn-modern">
+                        <div class="cart-icon-wrapper">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-                            Корзина
-                        </a>
-                        <form method="post" action="{% url 'logout' %}" style="display: inline;">
-                            {% csrf_token %}
-                            <button type="submit" class="btn-nav-logout">Выйти</button>
-                        </form>
-                    {% else %}
-                        <a href="{% url 'login' %}">Войти</a>
-                        <a href="{% url 'register' %}" class="btn btn-primary btn-sm" style="margin-left: 4px;">Регистрация</a>
-                    {% endif %}
-                </div>
-            </nav>
+                            {% if user.cart.items.exists %}
+                                <span class="cart-badge-count">{{ user.cart.items.count }}</span>
+                            {% endif %}
+                        </div>
+                        <span class="cart-btn-text">Корзина</span>
+                    </a>
+                    
+                    <form method="post" action="{% url 'logout' %}" class="logout-form-header">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-btn-modern" title="Выйти">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                        </button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="login-link-modern">Войти</a>
+                    <a href="{% url 'register' %}" class="btn btn-primary btn-sm register-btn-modern">Регистрация</a>
+                {% endif %}
+            </div>
         </div>
     </header>
 
     <div class="container">
         {% if messages %}
-            <div class="messages">
-                {% for message in messages %}
-                    <div class="message {{ message.tags }}">{{ message }}</div>
-                {% endfor %}
-            </div>
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    {% for message in messages %}
+                        showToast("{{ message|escapejs }}", "{{ message.tags }}");
+                    {% endfor %}
+                });
+            </script>
         {% endif %}
 
         {% block content %}{% endblock %}
@@ -823,7 +1029,7 @@
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Основной JS -->
-    <script src="{% static 'js/main.js' %}?v=1.2"></script>
+    <script src="{% static 'js/main.js' %}?v=1.3"></script>
     {% block scripts %}{% endblock %}
 </body>
 </html>

@@ -9,37 +9,79 @@ function getCsrfToken() {
     return '';
 }
 
-// Показать Bootstrap Toast с сообщением
+// Показать кастомный премиальный Toast с сообщением
 function showToast(message, type = 'success') {
     const container = document.getElementById('toast-container');
     if (!container) return;
 
     const id = 'toast-' + Date.now();
-    const bgClass = type === 'success' ? 'bg-success' : 'bg-danger';
+    let accentColor = 'var(--accent)';
+    let icon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>'; // info
+
+    if (type === 'success') {
+        accentColor = 'var(--success)';
+        icon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>';
+    } else if (type === 'error' || type === 'danger' || type === 'warning') {
+        accentColor = type === 'warning' ? 'var(--warning)' : 'var(--danger)';
+        icon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+    }
 
     container.insertAdjacentHTML('beforeend', `
-        <div id="${id}" class="toast align-items-center text-white ${bgClass} border-0" role="alert" aria-live="assertive">
-            <div class="d-flex">
-                <div class="toast-body">${message}</div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+        <div id="${id}" class="toast align-items-center border-0" role="alert" aria-live="assertive" style="background: rgba(30, 33, 48, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08) !important; border-left: 4px solid ${accentColor} !important; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); color: #fff; margin-bottom: 10px; width: 350px; max-width: 100%;">
+            <div class="d-flex align-items-center py-3 px-3">
+                <span style="color: ${accentColor}; margin-right: 12px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;">${icon}</span>
+                <div class="toast-body p-0" style="font-weight: 550; font-size: 13.5px; line-height: 1.4; color: #fff;">${message}</div>
+                <button type="button" class="btn-close btn-close-white ms-auto" data-bs-dismiss="toast" aria-label="Close" style="opacity: 0.75; font-size: 11px; flex-shrink: 0;"></button>
             </div>
         </div>
     `);
 
     const toastEl = document.getElementById(id);
-    const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
+    const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
     toast.show();
     toastEl.addEventListener('hidden.bs.toast', () => toastEl.remove());
 }
 
-// Загрузка товаров из API и динамический рендеринг
-function loadProducts(containerId, apiUrl = '/api/products/') {
+// Загрузка товаров из API, динамический рендеринг и переключение видимости
+function loadProducts(containerId, buttonElOrApiUrl, optionalApiUrl) {
     const container = document.getElementById(containerId);
     const spinner = document.getElementById('loading-spinner');
+    
+    let buttonEl = null;
+    let apiUrl = '/api/products/';
+
+    // Определяем типы аргументов для защиты от кэширования старой сигнатуры
+    if (buttonElOrApiUrl instanceof HTMLElement) {
+        buttonEl = buttonElOrApiUrl;
+        if (typeof optionalApiUrl === 'string') {
+            apiUrl = optionalApiUrl;
+        }
+    } else if (typeof buttonElOrApiUrl === 'string') {
+        apiUrl = buttonElOrApiUrl;
+    }
+
+    const button = buttonEl || document.querySelector('[onclick^="loadProducts"]');
 
     if (!container) return;
 
+    // Если контейнер заполнен и сейчас отображается, скрываем его
+    if (container.innerHTML !== '' && container.style.display !== 'none') {
+        container.style.display = 'none';
+        if (button) button.textContent = 'Загрузить товары через API';
+        if (spinner) spinner.style.display = 'none';
+        return;
+    }
+    
+    // Если контейнер заполнен, но скрыт, снова показываем его
+    if (container.innerHTML !== '' && container.style.display === 'none') {
+        container.style.display = 'grid';
+        if (button) button.textContent = 'Скрыть API товары';
+        return;
+    }
+
+    // Иначе выполняем запрос к API
     if (spinner) spinner.style.display = 'block';
+    if (button) button.textContent = 'Загрузка...';
     container.innerHTML = '';
 
     fetch(apiUrl)
@@ -53,30 +95,21 @@ function loadProducts(containerId, apiUrl = '/api/products/') {
         .then(data => {
             if (spinner) spinner.style.display = 'none';
 
-            // DRF возвращает либо массив, либо объект с results (при пагинации)
             const products = Array.isArray(data) ? data : (data.results || []);
 
             if (products.length === 0) {
                 container.innerHTML = '<p class="text-muted">Товары не найдены.</p>';
+                if (button) button.textContent = 'Загрузить товары через API';
                 return;
             }
 
             container.innerHTML = '';
-            // Проверяем авторизацию пользователя по наличию кнопки "Выйти" в шапке
-            const isAuthenticated = !!document.querySelector('.btn-nav-logout');
+            container.style.display = 'grid';
+            if (button) button.textContent = 'Скрыть API товары';
 
             products.forEach(product => {
-                let cartBtn = '';
-                if (product.stock === 0) {
-                    cartBtn = `<span class="stock-badge out">Нет в наличии</span>`;
-                } else if (isAuthenticated) {
-                    cartBtn = `<button class="btn btn-primary btn-sm" onclick="addToCart(${product.id}, '${product.name}')">В корзину</button>`;
-                } else {
-                    cartBtn = `<a href="/login/?next=/catalog/" class="btn btn-ghost btn-sm">Войти</a>`;
-                }
-
                 container.innerHTML += `
-                    <div class="product-card">
+                    <div class="product-card" style="box-shadow: 0 10px 20px rgba(0,0,0,0.1); border-color: rgba(255, 255, 255, 0.04);">
                         <div class="product-card-body">
                             <div class="product-card-category">${product.category_name || ''}</div>
                             <div class="product-card-name">
@@ -84,24 +117,19 @@ function loadProducts(containerId, apiUrl = '/api/products/') {
                             </div>
                             <div class="product-card-mfr">${product.manufacturer_name || ''}</div>
                         </div>
-                        <div class="product-card-footer">
-                            <span class="price">${product.price} Br</span>
-                            ${cartBtn}
-                        </div>
                     </div>`;
             });
         })
         .catch(error => {
             if (spinner) spinner.style.display = 'none';
+            if (button) button.textContent = 'Загрузить товары через API';
             console.error('Ошибка загрузки товаров:', error);
-            if (container) {
-                container.innerHTML = `
-                    <div class="col-12">
-                        <div class="alert alert-danger">
-                            ${error.message || 'Не удалось загрузить товары. Попробуйте обновить страницу.'}
-                        </div>
-                    </div>`;
-            }
+            container.innerHTML = `
+                <div class="col-12">
+                    <div class="alert alert-danger" style="margin: 0;">
+                        ${error.message || 'Не удалось загрузить товары. Попробуйте обновить страницу.'}
+                    </div>
+                </div>`;
         });
 }
 
