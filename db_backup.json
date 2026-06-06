@@ -1,0 +1,1326 @@
+[
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$KJhH8lWWZtFsIONqmzvaYd$3bsfmvXIlGGAVWL/jqvyxkD+hUuxvLvV1PfiCRloTp8=",
+        "last_login": "2026-05-28T05:05:40.804Z",
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "email": "accforthecollege@gmail.com",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2026-02-27T08:05:02.695Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$e6Mvm9Cmy9fLmJLETCkfWY$D3t6QD6snfNpQADU9fG5TU3REE4hptceHlVoQJuYZ3Y=",
+        "last_login": "2026-05-28T05:32:56.470Z",
+        "is_superuser": false,
+        "username": "ivan",
+        "first_name": "Иван",
+        "last_name": "Петров",
+        "email": "ivan@example.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-02-27T08:06:49.453Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$93tfhnKa0Z5mgsNtdwlOk2$smE7CTRyokxMsxgBFL3084g3wBx1wEBJOvNw+mdzBQU=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "maria",
+        "first_name": "Мария",
+        "last_name": "Сидорова",
+        "email": "maria@example.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-02-27T08:06:49.995Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$9CbHF1gNKISpQjFy2CmK7k$OCMfxaVqI/QMqDGMvvsM3yNgtJdH275FAzgqJhw9Yhc=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "alex",
+        "first_name": "Алексей",
+        "last_name": "Козлов",
+        "email": "alex@example.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-02-27T08:06:50.526Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$mTTbmmhcbS6t8YDiBgqUIO$+OYzTpwb9RKYl7D75qIalTMT1Zmq48FwzT5U5RllMQk=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "elena",
+        "first_name": "Елена",
+        "last_name": "Новикова",
+        "email": "elena@example.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-02-27T08:06:51.056Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$Q348d79kImNufzm8BVJuN7$n9WWwJvj6ZIRD7EYcq+XKHOYXuzSe87SqtnUVsGlqPI=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "dmitry",
+        "first_name": "Дмитрий",
+        "last_name": "Волков",
+        "email": "dmitry@example.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-02-27T08:06:51.585Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$aT5zdB16JST2z46pKmQoPh$VhZjt/SOqIqC8FS9giQEeiFFqBhOem3gwQAhaoOz37o=",
+        "last_login": "2026-04-14T09:20:26.037Z",
+        "is_superuser": false,
+        "username": "test_user",
+        "first_name": "",
+        "last_name": "",
+        "email": "testmain@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-03-06T08:19:17.931Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "auth.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1200000$sYp3RCkzjAjBcvymbJhz9h$0lG05KVwGYZ7mKnnHx64tVpovwYWzSkWnM8YXm7GbSw=",
+        "last_login": "2026-05-28T05:02:08Z",
+        "is_superuser": false,
+        "username": "alex228",
+        "first_name": "",
+        "last_name": "",
+        "email": "a.besanets@gmail.com",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-05-28T05:02:07Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "1cfarsweb38vpz91hwomnqp2e2pem0rr",
+    "fields": {
+        "session_data": ".eJxVjMEOwiAQRP-FsyFLkQIevfsNZGEXqRpISnsy_rtt0oPOcd6beYuA61LC2nkOE4mLsOL020VMT647oAfWe5Op1WWeotwVedAub434dT3cv4OCvWxrAFAWGBmM1Z7obKN3gIw6bQFFfvCsjEZLo3He5lF5pxPnIRMAkfh8Adw0OAM:1vyR7w:kE1PIHB1KZhHlud5rzwEVHm8crZiQ7oORg_0-_J31_s",
+        "expire_date": "2026-03-20T09:05:44.736Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "7hsua8itotyn2o4b5nqg81x25fyyu5pn",
+    "fields": {
+        "session_data": ".eJxVjMsKwjAQAP9lzxKyebdH7_2GsslGU5UEmvYk_rsUetDrzDBvmGnfyrz3vM4LwwgBLr8sUnrmegh-UL03kVrd1iWKIxGn7WJqnF_Xs_0bFOoFRhii1CpnZbxMyZPPOjIiykA3RHROo5fWSLKM2ljkkFRyxFErp3FAhs8XyfM26Q:1wSSsi:y8y33YrJMt9Y_5KMOJeEPahIwovV2lZXIzb-pVYu8pU",
+        "expire_date": "2026-06-11T05:02:08.498Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "84cay47p0swirb9mpgx0wlkknsdpnthh",
+    "fields": {
+        "session_data": ".eJxVjEEOwiAQRe_C2pCCDIhL9z1DM8xMpWogKe3KeHdD0oVu_3vvv9WE-5anvck6LayuyqjT75aQnlI64AeWe9VUy7YuSXdFH7TpsbK8bof7d5Cx5V5bcR4FZB6YYhB_TsAGnJgwkxgLF4ZBCDxEMdZFA4xAFNhGcc579fkC-544EQ:1wSSw8:NXNz3zK66EncSapBh_1LQL6wN6YbcjblN26mquGXlOE",
+        "expire_date": "2026-06-11T05:05:40.814Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "l3cnp4rmhpkt36gckk33wkk1tbw6fknb",
+    "fields": {
+        "session_data": ".eJxVjMEOwiAQRP-FsyEFWRCP3v0GsuxupWpoUtqT8d-VpAc9zrw381IJt7WkrcmSJlZnZdTht8tID6kd8B3rbdY013WZsu6K3mnT15nledndv4OCrfS1FedRQMaBKQbxxwxswIkJI4mxcGIYhMBD_CYXDTACUWAbxTnv1fsD-544EQ:1w1j2S:ISBuLVhPAxtTUenPgpra3w2b-R8nz-BHQ-sZOuzznaE",
+        "expire_date": "2026-03-29T10:49:40.927Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "p0ll8z80yoc5lep8r44tjsps0j0kn54p",
+    "fields": {
+        "session_data": ".eJxVjMEOwiAQRP-FsyFLkQIevfsNZGEXqRpISnsy_rtt0oPOcd6beYuA61LC2nkOE4mLsOL020VMT647oAfWe5Op1WWeotwVedAub434dT3cv4OCvWxrAFAWGBmM1Z7obKN3gIw6bQFFfvCsjEZLo3He5lF5pxPnIRMAkfh8Adw0OAM:1wCZwY:L0AMXyQHgmZbA9bmYt8iEAhdVFUK7Rnsrg-6_wi7fAo",
+        "expire_date": "2026-04-28T09:20:26.044Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "y7kaniw11gfnv2zjjj6s14iqcg86op7y",
+    "fields": {
+        "session_data": ".eJxVjDEOgzAMAP_iuYqSGOOEsXvfgBziFNoKJAJT1b9XSAztene6N_Syb2O_V137KUMHHi6_LMnw1PkQ-SHzfTHDMm_rlMyRmNNWc1uyvq5n-zcYpY7QgWWJSl6oZbaxZF8ocC6YrdWA5FgxILNFTU0kJ5GKbxym1johDAE-X8IgNpE:1wSTMW:XdO6znbM4xB205-69R1PbWDC-DpFnEeH8DlvvbVTpKA",
+        "expire_date": "2026-06-11T05:32:56.480Z"
+    }
+},
+{
+    "model": "shop.category",
+    "pk": 1,
+    "fields": {
+        "name": "Смартфоны",
+        "description": "Мобильные телефоны"
+    }
+},
+{
+    "model": "shop.category",
+    "pk": 2,
+    "fields": {
+        "name": "Ноутбуки",
+        "description": "Портативные компьютеры"
+    }
+},
+{
+    "model": "shop.category",
+    "pk": 3,
+    "fields": {
+        "name": "Планшеты",
+        "description": "Планшетные компьютеры"
+    }
+},
+{
+    "model": "shop.category",
+    "pk": 4,
+    "fields": {
+        "name": "Телевизоры",
+        "description": "ТВ и мониторы"
+    }
+},
+{
+    "model": "shop.category",
+    "pk": 5,
+    "fields": {
+        "name": "Наушники",
+        "description": "Наушники и гарнитуры"
+    }
+},
+{
+    "model": "shop.category",
+    "pk": 6,
+    "fields": {
+        "name": "Умные часы",
+        "description": "Смарт-часы и фитнес-браслеты"
+    }
+},
+{
+    "model": "shop.category",
+    "pk": 7,
+    "fields": {
+        "name": "Игровые консоли",
+        "description": "Игровые приставки"
+    }
+},
+{
+    "model": "shop.category",
+    "pk": 8,
+    "fields": {
+        "name": "Фотоаппараты",
+        "description": "Цифровые камеры"
+    }
+},
+{
+    "model": "shop.category",
+    "pk": 9,
+    "fields": {
+        "name": "Аксессуары",
+        "description": "Чехлы, зарядки, кабели"
+    }
+},
+{
+    "model": "shop.category",
+    "pk": 10,
+    "fields": {
+        "name": "Колонки",
+        "description": "Портативные и стационарные колонки"
+    }
+},
+{
+    "model": "shop.manufacturer",
+    "pk": 1,
+    "fields": {
+        "name": "Samsung",
+        "country": "Южная Корея",
+        "description": "Крупнейший производитель электроники"
+    }
+},
+{
+    "model": "shop.manufacturer",
+    "pk": 2,
+    "fields": {
+        "name": "Apple",
+        "country": "США",
+        "description": "Производитель iPhone, iPad, Mac"
+    }
+},
+{
+    "model": "shop.manufacturer",
+    "pk": 3,
+    "fields": {
+        "name": "Xiaomi",
+        "country": "Китай",
+        "description": "Производитель смартфонов и умных устройств"
+    }
+},
+{
+    "model": "shop.manufacturer",
+    "pk": 4,
+    "fields": {
+        "name": "Sony",
+        "country": "Япония",
+        "description": "Производитель электроники и игровых консолей"
+    }
+},
+{
+    "model": "shop.manufacturer",
+    "pk": 5,
+    "fields": {
+        "name": "LG",
+        "country": "Южная Корея",
+        "description": "Производитель бытовой техники и электроники"
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 1,
+    "fields": {
+        "name": "Samsung Galaxy S24",
+        "description": "Флагманский смартфон Samsung",
+        "image": "",
+        "price": "79990.00",
+        "stock": 48,
+        "category": 1,
+        "manufacturer": 1
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 2,
+    "fields": {
+        "name": "iPhone 15 Pro",
+        "description": "Флагманский смартфон Apple",
+        "image": "",
+        "price": "119990.00",
+        "stock": 30,
+        "category": 1,
+        "manufacturer": 2
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 3,
+    "fields": {
+        "name": "Xiaomi 14",
+        "description": "Смартфон Xiaomi",
+        "image": "",
+        "price": "49990.00",
+        "stock": 100,
+        "category": 1,
+        "manufacturer": 3
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 4,
+    "fields": {
+        "name": "Sony Xperia 1 V",
+        "description": "Смартфон Sony",
+        "image": "",
+        "price": "89990.00",
+        "stock": 20,
+        "category": 1,
+        "manufacturer": 4
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 5,
+    "fields": {
+        "name": "Samsung Galaxy Book",
+        "description": "Ноутбук Samsung",
+        "image": "",
+        "price": "69990.00",
+        "stock": 25,
+        "category": 2,
+        "manufacturer": 1
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 6,
+    "fields": {
+        "name": "MacBook Air M3",
+        "description": "Ноутбук Apple",
+        "image": "",
+        "price": "129990.00",
+        "stock": 15,
+        "category": 2,
+        "manufacturer": 2
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 7,
+    "fields": {
+        "name": "Xiaomi RedmiBook",
+        "description": "Ноутбук Xiaomi",
+        "image": "",
+        "price": "44990.00",
+        "stock": 40,
+        "category": 2,
+        "manufacturer": 3
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 8,
+    "fields": {
+        "name": "Sony VAIO SX14",
+        "description": "Ноутбук Sony",
+        "image": "",
+        "price": "99990.00",
+        "stock": 10,
+        "category": 2,
+        "manufacturer": 4
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 9,
+    "fields": {
+        "name": "Samsung Galaxy Tab S9",
+        "description": "Планшет Samsung",
+        "image": "",
+        "price": "59990.00",
+        "stock": 35,
+        "category": 3,
+        "manufacturer": 1
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 10,
+    "fields": {
+        "name": "iPad Pro M2",
+        "description": "Планшет Apple",
+        "image": "",
+        "price": "99990.00",
+        "stock": 20,
+        "category": 3,
+        "manufacturer": 2
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 11,
+    "fields": {
+        "name": "Xiaomi Pad 6",
+        "description": "Планшет Xiaomi",
+        "image": "",
+        "price": "29990.00",
+        "stock": 60,
+        "category": 3,
+        "manufacturer": 3
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 12,
+    "fields": {
+        "name": "Samsung QLED 55\"",
+        "description": "Телевизор Samsung 55 дюймов",
+        "image": "",
+        "price": "89990.00",
+        "stock": 15,
+        "category": 4,
+        "manufacturer": 1
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 13,
+    "fields": {
+        "name": "LG OLED 65\"",
+        "description": "Телевизор LG 65 дюймов",
+        "image": "",
+        "price": "149990.00",
+        "stock": 9,
+        "category": 4,
+        "manufacturer": 5
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 14,
+    "fields": {
+        "name": "Sony Bravia 55\"",
+        "description": "Телевизор Sony 55 дюймов",
+        "image": "",
+        "price": "109990.00",
+        "stock": 12,
+        "category": 4,
+        "manufacturer": 4
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 15,
+    "fields": {
+        "name": "Xiaomi TV A Pro 55\"",
+        "description": "Телевизор Xiaomi",
+        "image": "",
+        "price": "39990.00",
+        "stock": 30,
+        "category": 4,
+        "manufacturer": 3
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 16,
+    "fields": {
+        "name": "Samsung Galaxy Buds2 Pro",
+        "description": "Беспроводные наушники Samsung",
+        "image": "",
+        "price": "12990.00",
+        "stock": 80,
+        "category": 5,
+        "manufacturer": 1
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 17,
+    "fields": {
+        "name": "AirPods Pro 2",
+        "description": "Беспроводные наушники Apple",
+        "image": "",
+        "price": "24990.00",
+        "stock": 37,
+        "category": 5,
+        "manufacturer": 2
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 18,
+    "fields": {
+        "name": "Sony WH-1000XM5",
+        "description": "Полноразмерные наушники Sony",
+        "image": "",
+        "price": "29990.00",
+        "stock": 25,
+        "category": 5,
+        "manufacturer": 4
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 19,
+    "fields": {
+        "name": "Xiaomi Buds 4 Pro",
+        "description": "Беспроводные наушники Xiaomi",
+        "image": "",
+        "price": "7990.00",
+        "stock": 100,
+        "category": 5,
+        "manufacturer": 3
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 20,
+    "fields": {
+        "name": "Samsung Galaxy Watch 6",
+        "description": "Умные часы Samsung",
+        "image": "",
+        "price": "24990.00",
+        "stock": 40,
+        "category": 6,
+        "manufacturer": 1
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 21,
+    "fields": {
+        "name": "Apple Watch Series 9",
+        "description": "Умные часы Apple",
+        "image": "",
+        "price": "39990.00",
+        "stock": 30,
+        "category": 6,
+        "manufacturer": 2
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 22,
+    "fields": {
+        "name": "Xiaomi Watch S3",
+        "description": "Умные часы Xiaomi",
+        "image": "",
+        "price": "9990.00",
+        "stock": 70,
+        "category": 6,
+        "manufacturer": 3
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 23,
+    "fields": {
+        "name": "Sony PlayStation 5",
+        "description": "Игровая консоль Sony",
+        "image": "",
+        "price": "49990.00",
+        "stock": 20,
+        "category": 7,
+        "manufacturer": 4
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 24,
+    "fields": {
+        "name": "Sony PlayStation 5 Digital",
+        "description": "Цифровая версия PS5",
+        "image": "",
+        "price": "39990.00",
+        "stock": 25,
+        "category": 7,
+        "manufacturer": 4
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 25,
+    "fields": {
+        "name": "Sony Alpha A7 IV",
+        "description": "Полнокадровая камера Sony",
+        "image": "",
+        "price": "199990.00",
+        "stock": 10,
+        "category": 8,
+        "manufacturer": 4
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 26,
+    "fields": {
+        "name": "Sony ZV-E10",
+        "description": "Камера для блогеров Sony",
+        "image": "",
+        "price": "59990.00",
+        "stock": 15,
+        "category": 8,
+        "manufacturer": 4
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 27,
+    "fields": {
+        "name": "Samsung зарядка 25W",
+        "description": "Быстрая зарядка Samsung",
+        "image": "",
+        "price": "1990.00",
+        "stock": 200,
+        "category": 9,
+        "manufacturer": 1
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 28,
+    "fields": {
+        "name": "Apple MagSafe зарядка",
+        "description": "Беспроводная зарядка Apple",
+        "image": "",
+        "price": "4490.00",
+        "stock": 90,
+        "category": 9,
+        "manufacturer": 2
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 29,
+    "fields": {
+        "name": "Xiaomi Power Bank 20000",
+        "description": "Внешний аккумулятор Xiaomi",
+        "image": "",
+        "price": "2490.00",
+        "stock": 150,
+        "category": 9,
+        "manufacturer": 3
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 30,
+    "fields": {
+        "name": "Чехол Samsung Galaxy S24",
+        "description": "Оригинальный чехол Samsung",
+        "image": "",
+        "price": "2990.00",
+        "stock": 120,
+        "category": 9,
+        "manufacturer": 1
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 31,
+    "fields": {
+        "name": "Sony SRS-XB100",
+        "description": "Портативная колонка Sony",
+        "image": "",
+        "price": "4990.00",
+        "stock": 60,
+        "category": 10,
+        "manufacturer": 4
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 32,
+    "fields": {
+        "name": "LG XBOOM Go PL5",
+        "description": "Портативная колонка LG",
+        "image": "",
+        "price": "6990.00",
+        "stock": 25,
+        "category": 10,
+        "manufacturer": 5
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 33,
+    "fields": {
+        "name": "Samsung Wireless Speaker",
+        "description": "Беспроводная колонка Samsung",
+        "image": "",
+        "price": "8990.00",
+        "stock": 25,
+        "category": 10,
+        "manufacturer": 1
+    }
+},
+{
+    "model": "shop.product",
+    "pk": 34,
+    "fields": {
+        "name": "Apple HomePod Mini",
+        "description": "Умная колонка Apple",
+        "image": "",
+        "price": "9990.00",
+        "stock": 29,
+        "category": 10,
+        "manufacturer": 2
+    }
+},
+{
+    "model": "shop.cart",
+    "pk": 1,
+    "fields": {
+        "user": [
+            "ivan"
+        ],
+        "created_at": "2026-02-27T08:06:52.119Z"
+    }
+},
+{
+    "model": "shop.cart",
+    "pk": 2,
+    "fields": {
+        "user": [
+            "maria"
+        ],
+        "created_at": "2026-02-27T08:06:52.148Z"
+    }
+},
+{
+    "model": "shop.cart",
+    "pk": 3,
+    "fields": {
+        "user": [
+            "alex"
+        ],
+        "created_at": "2026-02-27T08:06:52.174Z"
+    }
+},
+{
+    "model": "shop.cart",
+    "pk": 4,
+    "fields": {
+        "user": [
+            "elena"
+        ],
+        "created_at": "2026-02-27T08:06:52.207Z"
+    }
+},
+{
+    "model": "shop.cart",
+    "pk": 5,
+    "fields": {
+        "user": [
+            "dmitry"
+        ],
+        "created_at": "2026-02-27T08:06:52.233Z"
+    }
+},
+{
+    "model": "shop.cart",
+    "pk": 6,
+    "fields": {
+        "user": [
+            "test_user"
+        ],
+        "created_at": "2026-03-06T08:19:18.474Z"
+    }
+},
+{
+    "model": "shop.cart",
+    "pk": 7,
+    "fields": {
+        "user": [
+            "admin"
+        ],
+        "created_at": "2026-03-06T08:30:18.714Z"
+    }
+},
+{
+    "model": "shop.cart",
+    "pk": 8,
+    "fields": {
+        "user": [
+            "alex228"
+        ],
+        "created_at": "2026-05-28T05:02:08.482Z"
+    }
+},
+{
+    "model": "shop.cartitem",
+    "pk": 3,
+    "fields": {
+        "cart": 2,
+        "product": 6,
+        "quantity": 1
+    }
+},
+{
+    "model": "shop.cartitem",
+    "pk": 4,
+    "fields": {
+        "cart": 2,
+        "product": 28,
+        "quantity": 1
+    }
+},
+{
+    "model": "shop.cartitem",
+    "pk": 5,
+    "fields": {
+        "cart": 3,
+        "product": 23,
+        "quantity": 1
+    }
+},
+{
+    "model": "shop.cartitem",
+    "pk": 6,
+    "fields": {
+        "cart": 3,
+        "product": 18,
+        "quantity": 1
+    }
+},
+{
+    "model": "shop.cartitem",
+    "pk": 7,
+    "fields": {
+        "cart": 3,
+        "product": 31,
+        "quantity": 2
+    }
+},
+{
+    "model": "shop.cartitem",
+    "pk": 8,
+    "fields": {
+        "cart": 4,
+        "product": 3,
+        "quantity": 2
+    }
+},
+{
+    "model": "shop.cartitem",
+    "pk": 9,
+    "fields": {
+        "cart": 4,
+        "product": 22,
+        "quantity": 1
+    }
+},
+{
+    "model": "shop.cartitem",
+    "pk": 10,
+    "fields": {
+        "cart": 5,
+        "product": 2,
+        "quantity": 1
+    }
+},
+{
+    "model": "shop.cartitem",
+    "pk": 11,
+    "fields": {
+        "cart": 5,
+        "product": 10,
+        "quantity": 1
+    }
+},
+{
+    "model": "shop.cartitem",
+    "pk": 12,
+    "fields": {
+        "cart": 5,
+        "product": 21,
+        "quantity": 1
+    }
+},
+{
+    "model": "shop.cartitem",
+    "pk": 22,
+    "fields": {
+        "cart": 7,
+        "product": 28,
+        "quantity": 1
+    }
+},
+{
+    "model": "shop.order",
+    "pk": 1,
+    "fields": {
+        "user": [
+            "test_user"
+        ],
+        "address": "fnfnfnfnnf",
+        "phone": "fnfnfnnfnfnfnfnnf",
+        "email": "azqagma@mailto.plus",
+        "created_at": "2026-03-13T08:18:15.930Z",
+        "total_cost": "1849820.00"
+    }
+},
+{
+    "model": "shop.order",
+    "pk": 2,
+    "fields": {
+        "user": [
+            "test_user"
+        ],
+        "address": "Казинца 91",
+        "phone": "375297777777",
+        "email": "6tizswipka@bwmyga.com",
+        "created_at": "2026-03-13T08:21:00.431Z",
+        "total_cost": "24990.00"
+    }
+},
+{
+    "model": "shop.order",
+    "pk": 3,
+    "fields": {
+        "user": [
+            "test_user"
+        ],
+        "address": "гоцгцугцг",
+        "phone": "цгцггйцгцгцг",
+        "email": "b1hanwk0g3@ozsaip.com",
+        "created_at": "2026-03-13T08:22:15.587Z",
+        "total_cost": "79990.00"
+    }
+},
+{
+    "model": "shop.order",
+    "pk": 4,
+    "fields": {
+        "user": [
+            "test_user"
+        ],
+        "address": "Казинца 91",
+        "phone": "375297777777",
+        "email": "besanets_test@mrotzis.com",
+        "created_at": "2026-03-13T08:25:31.051Z",
+        "total_cost": "149990.00"
+    }
+},
+{
+    "model": "shop.order",
+    "pk": 5,
+    "fields": {
+        "user": [
+            "admin"
+        ],
+        "address": "вуліца Нёманская 4",
+        "phone": "+375292044395",
+        "email": "a.besanets@gmail.com",
+        "created_at": "2026-03-15T11:07:06.046Z",
+        "total_cost": "114800.00"
+    }
+},
+{
+    "model": "shop.order",
+    "pk": 6,
+    "fields": {
+        "user": [
+            "ivan"
+        ],
+        "address": "какято улица",
+        "phone": "1022859368",
+        "email": "ivan@example.com",
+        "created_at": "2026-05-28T05:20:41.559Z",
+        "total_cost": "139960.00"
+    }
+},
+{
+    "model": "shop.orderitem",
+    "pk": 1,
+    "fields": {
+        "order": 1,
+        "product_name": "AirPods Pro 2",
+        "product_price": "24990.00",
+        "quantity": 10
+    }
+},
+{
+    "model": "shop.orderitem",
+    "pk": 2,
+    "fields": {
+        "order": 1,
+        "product_name": "Sony Alpha A7 IV",
+        "product_price": "199990.00",
+        "quantity": 8
+    }
+},
+{
+    "model": "shop.orderitem",
+    "pk": 3,
+    "fields": {
+        "order": 2,
+        "product_name": "AirPods Pro 2",
+        "product_price": "24990.00",
+        "quantity": 1
+    }
+},
+{
+    "model": "shop.orderitem",
+    "pk": 4,
+    "fields": {
+        "order": 3,
+        "product_name": "Samsung Galaxy S24",
+        "product_price": "79990.00",
+        "quantity": 1
+    }
+},
+{
+    "model": "shop.orderitem",
+    "pk": 5,
+    "fields": {
+        "order": 4,
+        "product_name": "LG OLED 65\"",
+        "product_price": "149990.00",
+        "quantity": 1
+    }
+},
+{
+    "model": "shop.orderitem",
+    "pk": 6,
+    "fields": {
+        "order": 5,
+        "product_name": "Apple MagSafe зарядка",
+        "product_price": "4490.00",
+        "quantity": 10
+    }
+},
+{
+    "model": "shop.orderitem",
+    "pk": 7,
+    "fields": {
+        "order": 5,
+        "product_name": "LG XBOOM Go PL5",
+        "product_price": "6990.00",
+        "quantity": 10
+    }
+},
+{
+    "model": "shop.orderitem",
+    "pk": 8,
+    "fields": {
+        "order": 6,
+        "product_name": "Samsung Galaxy S24",
+        "product_price": "79990.00",
+        "quantity": 1
+    }
+},
+{
+    "model": "shop.orderitem",
+    "pk": 9,
+    "fields": {
+        "order": 6,
+        "product_name": "AirPods Pro 2",
+        "product_price": "24990.00",
+        "quantity": 2
+    }
+},
+{
+    "model": "shop.orderitem",
+    "pk": 10,
+    "fields": {
+        "order": 6,
+        "product_name": "Apple HomePod Mini",
+        "product_price": "9990.00",
+        "quantity": 1
+    }
+},
+{
+    "model": "shop.profile",
+    "pk": 1,
+    "fields": {
+        "user": [
+            "admin"
+        ],
+        "role": "ADMIN",
+        "full_name": "",
+        "phone": "",
+        "address": "",
+        "delivery_city": "",
+        "postal_code": ""
+    }
+},
+{
+    "model": "shop.profile",
+    "pk": 2,
+    "fields": {
+        "user": [
+            "ivan"
+        ],
+        "role": "CUSTOMER",
+        "full_name": "Иванов Иван Иванович",
+        "phone": "",
+        "address": "",
+        "delivery_city": "",
+        "postal_code": ""
+    }
+},
+{
+    "model": "shop.profile",
+    "pk": 3,
+    "fields": {
+        "user": [
+            "maria"
+        ],
+        "role": "CUSTOMER",
+        "full_name": "",
+        "phone": "",
+        "address": "",
+        "delivery_city": "",
+        "postal_code": ""
+    }
+},
+{
+    "model": "shop.profile",
+    "pk": 4,
+    "fields": {
+        "user": [
+            "alex"
+        ],
+        "role": "CUSTOMER",
+        "full_name": "",
+        "phone": "",
+        "address": "",
+        "delivery_city": "",
+        "postal_code": ""
+    }
+},
+{
+    "model": "shop.profile",
+    "pk": 5,
+    "fields": {
+        "user": [
+            "elena"
+        ],
+        "role": "CUSTOMER",
+        "full_name": "",
+        "phone": "",
+        "address": "",
+        "delivery_city": "",
+        "postal_code": ""
+    }
+},
+{
+    "model": "shop.profile",
+    "pk": 6,
+    "fields": {
+        "user": [
+            "dmitry"
+        ],
+        "role": "CUSTOMER",
+        "full_name": "",
+        "phone": "",
+        "address": "",
+        "delivery_city": "",
+        "postal_code": ""
+    }
+},
+{
+    "model": "shop.profile",
+    "pk": 7,
+    "fields": {
+        "user": [
+            "test_user"
+        ],
+        "role": "CUSTOMER",
+        "full_name": "",
+        "phone": "",
+        "address": "",
+        "delivery_city": "",
+        "postal_code": ""
+    }
+},
+{
+    "model": "shop.profile",
+    "pk": 8,
+    "fields": {
+        "user": [
+            "alex228"
+        ],
+        "role": "MANAGER",
+        "full_name": "",
+        "phone": "",
+        "address": "",
+        "delivery_city": "",
+        "postal_code": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 1,
+    "fields": {
+        "action_time": "2026-03-15T10:56:38.317Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "shop",
+            "product"
+        ],
+        "object_id": "25",
+        "object_repr": "Sony Alpha A7 IV",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u041a\\u043e\\u043b\\u0438\\u0447\\u0435\\u0441\\u0442\\u0432\\u043e \\u043d\\u0430 \\u0441\\u043a\\u043b\\u0430\\u0434\\u0435\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 2,
+    "fields": {
+        "action_time": "2026-05-28T05:06:30.192Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "auth",
+            "user"
+        ],
+        "object_id": "8",
+        "object_repr": "alex228",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Staff status\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 3,
+    "fields": {
+        "action_time": "2026-05-28T05:08:02.598Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "auth",
+            "user"
+        ],
+        "object_id": "8",
+        "object_repr": "alex228",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Staff status\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 4,
+    "fields": {
+        "action_time": "2026-05-28T05:08:55.130Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "shop",
+            "profile"
+        ],
+        "object_id": "8",
+        "object_repr": "Профиль alex228 (Менеджер)",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0420\\u043e\\u043b\\u044c\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 5,
+    "fields": {
+        "action_time": "2026-05-28T05:18:01.303Z",
+        "user": [
+            "admin"
+        ],
+        "content_type": [
+            "shop",
+            "profile"
+        ],
+        "object_id": "1",
+        "object_repr": "Профиль admin (Администратор)",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u0420\\u043e\\u043b\\u044c\"]}}]"
+    }
+}
+]
