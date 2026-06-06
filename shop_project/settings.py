@@ -29,9 +29,10 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=Csv())
-# Автоматически добавляем домен Railway в продакшне
+# Автоматически добавляем домены платформ в продакшне
 if not DEBUG:
     ALLOWED_HOSTS.append('.up.railway.app')
+    ALLOWED_HOSTS.append('.onrender.com')
 
 
 # Application definition
