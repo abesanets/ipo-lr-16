@@ -12,11 +12,126 @@
                     linear-gradient(135deg, #13151f 0%, #0a0b0f 100%);
         border: 1px solid rgba(255, 255, 255, 0.05);
         border-radius: 24px;
-        padding: 80px 60px;
+        padding: 64px 60px;
         margin-bottom: 56px;
         position: relative;
         overflow: hidden;
         box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 48px;
+        align-items: center;
+    }
+
+    .hero-visual {
+        position: relative;
+        width: 100%;
+        height: 260px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .visual-glow {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle, rgba(108, 143, 255, 0.22) 0%, transparent 70%);
+        filter: blur(20px);
+        z-index: 1;
+    }
+
+    .visual-card {
+        position: absolute;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+
+    .visual-card-1 {
+        width: 210px;
+        height: 160px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        transform: translate(-35px, -20px) rotate(-8deg);
+        z-index: 2;
+        text-align: left;
+    }
+
+    .visual-card-2 {
+        width: 210px;
+        height: 130px;
+        background: linear-gradient(135deg, rgba(108, 143, 255, 0.18) 0%, rgba(255, 255, 255, 0.04) 100%);
+        border: 1px solid rgba(108, 143, 255, 0.3);
+        transform: translate(35px, 30px) rotate(6deg);
+        z-index: 3;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        text-align: left;
+    }
+
+    .hero-section:hover .visual-card-1 {
+        transform: translate(-45px, -30px) rotate(-12deg);
+    }
+
+    .hero-section:hover .visual-card-2 {
+        transform: translate(45px, 40px) rotate(10deg);
+    }
+
+    .visual-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 4px;
+    }
+    .visual-dot.red { background: #ff5c5c; }
+    .visual-dot.yellow { background: #ffb347; }
+    .visual-dot.green { background: #3ecf6e; }
+
+    .mock-device-title {
+        font-size: 13px;
+        font-weight: 700;
+        color: #fff;
+        margin-top: 14px;
+    }
+    .mock-device-price {
+        font-size: 18px;
+        font-weight: 800;
+        color: #fff;
+        margin-top: 2px;
+    }
+    .mock-badge {
+        display: inline-block;
+        font-size: 9px;
+        font-weight: 700;
+        color: #3ecf6e;
+        background: rgba(62,207,110,0.12);
+        padding: 2px 8px;
+        border-radius: 6px;
+        margin-top: 8px;
+        border: 1px solid rgba(62,207,110,0.15);
+    }
+
+    .card-logo {
+        font-size: 16px;
+        color: #8aa3ff;
+    }
+    .card-number {
+        font-size: 10px;
+        color: var(--text-secondary);
+        font-family: monospace;
+        letter-spacing: 0.8px;
+    }
+    .card-holder {
+        font-size: 9px;
+        font-weight: 700;
+        color: #fff;
+        letter-spacing: 1px;
     }
 
     .hero-section::before {
@@ -319,8 +434,13 @@
     /* Адаптивность для героя */
     @media (max-width: 768px) {
         .hero-section {
+            grid-template-columns: 1fr;
             padding: 48px 32px;
             margin-bottom: 40px;
+            text-align: center;
+        }
+        .hero-visual {
+            display: none;
         }
         .hero-title {
             font-size: 36px;
@@ -329,6 +449,11 @@
         .hero-desc {
             font-size: 15px;
             margin-bottom: 32px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hero-actions {
+            justify-content: center;
         }
         .categories-grid {
             grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
@@ -339,12 +464,41 @@
 
 <!-- Герой-секция -->
 <div class="hero-section">
-    <span class="hero-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px; vertical-align: middle;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Обновленная витрина</span>
-    <h1 class="hero-title">Умные технологии<br>для вашей жизни.</h1>
-    <p class="hero-desc">Премиальный каталог сертифицированной электроники от ведущих брендов. Цены указаны в белорусских рублях (Br). Быстрая доставка по всей стране.</p>
-    <div class="hero-actions">
-        <a href="{% url 'product_list' %}" class="hero-btn-primary">Перейти в каталог</a>
-        <a href="{% url 'shop_info' %}" class="hero-btn-ghost">О магазине</a>
+    <!-- Левая часть с текстом -->
+    <div class="hero-content">
+        <span class="hero-badge"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 4px; vertical-align: middle;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>Обновленная витрина</span>
+        <h1 class="hero-title">Умные технологии<br>для вашей жизни.</h1>
+        <p class="hero-desc">Премиальный каталог сертифицированной электроники от ведущих брендов. Цены указаны в белорусских рублях (Br). Быстрая доставка по всей стране.</p>
+        <div class="hero-actions">
+            <a href="{% url 'product_list' %}" class="hero-btn-primary">Перейти в каталог</a>
+            <a href="{% url 'shop_info' %}" class="hero-btn-ghost">О магазине</a>
+        </div>
+    </div>
+
+    <!-- Правая интерактивная часть -->
+    <div class="hero-visual">
+        <div class="visual-glow"></div>
+        
+        <!-- Задняя карточка: Макет товара -->
+        <div class="visual-card visual-card-1">
+            <div>
+                <span class="visual-dot red"></span>
+                <span class="visual-dot yellow"></span>
+                <span class="visual-dot green"></span>
+            </div>
+            <div class="mock-device-title">Shopex UltraBook</div>
+            <div class="mock-device-price">2999 Br</div>
+            <span class="mock-badge">Хит продаж</span>
+        </div>
+
+        <!-- Передняя карточка: Премиум-карта Shopex -->
+        <div class="visual-card visual-card-2">
+            <div class="card-logo">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
+            <div class="card-number">•••• •••• •••• 2026</div>
+            <div class="card-holder">PREMIUM USER</div>
+        </div>
     </div>
 </div>
 

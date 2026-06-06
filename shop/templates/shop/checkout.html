@@ -3,6 +3,106 @@
 {% block title %}Оформление заказа — Shopex{% endblock %}
 
 {% block content %}
+<style>
+    .checkout-card {
+        background: linear-gradient(135deg, rgba(26, 29, 39, 0.5) 0%, rgba(15, 17, 23, 0.75) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 24px;
+        padding: 32px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        height: 100%;
+    }
+
+    .checkout-card h2 {
+        font-size: 20px;
+        font-weight: 750;
+        letter-spacing: -0.5px;
+        color: #fff;
+        margin-bottom: 24px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        padding-bottom: 16px;
+    }
+
+    .checkout-card input[type="text"],
+    .checkout-card input[type="email"],
+    .checkout-card input[type="number"],
+    .checkout-card textarea,
+    .checkout-card select {
+        width: 100%;
+        padding: 12px 16px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        font-size: 14px;
+        color: var(--text) !important;
+        background: rgba(255, 255, 255, 0.02) !important;
+        transition: all var(--transition);
+        font-family: inherit;
+    }
+
+    .checkout-card input[type="text"]:focus,
+    .checkout-card input[type="email"]:focus,
+    .checkout-card input[type="number"]:focus,
+    .checkout-card textarea:focus,
+    .checkout-card select:focus {
+        outline: none;
+        border-color: var(--accent);
+        background: rgba(255, 255, 255, 0.04) !important;
+        box-shadow: 0 0 12px rgba(108, 143, 255, 0.15);
+    }
+
+    .checkout-submit-btn {
+        background: var(--accent);
+        color: #fff;
+        font-weight: 600;
+        padding: 14px 28px;
+        border-radius: 980px;
+        box-shadow: 0 4px 12px rgba(108, 143, 255, 0.2);
+        transition: all var(--transition);
+        border: none;
+        cursor: pointer;
+        font-size: 15px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        margin-top: 16px;
+    }
+
+    .checkout-submit-btn:hover {
+        background: var(--accent-hover);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 16px rgba(108, 143, 255, 0.35);
+    }
+
+    .checkout-info-box {
+        background: rgba(108, 143, 255, 0.03);
+        border: 1px solid rgba(108, 143, 255, 0.15);
+        border-radius: 14px;
+        padding: 14px 18px;
+        font-size: 13px;
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        color: #8aa3ff;
+        margin-top: 16px;
+    }
+
+    .checkout-info-box svg {
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+
+    .checkout-item-list {
+        background: rgba(255, 255, 255, 0.005);
+        border-radius: 16px;
+        border: 1px solid var(--border);
+        overflow: hidden;
+        padding: 8px 20px;
+    }
+</style>
+
 <div class="breadcrumb">
     <a href="{% url 'index' %}">Главная</a>
     <span class="breadcrumb-sep">›</span>
@@ -11,10 +111,11 @@
     <span>Оформление</span>
 </div>
 
-<h1 style="margin-bottom: 32px;">Оформление заказа</h1>
+<h1 style="margin-bottom: 36px; font-weight: 800; letter-spacing: -1.5px;">Оформление заказа</h1>
 
 <div class="checkout-grid">
-    <div>
+    <!-- Левая колонка: Форма данных доставки -->
+    <div class="checkout-card">
         <h2>Данные доставки</h2>
         <form method="post">
             {% csrf_token %}
@@ -29,31 +130,34 @@
                 {% endif %}
             </div>
             {% endfor %}
-            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 8px;">Подтвердить заказ</button>
+            <button type="submit" class="checkout-submit-btn">Подтвердить заказ</button>
         </form>
     </div>
 
+    <!-- Правая колонка: Сводка заказа -->
     <div>
-        <h2>Ваш заказ</h2>
-        <div style="border: 1px solid var(--border-light); border-radius: var(--radius); padding: 20px;">
-            {% for item in items %}
-            <div class="checkout-order-item">
-                <div>
-                    <div class="checkout-order-name">{{ item.product.name }}</div>
-                    <div class="checkout-order-sub">{{ item.quantity }} шт. × {{ item.product.price }} Br</div>
+        <div class="checkout-card">
+            <h2>Ваш заказ</h2>
+            <div class="checkout-item-list">
+                {% for item in items %}
+                <div class="checkout-order-item">
+                    <div>
+                        <div class="checkout-order-name">{{ item.product.name }}</div>
+                        <div class="checkout-order-sub">{{ item.quantity }} шт. × {{ item.product.price }} Br</div>
+                    </div>
+                    <div class="checkout-order-price">{{ item.item_cost }} Br</div>
                 </div>
-                <div class="checkout-order-price">{{ item.item_cost }} Br</div>
+                {% endfor %}
+                <div class="checkout-total">
+                    <span class="checkout-total-label">Итого к оплате</span>
+                    <span class="checkout-total-value">{{ total_cost }} Br</span>
+                </div>
             </div>
-            {% endfor %}
-            <div class="checkout-total">
-                <span class="checkout-total-label">Итого</span>
-                <span class="checkout-total-value">{{ total_cost }} Br</span>
-            </div>
-        </div>
 
-        <div class="info-box info" style="margin-top: 16px;">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 1px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-            <span>После оформления чек будет отправлен на указанный email в формате Excel.</span>
+            <div class="checkout-info-box">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                <span>После оформления заказа электронный чек в формате Excel будет автоматически отправлен на ваш email.</span>
+            </div>
         </div>
     </div>
 </div>

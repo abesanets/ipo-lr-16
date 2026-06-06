@@ -3,62 +3,281 @@
 {% block title %}Заказ оформлен — Shopex{% endblock %}
 
 {% block content %}
-<div class="order-success-wrap">
-    <div class="order-success-icon">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#166534" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+<style>
+    .order-success-card {
+        background: linear-gradient(135deg, rgba(26, 29, 39, 0.5) 0%, rgba(15, 17, 23, 0.75) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 24px;
+        padding: 48px;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px) saturate(180%);
+        -webkit-backdrop-filter: blur(20px) saturate(180%);
+        max-width: 650px;
+        margin: 0 auto 32px auto;
+        text-align: center;
+    }
+
+    .order-success-icon-wrap {
+        width: 68px;
+        height: 68px;
+        border-radius: 50%;
+        background: rgba(62, 207, 110, 0.1);
+        border: 1px solid rgba(62, 207, 110, 0.25);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 24px auto;
+        color: var(--success);
+        box-shadow: 0 8px 24px rgba(62, 207, 110, 0.15);
+    }
+
+    .order-success-title {
+        font-size: 32px;
+        font-weight: 800;
+        letter-spacing: -1px;
+        background: linear-gradient(135deg, #ffffff 30%, #c7d2fe 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 8px;
+        line-height: 1.2;
+    }
+
+    .order-success-desc {
+        color: var(--text-secondary);
+        font-size: 15px;
+        margin-bottom: 32px;
+    }
+
+    .order-details-box {
+        background: rgba(255, 255, 255, 0.015);
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        padding: 20px 24px;
+        margin-bottom: 32px;
+        text-align: left;
+    }
+
+    .order-detail-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        font-size: 14px;
+    }
+
+    .order-detail-row:last-child {
+        border-bottom: none;
+    }
+
+    .order-detail-label {
+        color: var(--text-secondary);
+        font-weight: 500;
+    }
+
+    .order-detail-value {
+        color: var(--text);
+        font-weight: 600;
+    }
+
+    .order-items-title {
+        font-size: 18px;
+        font-weight: 700;
+        text-align: left;
+        margin-bottom: 16px;
+        color: var(--text);
+    }
+
+    .order-items-box {
+        border: 1px solid var(--border);
+        border-radius: 16px;
+        overflow: hidden;
+        margin-bottom: 32px;
+        text-align: left;
+        background: rgba(255, 255, 255, 0.005);
+    }
+
+    .order-item-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .order-item-info h4 {
+        font-size: 14.5px;
+        font-weight: 600;
+        color: #fff;
+        margin: 0 0 4px 0;
+    }
+
+    .order-item-info span {
+        font-size: 12.5px;
+        color: var(--text-secondary);
+    }
+
+    .order-item-price {
+        font-weight: 600;
+        color: #fff;
+        font-size: 14.5px;
+    }
+
+    .order-total-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 20px;
+        background: rgba(0, 0, 0, 0.15);
+    }
+
+    .order-total-label {
+        color: var(--text-secondary);
+        font-weight: 600;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .order-total-value {
+        font-size: 19px;
+        font-weight: 800;
+        color: #fff;
+    }
+
+    .email-sent-box {
+        background: rgba(62, 207, 110, 0.05);
+        border: 1px solid rgba(62, 207, 110, 0.15);
+        border-radius: 14px;
+        padding: 14px 18px;
+        font-size: 13.5px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: #6ee89a;
+        margin-bottom: 32px;
+        text-align: left;
+    }
+
+    .email-sent-box svg {
+        flex-shrink: 0;
+        color: var(--success);
+    }
+
+    .order-actions {
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+    }
+
+    .order-btn-primary {
+        background: var(--accent);
+        color: #fff;
+        font-weight: 600;
+        padding: 12px 28px;
+        border-radius: 980px;
+        box-shadow: 0 4px 12px rgba(108, 143, 255, 0.2);
+        transition: all var(--transition);
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .order-btn-primary:hover {
+        background: var(--accent-hover);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(108, 143, 255, 0.35);
+        color: #fff;
+    }
+
+    .order-btn-ghost {
+        background: rgba(255, 255, 255, 0.03);
+        color: var(--text-secondary);
+        font-weight: 600;
+        padding: 12px 28px;
+        border-radius: 980px;
+        border: 1px solid var(--border);
+        transition: all var(--transition);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+    }
+
+    .order-btn-ghost:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.15);
+        color: var(--text);
+        transform: translateY(-2px);
+    }
+</style>
+
+<div class="breadcrumb">
+    <a href="{% url 'index' %}">Главная</a>
+    <span class="breadcrumb-sep">›</span>
+    <span>Заказ оформлен</span>
+</div>
+
+<div class="order-success-card">
+    <div class="order-success-icon-wrap">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
     </div>
 
-    <h1 style="margin-bottom: 8px;">Заказ оформлен</h1>
-    <p style="color: var(--text-secondary); margin-bottom: 32px;">Спасибо за покупку. Мы уже обрабатываем ваш заказ.</p>
+    <h1 class="order-success-title">Заказ оформлен</h1>
+    <p class="order-success-desc">Спасибо за покупку! Мы уже обрабатываем ваш заказ.</p>
 
-    <div style="border: 1px solid var(--border-light); border-radius: var(--radius); padding: 24px; margin-bottom: 24px;">
+    <!-- Основные реквизиты заказа -->
+    <div class="order-details-box">
         <div class="order-detail-row">
             <span class="order-detail-label">Номер заказа</span>
             <span class="order-detail-value">#{{ order.id }}</span>
         </div>
         <div class="order-detail-row">
-            <span class="order-detail-label">Дата</span>
+            <span class="order-detail-label">Дата оформления</span>
             <span class="order-detail-value">{{ order.created_at|date:"d.m.Y H:i" }}</span>
         </div>
         <div class="order-detail-row">
-            <span class="order-detail-label">Сумма</span>
-            <span class="order-detail-value" style="font-size: 18px; font-weight: 700;">{{ order.total_cost }} Br</span>
-        </div>
-        <div class="order-detail-row">
-            <span class="order-detail-label">Адрес</span>
+            <span class="order-detail-label">Адрес доставки</span>
             <span class="order-detail-value">{{ order.address }}</span>
         </div>
         <div class="order-detail-row">
-            <span class="order-detail-label">Телефон</span>
+            <span class="order-detail-label">Контактный телефон</span>
             <span class="order-detail-value">{{ order.phone }}</span>
         </div>
     </div>
 
-    <h2 style="margin-bottom: 16px;">Состав заказа</h2>
-    <div style="border: 1px solid var(--border-light); border-radius: var(--radius); overflow: hidden; margin-bottom: 24px;">
+    <!-- Содержимое заказа -->
+    <h2 class="order-items-title">Состав заказа</h2>
+    <div class="order-items-box">
         {% for item in order.items.all %}
-        <div style="display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; border-bottom: 1px solid var(--border-light);">
-            <div>
-                <div style="font-weight: 500; font-size: 15px;">{{ item.product_name }}</div>
-                <div style="font-size: 13px; color: var(--text-secondary);">{{ item.quantity }} шт. × {{ item.product_price }} Br</div>
+        <div class="order-item-row">
+            <div class="order-item-info">
+                <h4>{{ item.product_name }}</h4>
+                <span>{{ item.quantity }} шт. × {{ item.product_price }} Br</span>
             </div>
-            <div style="font-weight: 600;">{{ item.item_cost }} Br</div>
+            <div class="order-item-price">{{ item.item_cost }} Br</div>
         </div>
         {% endfor %}
-        <div style="display: flex; justify-content: space-between; padding: 16px 20px; background: var(--bg-secondary);">
-            <span style="color: var(--text-secondary);">Итого</span>
-            <span style="font-size: 18px; font-weight: 700;">{{ order.total_cost }} Br</span>
+        <div class="order-total-row">
+            <span class="order-total-label">Итого к оплате</span>
+            <span class="order-total-value">{{ order.total_cost }} Br</span>
         </div>
     </div>
 
-    <div class="info-box success" style="margin-bottom: 28px;">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-        <span>Чек отправлен на <strong>{{ order.email }}</strong></span>
+    <!-- Инфо-сообщение об отправке чека -->
+    <div class="email-sent-box">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <span>Электронный чек с Excel-отчетом успешно отправлен на <strong>{{ order.email }}</strong></span>
     </div>
 
-    <div style="display: flex; gap: 12px;">
-        <a href="{% url 'product_list' %}" class="btn btn-primary">Продолжить покупки</a>
-        <a href="{% url 'index' %}" class="btn btn-ghost">На главную</a>
+    <div class="order-actions">
+        <a href="{% url 'product_list' %}" class="order-btn-primary">Продолжить покупки</a>
+        <a href="{% url 'index' %}" class="order-btn-ghost">На главную</a>
     </div>
 </div>
 {% endblock %}
