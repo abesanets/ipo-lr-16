@@ -17,10 +17,20 @@ from .utils import generate_receipt_excel
 def index(request):
     """Главная страница"""
     categories = Category.objects.all()
-    latest_products = Product.objects.select_related('category', 'manufacturer').order_by('-id')[:8]
+    
+    # Получаем по одному самому новому товару для каждой категории для разнообразия
+    latest_products = []
+    for category in categories:
+        product = Product.objects.filter(category=category).select_related('category', 'manufacturer').order_by('-id').first()
+        if product:
+            latest_products.append(product)
+            
+    # Сортируем по ID в обратном порядке
+    latest_products.sort(key=lambda x: x.id, reverse=True)
+    
     return render(request, 'shop/index.html', {
         'categories': categories,
-        'latest_products': latest_products,
+        'latest_products': latest_products[:10],
     })
 
 

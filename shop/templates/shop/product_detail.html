@@ -438,34 +438,38 @@
                     <span class="purchase-price-value">{{ product.price }} Br</span>
                 </div>
 
-                {% if user.is_authenticated and product.stock > 0 %}
-                    <form method="post" action="{% url 'add_to_cart' product.id %}" style="margin: 0;">
-                        {% csrf_token %}
-                        <div class="action-row">
-                            <!-- Кастомный переключатель количества -->
-                            <div class="qty-selector">
-                                <button type="button" class="qty-control-btn" onclick="changeQty(-1)">−</button>
-                                <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ product.stock }}" class="qty-num-input" readonly>
-                                <button type="button" class="qty-control-btn" onclick="changeQty(1)">+</button>
-                            </div>
+                {% if product.stock > 0 %}
+                    {% if user.is_authenticated %}
+                        <form method="post" action="{% url 'add_to_cart' product.id %}" style="margin: 0;">
+                            {% csrf_token %}
+                            <div class="action-row">
+                                <!-- Кастомный переключатель количества -->
+                                <div class="qty-selector">
+                                    <button type="button" class="qty-control-btn" onclick="changeQty(-1)">−</button>
+                                    <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ product.stock }}" class="qty-num-input" readonly>
+                                    <button type="button" class="qty-control-btn" onclick="changeQty(1)">+</button>
+                                </div>
 
-                            <button type="submit" class="buy-btn-detail">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-                                Добавить в корзину
-                            </button>
+                                <button type="submit" class="buy-btn-detail">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                                    Добавить в корзину
+                                </button>
+                            </div>
+                        </form>
+                    {% else %}
+                        <div class="d-flex flex-column gap-2">
+                            <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-primary btn-lg w-100" style="border-radius: 980px;">
+                                Войдите для покупки
+                            </a>
+                            <span class="text-center text-muted small">Добавление в корзину и оформление заказов доступны только зарегистрированным пользователям.</span>
                         </div>
-                    </form>
-                {% elif not user.is_authenticated %}
-                    <div class="d-flex flex-column gap-2">
-                        <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-primary btn-lg w-100" style="border-radius: 980px;">
-                            Войдите для покупки
-                        </a>
-                        <span class="text-center text-muted small">Добавление в корзину и оформление заказов доступны только зарегистрированным пользователям.</span>
-                    </div>
+                    {% endif %}
                 {% else %}
-                    <div class="out-of-stock-box">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                        Данный товар закончился на складе и временно недоступен для заказа.
+                    <div class="action-row">
+                        <button class="buy-btn-detail disabled" disabled style="background: rgba(255, 92, 92, 0.08); border: 1px solid rgba(255, 92, 92, 0.2); color: #ff8f8f; box-shadow: none; width: 100%;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                            Нет в наличии
+                        </button>
                     </div>
                 {% endif %}
             </div>

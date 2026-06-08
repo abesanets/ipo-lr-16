@@ -880,7 +880,248 @@
             padding: 20px;
         }
     }
+    /* ── POPULAR PRODUCTS TAPE/CAROUSEL ── */
+    .popular-products-section {
+        margin-left: calc(-50vw + 50%);
+        margin-right: calc(-50vw + 50%);
+        width: 100vw;
+        padding: 60px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        overflow: visible;
+    }
+    .slider-wrapper {
+        position: relative;
+        width: 100vw;
+        max-width: 1340px; /* Limits visible width to exactly 5 cards to hide the 6th card */
+        margin: 24px auto 0 auto; /* Center horizontally on wide screens */
+        overflow: hidden; /* Hide overflow to keep strictly 5 cards visually contained without horizontal page scroll */
+    }
+    .products-tape-row {
+        display: flex;
+        gap: 28px; /* Increased gap from 24px */
+        overflow-x: auto;
+        scroll-behavior: smooth;
+        padding: 40px 0; /* large vertical padding to allow 1.15x scaling without vertical cropping */
+        scrollbar-width: none; /* Firefox */
+        -ms-overflow-style: none; /* IE 10+ */
+        -webkit-overflow-scrolling: touch;
+        padding-left: calc(50% - 120px); /* Center alignment padding based on 240px card width */
+        padding-right: calc(50% - 120px);
+        scroll-snap-type: x mandatory;
+        align-items: center;
+    }
+    .products-tape-row::-webkit-scrollbar {
+        display: none; /* Chrome, Safari, Opera */
+    }
+    .slider-control-btn {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: var(--text-secondary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+    }
+    .slider-control-btn:hover {
+        background: var(--accent);
+        color: #fff;
+        border-color: var(--accent);
+        box-shadow: 0 0 15px rgba(108,143,255,0.4);
+        transform: scale(1.05);
+    }
+    .slider-control-btn:active {
+        transform: scale(0.95);
+    }
+    @media (max-width: 768px) {
+        .slider-controls { display: none; } /* Native swipe enough on mobile */
+        .products-tape-row {
+            gap: 16px;
+            padding: 30px 4px;
+            padding-left: calc(50% - 120px);
+            padding-right: calc(50% - 120px);
+        }
+    }
+
+    /* ── PREMIUM PRODUCT CARD ── */
+    .premium-product-card {
+        flex: 0 0 240px; /* Increased from 200px */
+        width: 240px;
+        max-width: 240px;
+        height: 400px; /* Increased from 360px */
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, rgba(255, 255, 255, 0.005) 100%) !important;
+        border: 1px solid rgba(255, 255, 255, 0.05) !important;
+        border-radius: 18px !important;
+        overflow: hidden;
+        /* smooth morph scaling transition for coverflow effect, including opacity and filter */
+        transition: border-color 0.3s, box-shadow 0.3s, transform 0.25s cubic-bezier(0.165, 0.84, 0.44, 1), opacity 0.25s cubic-bezier(0.165, 0.84, 0.44, 1), filter 0.25s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        text-align: left;
+        scroll-snap-align: center;
+        transform-origin: center center;
+    }
+    .premium-product-card:hover {
+        border-color: rgba(108, 143, 255, 0.45) !important;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 25px rgba(108, 143, 255, 0.2) !important;
+    }
+    .premium-card-img-link {
+        position: relative;
+        display: block;
+        overflow: hidden;
+        aspect-ratio: 1 / 1;
+        background: rgba(255,255,255,0.01);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        height: 180px; /* Increased from 155px */
+    }
+    .premium-card-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1) !important;
+    }
+    .premium-product-card:hover .premium-card-img {
+        transform: scale(1.06);
+    }
+    .premium-card-body {
+        padding: 16px 18px; /* Increased from 14px 16px */
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .premium-card-category {
+        font-size: 9.5px; /* Increased from 9px */
+        font-weight: 750;
+        color: var(--accent);
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        margin-bottom: 4px;
+    }
+    .premium-card-name {
+        font-size: 14.5px; /* Increased from 13.5px */
+        font-weight: 700;
+        line-height: 1.35;
+        margin-bottom: 4px;
+        letter-spacing: -0.1px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 40px; /* Adjusted height for 2 lines of 14.5px text */
+    }
+    .premium-card-name a {
+        color: var(--text);
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+    .premium-card-name a:hover {
+        color: #8aa3ff;
+    }
+    .premium-card-mfr {
+        font-size: 12.5px; /* Increased from 12px */
+        color: var(--text-secondary);
+        margin-top: auto;
+    }
+    .premium-card-footer {
+        padding: 12px 18px; /* Increased from 10px 16px */
+        border-top: 1px solid rgba(255, 255, 255, 0.04);
+        background: rgba(255, 255, 255, 0.01);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .premium-price {
+        font-size: 16.5px; /* Increased from 15.5px */
+        font-weight: 850;
+        color: #ffffff;
+        letter-spacing: -0.3px;
+    }
+    .btn-cart-add {
+        font-size: 11.5px !important; /* Increased from 11px */
+        padding: 7px 14px !important; /* Increased from 6px 12px */
+    }
 </style>
+
+<!-- СЕКЦИЯ ПОПУЛЯРНЫХ ТОВАРОВ -->
+<div class="popular-products-section">
+    <div class="popular-header-container" style="max-width: 1200px; margin: 0 auto; padding: 0 24px;">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3 text-start">
+            <div>
+                <span class="landing-badge mb-2">Популярное</span>
+                <h2 class="landing-title mb-0" style="margin-bottom: 0;">Популярные товары</h2>
+            </div>
+            <div class="slider-controls d-flex gap-2">
+                <button type="button" class="slider-control-btn" onclick="slideTape('prev')" aria-label="Предыдущие товары">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                </button>
+                <button type="button" class="slider-control-btn" onclick="slideTape('next')" aria-label="Следующие товары">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </button>
+            </div>
+        </div>
+        <p class="landing-desc text-start mb-0" style="max-width: 600px;">Откройте для себя наши самые востребованные устройства с превосходными характеристиками и высокими оценками пользователей.</p>
+    </div>
+    
+    <div class="slider-wrapper">
+        <!-- Лента товаров -->
+        <div class="products-tape-row" id="productsTape">
+            {% for product in latest_products %}
+            <div class="premium-product-card">
+                <!-- Картинка со ссылкой -->
+                <a href="{% url 'product_detail' product.pk %}" class="premium-card-img-link">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="premium-card-img">
+                {% else %}
+                    {% if product.category.id == 5 %}
+                        {% if "Buds" in product.name or "AirPods" in product.name %}
+                            <img src="{% static 'images/products/5_buds.png' %}?v=2" alt="{{ product.name }}" class="premium-card-img">
+                        {% else %}
+                            <img src="{% static 'images/products/5.png' %}?v=2" alt="{{ product.name }}" class="premium-card-img">
+                        {% endif %}
+                    {% else %}
+                        <img src="{% static 'images/products/' %}{{ product.category.id }}.png?v=2" alt="{{ product.name }}" class="premium-card-img">
+                    {% endif %}
+                {% endif %}
+                </a>
+                
+                <div class="premium-card-body">
+                    <div class="premium-card-category">{{ product.category.name }}</div>
+                    <div class="premium-card-name">
+                        <a href="{% url 'product_detail' product.pk %}">{{ product.name }}</a>
+                    </div>
+                    <div class="premium-card-mfr">{{ product.manufacturer.name }}</div>
+                </div>
+                
+                <div class="premium-card-footer">
+                    <span class="premium-price">{{ product.price }} Br</span>
+                    {% if user.is_authenticated and product.stock > 0 %}
+                        <form method="post" action="{% url 'add_to_cart' product.id %}" style="margin: 0;">
+                            {% csrf_token %}
+                            <input type="hidden" name="quantity" value="1">
+                            <button type="submit" class="btn btn-primary btn-sm btn-cart-add">В корзину</button>
+                        </form>
+                    {% elif product.stock == 0 %}
+                        <span class="stock-badge out">Нет в наличии</span>
+                    {% else %}
+                        <a href="{% url 'login' %}?next={% url 'index' %}" class="btn btn-ghost btn-sm btn-cart-add">Войти</a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 
 <!-- СЕКЦИЯ 1: КАТАЛОГ -->
 <div class="landing-section">
@@ -1049,4 +1290,80 @@
         </a>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function slideTape(direction) {
+        const tape = document.getElementById('productsTape');
+        if (!tape) return;
+        
+        const scrollAmount = 268; // scroll width of card (240) + gap (28)
+        if (direction === 'prev') {
+            tape.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        } else {
+            tape.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+    }
+
+    function updateSliderEffects() {
+        const tape = document.getElementById('productsTape');
+        if (!tape) return;
+        
+        const cards = tape.querySelectorAll('.premium-product-card');
+        const containerCenter = tape.scrollLeft + tape.clientWidth / 2;
+        
+        cards.forEach(card => {
+            const cardCenter = card.offsetLeft + card.clientWidth / 2;
+            const distance = Math.abs(cardCenter - containerCenter);
+            
+            // Радиус действия эффекта масштабирования
+            const influenceRange = 450;
+            let scale = 0.9; // Минимальный масштаб для боковых карт
+            let opacity = 0.55; // Слабее затемнение для неактивных карт (было 0.3)
+            
+            if (distance < influenceRange) {
+                const ratio = (influenceRange - distance) / influenceRange; // Интерполяция от 0 до 1
+                scale = 0.9 + ratio * (1.08 - 0.9); // Плавный переход до 1.08
+                opacity = 0.55 + ratio * (1.0 - 0.55); // Плавный переход до 1.0 (полная яркость)
+                
+                // Дополнительный premium-эффект: изменение яркости и насыщенности
+                const brightness = 0.75 + ratio * 0.25; // от 0.75 до 1.0
+                const grayscale = 0.3 * (1.0 - ratio); // от 0.3 (приглушенная цветность) до 0.0 (полная)
+                card.style.filter = `brightness(${brightness}) grayscale(${grayscale})`;
+            } else {
+                card.style.filter = `brightness(0.75) grayscale(0.3)`;
+            }
+            
+            card.style.transform = `scale(${scale})`;
+            card.style.opacity = opacity;
+            card.style.zIndex = Math.round(opacity * 10);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const tape = document.getElementById('productsTape');
+        if (tape) {
+            tape.addEventListener('scroll', updateSliderEffects);
+            window.addEventListener('resize', updateSliderEffects);
+            
+            // Автоматически прокручиваем на 2 карточки вперед при старте,
+            // чтобы 3-й элемент встал по центру, а по бокам было по 2 карточки
+            setTimeout(() => {
+                tape.scrollLeft = 268 * 2; // (240px card + 28px gap) * 2 = 536px
+                updateSliderEffects();
+            }, 50);
+            
+            // Первичный запуск после рендеринга
+            setTimeout(updateSliderEffects, 150);
+            
+            // Дополнительная калибровка при завершении плавной прокрутки
+            let scrollTimeout;
+            tape.addEventListener('scroll', () => {
+                clearTimeout(scrollTimeout);
+                scrollTimeout = setTimeout(updateSliderEffects, 50);
+            });
+        }
+    });
+</script>
 {% endblock %}
