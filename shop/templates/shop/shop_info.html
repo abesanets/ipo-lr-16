@@ -7,39 +7,55 @@
 <style>
     /* Карточка информации о магазине */
     .shop-info-card {
-        background: radial-gradient(circle at top right, rgba(108, 143, 255, 0.05), transparent 45%),
-                    linear-gradient(135deg, rgba(26, 29, 39, 0.5) 0%, rgba(15, 17, 23, 0.75) 100%);
+        background: radial-gradient(circle at top right, rgba(108, 143, 255, 0.04), transparent 45%),
+                    linear-gradient(135deg, rgba(26, 29, 39, 0.55) 0%, rgba(15, 17, 23, 0.8) 100%);
         border: 1px solid rgba(255, 255, 255, 0.05);
         border-radius: 24px;
-        padding: 56px 48px;
+        padding: 40px;
         box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
         backdrop-filter: blur(20px) saturate(180%);
         -webkit-backdrop-filter: blur(20px) saturate(180%);
         margin-bottom: 32px;
+        max-width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .shop-info-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: 40px;
+        align-items: center;
+    }
+
+    .shop-info-left {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
     }
 
     .shop-badge {
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        font-size: 11px;
+        font-size: 10px;
         font-weight: 700;
         color: #8aa3ff;
         text-transform: uppercase;
         letter-spacing: 1.5px;
-        margin-bottom: 24px;
-        background: rgba(108, 143, 255, 0.1);
-        padding: 6px 14px;
+        margin-bottom: 16px;
+        background: rgba(108, 143, 255, 0.08);
+        padding: 5px 12px;
         border-radius: 980px;
-        border: 1px solid rgba(108, 143, 255, 0.15);
+        border: 1px solid rgba(108, 143, 255, 0.12);
     }
 
     .shop-title {
-        font-size: 40px;
+        font-size: 36px;
         font-weight: 850;
-        letter-spacing: -1.5px;
+        letter-spacing: -1px;
         line-height: 1.2;
-        margin-bottom: 20px;
+        margin-bottom: 16px;
         background: linear-gradient(135deg, #ffffff 30%, #c7d2fe 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -47,132 +63,122 @@
 
     .shop-subtitle {
         color: var(--text-secondary);
-        font-size: 16px;
-        font-weight: 500;
-        margin-bottom: 48px;
-        max-width: 680px;
-        line-height: 1.7;
+        font-size: 14.5px;
+        margin-bottom: 24px;
+        line-height: 1.6;
     }
 
     /* Сетка статистики */
-    .stats-container {
+    .stats-compact-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-        margin-bottom: 48px;
+        gap: 12px;
+        width: 100%;
     }
 
-    .stat-widget {
-        background: rgba(255, 255, 255, 0.015);
-        border: 1px solid rgba(255, 255, 255, 0.04);
-        border-radius: 20px;
-        padding: 28px 20px;
+    .stat-compact-widget {
+        background: rgba(255, 255, 255, 0.01);
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        border-radius: 16px;
+        padding: 16px 10px;
         text-align: center;
-        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.25s ease;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 12px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        gap: 8px;
     }
 
-    .stat-widget:hover {
-        background: rgba(108, 143, 255, 0.06);
-        border-color: rgba(108, 143, 255, 0.3);
-        transform: translateY(-4px);
-        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25), 0 0 15px rgba(108,143,255,0.08);
+    .stat-compact-widget:hover {
+        background: rgba(108, 143, 255, 0.05);
+        border-color: rgba(108, 143, 255, 0.2);
+        transform: translateY(-2px);
     }
 
-    .stat-icon {
-        width: 48px;
-        height: 48px;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        border-radius: 14px;
+    .stat-compact-icon {
+        width: 36px;
+        height: 36px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        border-radius: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
         color: var(--text-secondary);
-        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        transition: all 0.25s;
     }
 
-    .stat-widget:hover .stat-icon {
-        background: rgba(108, 143, 255, 0.15);
-        border-color: rgba(108, 143, 255, 0.25);
+    .stat-compact-widget:hover .stat-compact-icon {
+        background: rgba(108, 143, 255, 0.1);
+        border-color: rgba(108, 143, 255, 0.2);
         color: #8aa3ff;
     }
 
-    .stat-number {
-        font-size: 44px;
+    .stat-compact-number {
+        font-size: 26px;
         font-weight: 850;
-        letter-spacing: -1.5px;
+        letter-spacing: -1px;
         color: var(--accent);
         line-height: 1;
-        transition: color 0.25s;
-    }
-    
-    .stat-widget:hover .stat-number {
-        color: #8aa3ff;
     }
 
-    .stat-name {
-        font-size: 11px;
+    .stat-compact-name {
+        font-size: 9.5px;
         color: var(--text-secondary);
         font-weight: 700;
         text-transform: uppercase;
-        letter-spacing: 1.5px;
+        letter-spacing: 1px;
     }
 
     /* Блоки описания */
-    .tech-stack-title {
-        font-size: 12px;
+    .tech-compact-title {
+        font-size: 11px;
         font-weight: 700;
         color: var(--text-secondary);
         text-transform: uppercase;
-        letter-spacing: 2px;
-        margin-bottom: 24px;
+        letter-spacing: 1.5px;
+        margin-bottom: 16px;
         display: flex;
         align-items: center;
         gap: 12px;
     }
 
-    .tech-stack-title::after {
+    .tech-compact-title::after {
         content: "";
         flex: 1;
         height: 1px;
         background: linear-gradient(90deg, rgba(255,255,255,0.08), transparent);
     }
 
-    .tech-stack-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-        margin-top: 32px;
+    .tech-compact-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
     }
 
-    .tech-stack-item {
+    .tech-compact-item {
         background: rgba(255, 255, 255, 0.01);
         border: 1px solid rgba(255, 255, 255, 0.03);
-        border-radius: 16px;
-        padding: 24px;
+        border-radius: 14px;
+        padding: 14px 18px;
         display: flex;
-        gap: 16px;
+        gap: 14px;
+        align-items: center;
         transition: all var(--transition);
     }
 
-    .tech-stack-item:hover {
+    .tech-compact-item:hover {
         background: rgba(255, 255, 255, 0.02);
-        border-color: rgba(255, 255, 255, 0.06);
-        transform: translateY(-2px);
+        border-color: rgba(108, 143, 255, 0.15);
+        transform: translateX(4px);
     }
 
-    .tech-stack-icon {
-        font-size: 22px;
-        width: 48px;
-        height: 48px;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-        border-radius: 12px;
+    .tech-compact-icon {
+        width: 36px;
+        height: 36px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        border-radius: 10px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -180,38 +186,34 @@
         color: var(--accent);
     }
 
-    .tech-stack-text h3 {
-        font-size: 15px;
+    .tech-compact-text h3 {
+        font-size: 13.5px;
         font-weight: 750;
         color: #fff;
-        margin-bottom: 6px;
+        margin-bottom: 3px;
     }
 
-    .tech-stack-text p {
-        font-size: 13px;
-        line-height: 1.6;
+    .tech-compact-text p {
+        font-size: 12px;
+        line-height: 1.5;
         color: var(--text-secondary);
         margin: 0;
     }
 
-    @media (max-width: 768px) {
-        .stats-container {
+    @media (max-width: 868px) {
+        .shop-info-grid {
             grid-template-columns: 1fr;
-            gap: 16px;
-        }
-        .tech-stack-grid {
-            grid-template-columns: 1fr;
-            gap: 16px;
+            gap: 32px;
         }
         .shop-info-card {
-            padding: 40px 24px;
+            padding: 32px 20px;
         }
         .shop-title {
-            font-size: 30px;
+            font-size: 28px;
         }
         .shop-subtitle {
-            font-size: 15px;
-            margin-bottom: 36px;
+            font-size: 14px;
+            margin-bottom: 20px;
         }
     }
 </style>
@@ -223,74 +225,81 @@
 </div>
 
 <div class="shop-info-card">
-    <span class="shop-badge">О проекте</span>
-    <h1 class="shop-title">Shopex Electronics</h1>
-    <p class="shop-subtitle">Shopex — это высокотехнологичный учебный интернет-магазин цифровой техники и электроники, построенный на связке Django REST Framework + Vanilla JS / Fetch API.</p>
+    <div class="shop-info-grid">
+        <!-- Левая колонка -->
+        <div class="shop-info-left">
+            <span class="shop-badge">О проекте</span>
+            <h1 class="shop-title">Shopex Electronics</h1>
+            <p class="shop-subtitle">Shopex — это высокотехнологичный учебный интернет-магазин цифровой техники и электроники, построенный на связке Django REST Framework + Vanilla JS / Fetch API.</p>
+            
+            <!-- Сетка статистики -->
+            <div class="stats-compact-grid">
+                <div class="stat-compact-widget">
+                    <div class="stat-compact-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+                    </div>
+                    <div class="stat-compact-number">{{ categories_count }}</div>
+                    <div class="stat-compact-name">Категории</div>
+                </div>
+                
+                <div class="stat-compact-widget">
+                    <div class="stat-compact-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                    </div>
+                    <div class="stat-compact-number">{{ products_count }}</div>
+                    <div class="stat-compact-name">Товары</div>
+                </div>
 
-    <!-- Сетка статистики -->
-    <div class="stats-container">
-        <div class="stat-widget">
-            <div class="stat-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+                <div class="stat-compact-widget">
+                    <div class="stat-compact-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <div class="stat-compact-number">{{ manufacturers_count }}</div>
+                    <div class="stat-compact-name">Бренды</div>
+                </div>
             </div>
-            <div class="stat-number">{{ categories_count }}</div>
-            <div class="stat-name">Категорий</div>
-        </div>
-        
-        <div class="stat-widget">
-            <div class="stat-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-            </div>
-            <div class="stat-number">{{ products_count }}</div>
-            <div class="stat-name">Товаров</div>
         </div>
 
-        <div class="stat-widget">
-            <div class="stat-icon">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            </div>
-            <div class="stat-number">{{ manufacturers_count }}</div>
-            <div class="stat-name">Брендов</div>
-        </div>
-    </div>
-
-    <!-- Раздел с технологическим стеком -->
-    <div class="tech-stack-title">Технологический стек проекта</div>
-    <div class="tech-stack-grid">
-        <div class="tech-stack-item">
-            <div class="tech-stack-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-            </div>
-            <div class="tech-stack-text">
-                <h3>Бэкенд</h3>
-                <p>Реализован на Django 6, предоставляет гибкие представления для каталога товаров, корзины покупателя, системы заказов и API-эндпоинты на базе Django REST Framework с сессионной авторизацией.</p>
-            </div>
-        </div>
-        <div class="tech-stack-item">
-            <div class="tech-stack-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
-            </div>
-            <div class="tech-stack-text">
-                <h3>База данных</h3>
-                <p>СУБД PostgreSQL/SQLite для хранения товаров, производителей, категорий, корзин, заказов и ролевых профилей пользователей.</p>
-            </div>
-        </div>
-        <div class="tech-stack-item">
-            <div class="tech-stack-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="2" y1="20" x2="22" y2="20"/><line x1="12" y1="17" x2="12" y2="20"/></svg>
-            </div>
-            <div class="tech-stack-text">
-                <h3>Фронтенд</h3>
-                <p>Разработан в виде чистого CSS интерфейса с использованием Fetch API для динамической бесшовной загрузки каталога товаров в реальном времени.</p>
-            </div>
-        </div>
-        <div class="tech-stack-item">
-            <div class="tech-stack-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            </div>
-            <div class="tech-stack-text">
-                <h3>Дополнительно</h3>
-                <p>Реализована автоматическая отправка электронных писем с сформированными Excel-чеками заказов покупателям, сгенерированными с помощью библиотеки openpyxl.</p>
+        <!-- Правая колонка -->
+        <div>
+            <div class="tech-compact-title">Технологический стек проекта</div>
+            <div class="tech-compact-list">
+                <div class="tech-compact-item">
+                    <div class="tech-compact-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    </div>
+                    <div class="tech-compact-text">
+                        <h3>Бэкенд (Django & DRF)</h3>
+                        <p>Полнофункциональный бэкенд на Django 6, обрабатывающий каталог, корзины покупателей, авторизацию и заказы.</p>
+                    </div>
+                </div>
+                <div class="tech-compact-item">
+                    <div class="tech-compact-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+                    </div>
+                    <div class="tech-compact-text">
+                        <h3>База данных (PostgreSQL/SQLite)</h3>
+                        <p>Реляционная СУБД для надежного хранения товаров, пользователей, корзин и завершенных заказов.</p>
+                    </div>
+                </div>
+                <div class="tech-compact-item">
+                    <div class="tech-compact-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="2" y1="20" x2="22" y2="20"/><line x1="12" y1="17" x2="12" y2="20"/></svg>
+                    </div>
+                    <div class="tech-compact-text">
+                        <h3>Фронтенд (Vanilla JS & Fetch API)</h3>
+                        <p>Интерактивный адаптивный интерфейс с бесшовным обновлением каталога и корзины без перезагрузки страниц.</p>
+                    </div>
+                </div>
+                <div class="tech-compact-item">
+                    <div class="tech-compact-icon">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    </div>
+                    <div class="tech-compact-text">
+                        <h3>Отчетность (openpyxl Excel)</h3>
+                        <p>Автоматическая фоновая генерация детализированных Excel-отчетов и чеков по оформленным заказам.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

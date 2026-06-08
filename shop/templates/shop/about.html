@@ -7,19 +7,29 @@
 <style>
     /* Карточка автора */
     .author-card {
-        background: linear-gradient(135deg, rgba(26, 29, 39, 0.5) 0%, rgba(15, 17, 23, 0.75) 100%);
-        border: 1px solid rgba(255, 255, 255, 0.05);
+        background: linear-gradient(135deg, rgba(26, 29, 39, 0.6) 0%, rgba(15, 17, 23, 0.85) 100%);
+        border: 1px solid rgba(255, 255, 255, 0.06);
         border-radius: 24px;
-        padding: 56px 48px;
+        padding: 40px;
         box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
         backdrop-filter: blur(20px) saturate(180%);
         -webkit-backdrop-filter: blur(20px) saturate(180%);
-        max-width: 680px;
+        max-width: 760px;
         margin: 0 auto 32px auto;
+    }
+
+    .author-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.4fr;
+        gap: 40px;
+        align-items: center;
+    }
+
+    .author-left {
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 32px;
+        text-align: center;
     }
 
     /* Аватар/Иконка автора */
@@ -32,9 +42,10 @@
         align-items: center;
         justify-content: center;
         color: #fff;
-        box-shadow: 0 8px 24px rgba(108, 143, 255, 0.3);
+        box-shadow: 0 8px 24px rgba(108, 143, 255, 0.25);
         border: 4px solid rgba(255, 255, 255, 0.05);
         transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        margin-bottom: 20px;
     }
     
     .author-card:hover .author-avatar {
@@ -45,33 +56,44 @@
         width: 100%;
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        gap: 10px;
     }
 
     .author-info-row {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 16px 24px;
+        padding: 14px 20px;
         background: rgba(255, 255, 255, 0.01);
-        border: 1px solid var(--border);
-        border-radius: 16px;
-        font-size: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        border-radius: 14px;
+        font-size: 14px;
         transition: all var(--transition);
     }
 
     .author-info-row:hover {
-        border-color: rgba(108, 143, 255, 0.3);
-        background: rgba(108, 143, 255, 0.04);
+        border-color: rgba(108, 143, 255, 0.2);
+        background: rgba(108, 143, 255, 0.03);
         transform: translateX(4px);
+    }
+
+    .author-info-label-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .author-info-label-group svg {
+        color: var(--accent);
+        opacity: 0.8;
     }
 
     .author-info-label {
         color: var(--text-secondary);
-        font-weight: 600;
+        font-weight: 700;
         text-transform: uppercase;
-        font-size: 11px;
-        letter-spacing: 1.5px;
+        font-size: 10.5px;
+        letter-spacing: 1.2px;
     }
 
     .author-info-value {
@@ -80,27 +102,34 @@
         text-align: right;
     }
 
-    .author-header {
-        text-align: center;
-    }
-
     .author-title {
-        font-size: 32px;
-        font-weight: 800;
-        letter-spacing: -1px;
+        font-size: 28px;
+        font-weight: 850;
+        letter-spacing: -0.5px;
         background: linear-gradient(135deg, #ffffff 30%, #c7d2fe 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         margin-bottom: 0;
+        line-height: 1.2;
     }
 
     .author-subtitle {
-        font-size: 13px;
+        font-size: 11px;
         color: var(--accent);
         text-transform: uppercase;
-        letter-spacing: 2.5px;
+        letter-spacing: 2px;
         font-weight: 700;
-        margin-top: 8px;
+        margin-top: 6px;
+    }
+
+    @media (max-width: 680px) {
+        .author-grid {
+            grid-template-columns: 1fr;
+            gap: 32px;
+        }
+        .author-card {
+            padding: 32px 20px;
+        }
     }
 </style>
 
@@ -111,31 +140,46 @@
 </div>
 
 <div class="author-card">
-    <div class="author-avatar">
-        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-    </div>
+    <div class="author-grid">
+        <!-- Левая колонка -->
+        <div class="author-left">
+            <div class="author-avatar">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <h1 class="author-title">Алексей Бесанец</h1>
+            <div class="author-subtitle">Разработчик проекта</div>
+        </div>
 
-    <div class="author-header">
-        <h1 class="author-title">Алексей Бесанец</h1>
-        <div class="author-subtitle">Разработчик проекта</div>
-    </div>
-
-    <div class="author-info-table">
-        <div class="author-info-row">
-            <span class="author-info-label">ФИО</span>
-            <span class="author-info-value">Бесанец Алексей Александрович</span>
-        </div>
-        <div class="author-info-row">
-            <span class="author-info-label">Группа</span>
-            <span class="author-info-value">88ТП</span>
-        </div>
-        <div class="author-info-row">
-            <span class="author-info-label">Дисциплина</span>
-            <span class="author-info-value">Инструментальное программное обеспечение</span>
-        </div>
-        <div class="author-info-row">
-            <span class="author-info-label">Работа</span>
-            <span class="author-info-value">Лабораторные работы №16-23 — Django Web App</span>
+        <!-- Правая колонка -->
+        <div class="author-info-table">
+            <div class="author-info-row">
+                <div class="author-info-label-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span class="author-info-label">ФИО</span>
+                </div>
+                <span class="author-info-value">Бесанец А. А.</span>
+            </div>
+            <div class="author-info-row">
+                <div class="author-info-label-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M21 21v-2a4 4 0 0 0-3-3.87"/><path d="M17 11a3 3 0 1 1-2.92-3"/><circle cx="9" cy="7" r="4"/><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/></svg>
+                    <span class="author-info-label">Группа</span>
+                </div>
+                <span class="author-info-value">88ТП</span>
+            </div>
+            <div class="author-info-row">
+                <div class="author-info-label-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                    <span class="author-info-label">Дисциплина</span>
+                </div>
+                <span class="author-info-value" style="font-size: 13px;">Инструментальное ПО</span>
+            </div>
+            <div class="author-info-row">
+                <div class="author-info-label-group">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                    <span class="author-info-label">Работа</span>
+                </div>
+                <span class="author-info-value" style="font-size: 13px;">Лабораторные №16-23 (Django)</span>
+            </div>
         </div>
     </div>
 </div>

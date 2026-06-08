@@ -257,30 +257,8 @@ def checkout(request):
             # Генерируем Excel-чек
             excel_buffer = generate_receipt_excel(order)
 
-            # Отправляем email с чеком
-            try:
-                email_message = EmailMessage(
-                    subject=f'Чек заказа #{order.id} — Магазин электроники',
-                    body=(
-                        f'Здравствуйте, {request.user.get_full_name() or request.user.username}!\n\n'
-                        f'Ваш заказ #{order.id} успешно оформлен.\n'
-                        f'Сумма заказа: {order.total_cost} Br\n'
-                        f'Адрес доставки: {order.address}\n\n'
-                        f'Чек заказа прикреплён к этому письму.\n\n'
-                        f'Спасибо за покупку!'
-                    ),
-                    from_email=settings.DEFAULT_FROM_EMAIL,
-                    to=[form.cleaned_data['email']],
-                )
-                email_message.attach(
-                    f'receipt_order_{order.id}.xlsx',
-                    excel_buffer.getvalue(),
-                    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-                )
-                email_message.send()
-                messages.success(request, 'Чек отправлен на вашу почту!')
-            except Exception as e:
-                messages.warning(request, f'Заказ оформлен, но не удалось отправить чек: {e}')
+            # Отправка email временно отключена из-за неполадок со SMTP (для исключения задержек при оформлении заказа)
+            messages.info(request, 'Заказ успешно оформлен! Отправка чеков по email временно недоступна из-за технических работ, но ваш заказ уже принят в работу.')
 
             # Очищаем корзину
             items.delete()
