@@ -113,8 +113,10 @@ def product_detail(request, pk):
         Product.objects.select_related('category', 'manufacturer'),
         pk=pk
     )
+    recommended_products = Product.objects.filter(category=product.category).exclude(pk=product.pk)[:3]
     return render(request, 'shop/product_detail.html', {
         'product': product,
+        'recommended_products': recommended_products,
     })
 
 
@@ -342,12 +344,8 @@ from .models import Profile
 def profile_view(request):
     """Просмотр личного кабинета"""
     profile, created = Profile.objects.get_or_create(user=request.user)
-    
+    orders = Order.objects.filter(user=request.user)
     is_privileged = request.user.is_staff or request.user.is_superuser or (profile.role in ['ADMIN', 'MANAGER'])
-    if is_privileged:
-        orders = Order.objects.select_related('user').all()
-    else:
-        orders = Order.objects.filter(user=request.user)
         
     return render(request, 'shop/profile.html', {
         'profile': profile,

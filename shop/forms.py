@@ -33,7 +33,7 @@ class CheckoutForm(forms.Form):
         label='Телефон',
         max_length=20,
         widget=forms.TextInput(attrs={
-            'placeholder': '+7 (999) 123-45-67',
+            'placeholder': '+375 (29) 123-45-67',
             'style': FIELD_STYLE,
         })
     )
@@ -44,3 +44,30 @@ class CheckoutForm(forms.Form):
             'style': FIELD_STYLE,
         })
     )
+
+    def clean_phone(self):
+        phone = self.cleaned_data.get('phone', '').strip()
+        clean_digits = ''.join(c for c in phone if c.isdigit())
+        
+        # Check if Belarusian format: starts with 375 (12 digits) or 80 (11 digits)
+        if phone.startswith('+'):
+            if not clean_digits.startswith('375') or len(clean_digits) != 12:
+                raise forms.ValidationError("Введите корректный белорусский номер телефона (+375XXXXXXXXX).")
+        else:
+            if clean_digits.startswith('375'):
+                if len(clean_digits) != 12:
+                    raise forms.ValidationError("Введите корректный белорусский номер телефона (375XXXXXXXXX).")
+            elif clean_digits.startswith('80'):
+                if len(clean_digits) != 11:
+                    raise forms.ValidationError("Введите корректный белорусский номер телефона (80XXXXXXXXX).")
+            else:
+                raise forms.ValidationError("Номер телефона должен быть белорусским (начинаться с +375 или 80).")
+        return phone
+
+    def clean_address(self):
+        address = self.cleaned_data.get('address', '').strip()
+        if len(address) < 10:
+            raise forms.ValidationError("Пожалуйста, укажите адрес доставки более подробно (город, улица, дом, квартира).")
+        if len(address) > 300:
+            raise forms.ValidationError("Адрес не должен превышать 300 символов.")
+        return address

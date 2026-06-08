@@ -67,6 +67,8 @@ class OrderSerializer(serializers.ModelSerializer):
 
 from .models import Profile
 
+import re
+
 class ProfileSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='user.username', read_only=True)
     email = serializers.EmailField(source='user.email', read_only=True)
@@ -79,4 +81,53 @@ class ProfileSerializer(serializers.ModelSerializer):
             'role', 'role_display', 'delivery_city', 'postal_code'
         ]
         read_only_fields = ['id', 'role']
+
+    def validate_full_name(self, value):
+        value = value.strip()
+        if not value:
+            return value
+        if len(value) > 100:
+            raise serializers.ValidationError("ФИО не должно превышать 100 символов.")
+        if not re.match(r'^[a-zA-Zа-яА-ЯёЁ\s\-]+$', value):
+            raise serializers.ValidationError("ФИО должно содержать только буквы, пробелы и дефисы.")
+        words = value.split()
+        if len(words) < 2:
+            raise serializers.ValidationError("Пожалуйста, введите фамилию и имя.")
+        return value
+
+    def validate_phone(self, value):
+        value = value.strip()
+        if not value:
+            return value
+        if not re.match(r'^\+?[0-9\s\-\(\)]{7,20}$', value):
+            raise serializers.ValidationError("Неверный формат номера телефона. Введите от 7 до 20 цифр/знаков.")
+        return value
+
+    def validate_delivery_city(self, value):
+        value = value.strip()
+        if not value:
+            return value
+        if len(value) > 50:
+            raise serializers.ValidationError("Название города не должно превышать 50 символов.")
+        if not re.match(r'^[a-zA-Zа-яА-ЯёЁ\s\-]+$', value):
+            raise serializers.ValidationError("Название города должно содержать только буквы, пробелы и дефисы.")
+        return value
+
+    def validate_postal_code(self, value):
+        value = value.strip()
+        if not value:
+            return value
+        if not re.match(r'^\d{5,6}$', value):
+            raise serializers.ValidationError("Индекс должен состоять ровно из 5 или 6 цифр.")
+        return value
+
+    def validate_address(self, value):
+        value = value.strip()
+        if not value:
+            return value
+        if len(value) > 200:
+            raise serializers.ValidationError("Адрес не должен превышать 200 символов.")
+        if len(value) < 5:
+            raise serializers.ValidationError("Пожалуйста, укажите адрес подробнее (улица, дом).")
+        return value
 

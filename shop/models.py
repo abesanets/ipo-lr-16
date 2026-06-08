@@ -307,4 +307,16 @@ def save_user_profile(sender, instance, **kwargs):
     if hasattr(instance, 'profile'):
         instance.profile.save()
     else:
-        Profile.objects.create(user=instance)
+        Profile.objects.create(user=instance)
+
+@receiver(post_save, sender=Profile)
+def sync_user_staff_status(sender, instance, **kwargs):
+    """Синхронизирует флаг is_staff пользователя в зависимости от его роли в профиле"""
+    is_privileged = instance.role in ['ADMIN', 'MANAGER']
+    user = instance.user
+    if is_privileged and not user.is_staff:
+        user.is_staff = True
+        user.save()
+    elif not is_privileged and user.is_staff and not user.is_superuser:
+        user.is_staff = False
+        user.save()

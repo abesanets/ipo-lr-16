@@ -58,10 +58,70 @@ class OrderAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at',)
     inlines = [OrderItemInline]
 
+    def has_module_permission(self, request):
+        if request.user.is_authenticated:
+            if request.user.is_superuser or (hasattr(request.user, 'profile') and request.user.profile.role in ['ADMIN', 'MANAGER']):
+                return True
+        return super().has_module_permission(request)
+
+    def has_view_permission(self, request, obj=None):
+        if request.user.is_authenticated:
+            if request.user.is_superuser or (hasattr(request.user, 'profile') and request.user.profile.role in ['ADMIN', 'MANAGER']):
+                return True
+        return super().has_view_permission(request, obj)
+
+    def has_change_permission(self, request, obj=None):
+        if request.user.is_authenticated:
+            if request.user.is_superuser or (hasattr(request.user, 'profile') and request.user.profile.role in ['ADMIN', 'MANAGER']):
+                return True
+        return super().has_change_permission(request, obj)
+
+    def has_add_permission(self, request):
+        if request.user.is_authenticated:
+            if request.user.is_superuser or (hasattr(request.user, 'profile') and request.user.profile.role in ['ADMIN', 'MANAGER']):
+                return True
+        return super().has_add_permission(request)
+
+    def has_delete_permission(self, request, obj=None):
+        if request.user.is_authenticated:
+            if request.user.is_superuser or (hasattr(request.user, 'profile') and request.user.profile.role in ['ADMIN', 'MANAGER']):
+                return True
+        return super().has_delete_permission(request, obj)
+
 
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
     list_display = ('id', 'order', 'product_name', 'product_price', 'quantity', 'item_cost')
+
+    def has_module_permission(self, request):
+        if request.user.is_authenticated:
+            if request.user.is_superuser or (hasattr(request.user, 'profile') and request.user.profile.role in ['ADMIN', 'MANAGER']):
+                return True
+        return super().has_module_permission(request)
+
+    def has_view_permission(self, request, obj=None):
+        if request.user.is_authenticated:
+            if request.user.is_superuser or (hasattr(request.user, 'profile') and request.user.profile.role in ['ADMIN', 'MANAGER']):
+                return True
+        return super().has_view_permission(request, obj)
+
+    def has_change_permission(self, request, obj=None):
+        if request.user.is_authenticated:
+            if request.user.is_superuser or (hasattr(request.user, 'profile') and request.user.profile.role in ['ADMIN', 'MANAGER']):
+                return True
+        return super().has_change_permission(request, obj)
+
+    def has_add_permission(self, request):
+        if request.user.is_authenticated:
+            if request.user.is_superuser or (hasattr(request.user, 'profile') and request.user.profile.role in ['ADMIN', 'MANAGER']):
+                return True
+        return super().has_add_permission(request)
+
+    def has_delete_permission(self, request, obj=None):
+        if request.user.is_authenticated:
+            if request.user.is_superuser or (hasattr(request.user, 'profile') and request.user.profile.role in ['ADMIN', 'MANAGER']):
+                return True
+        return super().has_delete_permission(request, obj)
 
 
 from .models import Profile

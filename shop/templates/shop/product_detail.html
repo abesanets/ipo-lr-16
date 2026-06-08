@@ -26,29 +26,38 @@
         color: var(--text-tertiary);
     }
 
+    /* Макет страницы с боковой панелью */
+    .detail-page-layout {
+        display: grid;
+        grid-template-columns: 1fr 340px;
+        gap: 32px;
+        align-items: start;
+        margin-bottom: 40px;
+    }
+
     /* Главная карточка товара */
     .product-detail-card {
         background: linear-gradient(135deg, rgba(30, 33, 48, 0.65) 0%, rgba(15, 17, 23, 0.85) 100%);
         border: 1px solid rgba(108, 143, 255, 0.15);
         border-radius: 24px;
-        padding: 48px;
+        padding: 40px;
         box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
         backdrop-filter: blur(12px);
         -webkit-backdrop-filter: blur(12px);
-        margin-bottom: 32px;
     }
 
     .product-detail-grid {
         display: grid;
-        grid-template-columns: 1.1fr 1.3fr;
-        gap: 56px;
-        align-items: stretch;
+        grid-template-columns: 240px 1fr;
+        gap: 40px;
+        align-items: start;
     }
 
     /* Медиа-колонка */
     .detail-media-container {
         position: sticky;
         top: 80px;
+        width: 240px;
     }
 
     .detail-img-wrapper {
@@ -56,11 +65,14 @@
         overflow: hidden;
         border: 1px solid rgba(255, 255, 255, 0.05);
         box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
-        background: var(--bg-secondary);
+        background: rgba(255, 255, 255, 0.02);
         position: relative;
-        height: 100%;
-        min-height: 480px;
+        aspect-ratio: 1/1;
+        width: 240px;
+        height: 240px;
         display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .detail-product-img {
@@ -69,6 +81,101 @@
         display: block;
         object-fit: cover;
         transition: transform 0.5s ease;
+    }
+
+    /* Боковая панель рекомендаций */
+    .detail-sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    .sidebar-card {
+        background: linear-gradient(135deg, rgba(30, 33, 48, 0.65) 0%, rgba(15, 17, 23, 0.85) 100%);
+        border: 1px solid rgba(108, 143, 255, 0.15);
+        border-radius: 20px;
+        padding: 24px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+    }
+
+    .sidebar-title {
+        font-size: 14px;
+        font-weight: 850;
+        letter-spacing: 0.8px;
+        color: var(--accent);
+        margin: 0 0 18px 0;
+        border-bottom: 1px solid var(--border-light);
+        padding-bottom: 10px;
+        text-transform: uppercase;
+    }
+
+    .sidebar-recommendations {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .rec-item {
+        display: flex;
+        gap: 14px;
+        align-items: center;
+        text-decoration: none;
+        padding: 8px;
+        border-radius: 12px;
+        border: 1px solid transparent;
+        transition: all var(--transition);
+    }
+
+    .rec-item:hover {
+        background: rgba(255, 255, 255, 0.03);
+        border-color: rgba(108, 143, 255, 0.2);
+        transform: translateY(-2px);
+    }
+
+    .rec-img-wrapper {
+        width: 64px;
+        height: 64px;
+        border-radius: 8px;
+        overflow: hidden;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px;
+        flex-shrink: 0;
+    }
+
+    .rec-img {
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+        object-fit: contain;
+    }
+
+    .rec-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        min-width: 0;
+    }
+
+    .rec-name {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .rec-price {
+        font-size: 14px;
+        font-weight: 700;
+        color: #ffffff;
     }
 
     .detail-img-wrapper:hover .detail-product-img {
@@ -176,16 +283,20 @@
         background: rgba(108, 143, 255, 0.03);
         border: 1px solid rgba(108, 143, 255, 0.15);
         border-radius: 18px;
-        padding: 24px;
+        padding: 20px 28px;
         display: flex;
-        flex-direction: column;
-        gap: 20px;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        margin-top: 32px;
+        width: 100%;
     }
 
     .purchase-price-row {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
+        align-items: baseline;
+        gap: 8px;
     }
 
     .purchase-price-label {
@@ -194,8 +305,8 @@
     }
 
     .purchase-price-value {
-        font-size: 32px;
-        font-weight: 800;
+        font-size: 28px;
+        font-weight: 850;
         color: var(--text);
         letter-spacing: -0.5px;
     }
@@ -316,6 +427,13 @@
     }
 
     /* Адаптивность */
+    @media (max-width: 1100px) {
+        .detail-page-layout {
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+    }
+
     @media (max-width: 900px) {
         .product-detail-grid {
             grid-template-columns: 1fr;
@@ -324,15 +442,19 @@
         }
         .detail-media-container {
             position: static;
+            width: 100%;
+            display: flex;
+            justify-content: center;
         }
         .detail-img-wrapper {
-            height: auto;
-            min-height: auto;
-            aspect-ratio: 4/3;
+            width: 240px;
+            height: 240px;
+            aspect-ratio: 1/1;
         }
         .detail-product-img {
-            height: auto;
-            aspect-ratio: 4/3;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .product-detail-card {
             padding: 24px;
@@ -340,8 +462,24 @@
         .detail-title {
             font-size: 28px;
         }
-        .meta-widgets {
-            grid-template-columns: 1fr;
+        .purchase-action-card {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 16px;
+            padding: 20px;
+        }
+        .purchase-action-card form {
+            flex-direction: column;
+            align-items: stretch;
+            width: 100%;
+        }
+        .action-row {
+            flex-direction: row;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .purchase-price-row {
+            justify-content: space-between;
         }
     }
 </style>
@@ -366,116 +504,144 @@
     </div>
 </div>
 
-<!-- Карточка товара -->
-<div class="product-detail-card">
-    <div class="product-detail-grid">
-        
-        <!-- Левая колонка: Изображение -->
-        <div class="detail-media-container">
-            <div class="detail-img-wrapper">
-                {% if product.image %}
-                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="detail-product-img">
-                 {% else %}
-                    {% if product.category.id == 5 %}
-                        {% if "Buds" in product.name or "AirPods" in product.name %}
-                            <img src="{% static 'images/products/5_buds.png' %}?v=2" alt="{{ product.name }}" class="detail-product-img">
+<!-- Макет детальной страницы (Контент + Боковая панель) -->
+<div class="detail-page-layout">
+    
+    <!-- Карточка товара -->
+    <div class="product-detail-card">
+        <div class="product-detail-grid">
+            
+            <!-- Левая колонка: Изображение -->
+            <div class="detail-media-container">
+                <div class="detail-img-wrapper">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="detail-product-img">
+                     {% else %}
+                        {% if product.category.id == 5 %}
+                            {% if "Buds" in product.name or "AirPods" in product.name %}
+                                <img src="{% static 'images/products/5_buds.png' %}?v=2" alt="{{ product.name }}" class="detail-product-img">
+                            {% else %}
+                                <img src="{% static 'images/products/5.png' %}?v=2" alt="{{ product.name }}" class="detail-product-img">
+                            {% endif %}
                         {% else %}
-                            <img src="{% static 'images/products/5.png' %}?v=2" alt="{{ product.name }}" class="detail-product-img">
+                            <img src="{% static 'images/products/' %}{{ product.category.id }}.png?v=2" alt="{{ product.name }}" class="detail-product-img">
                         {% endif %}
-                    {% else %}
-                        <img src="{% static 'images/products/' %}{{ product.category.id }}.png?v=2" alt="{{ product.name }}" class="detail-product-img">
                     {% endif %}
-                {% endif %}
+                </div>
+            </div>
+
+            <!-- Правая колонка: Описание -->
+            <div class="detail-info-container" style="justify-content: center;">
+                
+                <!-- Заголовок и категория -->
+                <div class="detail-header" style="border-bottom: 1px solid var(--border-light); padding-bottom: 16px; margin-bottom: 8px;">
+                    <span class="detail-category-badge">{{ product.category.name }}</span>
+                    <h1 class="detail-title" style="margin-bottom: 10px;">{{ product.name }}</h1>
+                    <div class="detail-stock-status" style="font-size: 13.5px; font-weight: 600; color: var(--text-secondary);">
+                        Статус склада: 
+                        {% if product.stock > 0 %}
+                            <span style="color: var(--success); font-weight: 700;">{{ product.stock }} шт.</span>
+                        {% else %}
+                            <span style="color: var(--danger); font-weight: 700;">Нет на складе</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Раздел описания -->
+                <div class="detail-description-section" style="border-bottom: none; padding-bottom: 0;">
+                    <div class="detail-section-title">Описание товара</div>
+                    <p class="detail-description-text">
+                        {{ product.description|default:"Производитель не предоставил подробное описание для данной модели." }}
+                    </p>
+                </div>
+
             </div>
         </div>
 
-        <!-- Правая колонка: Описание и Покупка -->
-        <div class="detail-info-container">
-            
-            <!-- Заголовок и категория -->
-            <div class="detail-header">
-                <span class="detail-category-badge">{{ product.category.name }}</span>
-                <h1 class="detail-title">{{ product.name }}</h1>
-                <div class="detail-mfr-link">
-                    Бренд: <strong>{{ product.manufacturer.name }}</strong>
-                </div>
+        <!-- Блок управления покупкой снизу во всю ширину -->
+        <div class="purchase-action-card">
+            <div class="purchase-price-row">
+                <span class="purchase-price-label">Цена:</span>
+                <span class="purchase-price-value">{{ product.price }} Br</span>
             </div>
 
-            <!-- Мета-виджеты -->
-            <div class="meta-widgets">
-                <div class="meta-widget-card">
-                    <div class="meta-widget-label">Производитель</div>
-                    <div class="meta-widget-value">{{ product.manufacturer.name }}</div>
-                </div>
-                <div class="meta-widget-card">
-                    <div class="meta-widget-label">Страна</div>
-                    <div class="meta-widget-value">{{ product.manufacturer.country }}</div>
-                </div>
-                <div class="meta-widget-card">
-                    <div class="meta-widget-label">Статус склада</div>
-                    <div class="meta-widget-value">
-                        {% if product.stock > 0 %}
-                            <span style="color: var(--success);">{{ product.stock }} шт.</span>
-                        {% else %}
-                            <span style="color: var(--danger);">Нет на складе</span>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-
-            <!-- Раздел описания -->
-            <div class="detail-description-section">
-                <div class="detail-section-title">Описание товара</div>
-                <p class="detail-description-text">
-                    {{ product.description|default:"Производитель не предоставил подробное описание для данной модели." }}
-                </p>
-            </div>
-
-            <!-- Блок управления покупкой -->
-            <div class="purchase-action-card">
-                <div class="purchase-price-row">
-                    <span class="purchase-price-label">Цена</span>
-                    <span class="purchase-price-value">{{ product.price }} Br</span>
-                </div>
-
-                {% if product.stock > 0 %}
-                    {% if user.is_authenticated %}
-                        <form method="post" action="{% url 'add_to_cart' product.id %}" style="margin: 0;">
-                            {% csrf_token %}
-                            <div class="action-row">
-                                <!-- Кастомный переключатель количества -->
-                                <div class="qty-selector">
-                                    <button type="button" class="qty-control-btn" onclick="changeQty(-1)">−</button>
-                                    <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ product.stock }}" class="qty-num-input" readonly>
-                                    <button type="button" class="qty-control-btn" onclick="changeQty(1)">+</button>
-                                </div>
-
-                                <button type="submit" class="buy-btn-detail">
-                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
-                                    Добавить в корзину
-                                </button>
+            {% if product.stock > 0 %}
+                {% if user.is_authenticated %}
+                    <form method="post" action="{% url 'add_to_cart' product.id %}" style="margin: 0;">
+                        {% csrf_token %}
+                        <div class="action-row">
+                            <!-- Кастомный переключатель количества -->
+                            <div class="qty-selector">
+                                <button type="button" class="qty-control-btn" onclick="changeQty(-1)">−</button>
+                                <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ product.stock }}" class="qty-num-input" readonly>
+                                <button type="button" class="qty-control-btn" onclick="changeQty(1)">+</button>
                             </div>
-                        </form>
-                    {% else %}
-                        <div class="d-flex flex-column gap-2">
-                            <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-primary btn-lg w-100" style="border-radius: 980px;">
-                                Войдите для покупки
-                            </a>
-                            <span class="text-center text-muted small">Добавление в корзину и оформление заказов доступны только зарегистрированным пользователям.</span>
+
+                            <button type="submit" class="buy-btn-detail">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                                Добавить в корзину
+                            </button>
                         </div>
-                    {% endif %}
+                    </form>
                 {% else %}
-                    <div class="action-row">
-                        <button class="buy-btn-detail disabled" disabled style="background: rgba(255, 92, 92, 0.08); border: 1px solid rgba(255, 92, 92, 0.2); color: #ff8f8f; box-shadow: none; width: 100%;">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-                            Нет в наличии
-                        </button>
+                    <div class="d-flex align-items-center gap-3">
+                        <span style="color: var(--text-secondary); font-size: 13px; max-width: 250px; text-align: right; display: block;">Войдите для добавления в корзину</span>
+                        <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-primary" style="border-radius: 980px; padding: 10px 24px; font-weight: 600;">
+                            Войти
+                        </a>
                     </div>
                 {% endif %}
-            </div>
-
+            {% else %}
+                <div class="action-row" style="width: auto;">
+                    <button class="buy-btn-detail disabled" disabled style="background: rgba(255, 92, 92, 0.08); border: 1px solid rgba(255, 92, 92, 0.2); color: #ff8f8f; box-shadow: none; padding: 10px 24px;">
+                        Нет в наличии
+                    </button>
+                </div>
+            {% endif %}
         </div>
     </div>
+
+    <!-- Боковая панель: Производитель и Рекомендации -->
+    <div class="detail-sidebar">
+        <!-- Блок производителя -->
+        <div class="sidebar-card">
+            <h3 class="sidebar-title">Бренд</h3>
+            <div class="d-flex align-items-center gap-3">
+                <div style="width: 48px; height: 48px; border-radius: 50%; background: rgba(108, 143, 255, 0.1); display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--accent); border: 1px solid rgba(108, 143, 255, 0.2);">
+                    {{ product.manufacturer.name|slice:":2"|upper }}
+                </div>
+                <div>
+                    <h4 style="margin: 0; font-size: 16px; font-weight: 700; color: var(--text);">{{ product.manufacturer.name }}</h4>
+                    <p style="margin: 2px 0 0 0; font-size: 13px; color: var(--text-secondary);">Страна производства: {{ product.manufacturer.country }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Похожие товары -->
+        <div class="sidebar-card">
+            <h3 class="sidebar-title">Рекомендуем</h3>
+            <div class="sidebar-recommendations">
+                {% for rec in recommended_products %}
+                <a href="{% url 'product_detail' rec.pk %}" class="rec-item">
+                    <div class="rec-img-wrapper">
+                        {% if rec.image %}
+                            <img src="{{ rec.image.url }}" alt="{{ rec.name }}" class="rec-img">
+                        {% else %}
+                            <img src="{% static 'images/products/' %}{{ rec.category.id }}.png?v=2" alt="{{ rec.name }}" class="rec-img">
+                        {% endif %}
+                    </div>
+                    <div class="rec-info">
+                        <div class="rec-name" title="{{ rec.name }}">{{ rec.name }}</div>
+                        <div class="rec-price">{{ rec.price }} Br</div>
+                    </div>
+                </a>
+                {% empty %}
+                <p style="color: var(--text-secondary); margin: 0; font-size: 13px;">Нет других товаров в этой категории.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <!-- Скрипт для инпута количества -->

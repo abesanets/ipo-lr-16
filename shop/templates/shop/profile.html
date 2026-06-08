@@ -18,28 +18,30 @@
     }
 
     .profile-sidebar-card {
+        background: linear-gradient(135deg, rgba(108, 143, 255, 0.15) 0%, rgba(30, 33, 48, 0.75) 50%, rgba(15, 17, 23, 0.95) 100%) !important;
+        border: 1px solid rgba(108, 143, 255, 0.22) !important;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(108, 143, 255, 0.08) !important;
         text-align: center;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 24px;
-        padding: 40px 24px;
+        gap: 20px;
+        padding: 40px 24px 32px 24px !important;
+        overflow: hidden;
     }
 
     .profile-user-avatar {
-        width: 80px;
-        height: 80px;
+        width: 105px;
+        height: 105px;
         border-radius: 50%;
-        background: linear-gradient(135deg, #a3b8ff 0%, #6c8fff 100%);
         display: flex;
         align-items: center;
         justify-content: center;
-        color: #fff;
-        box-shadow: 0 8px 24px rgba(108, 143, 255, 0.3);
-        border: 4px solid rgba(255, 255, 255, 0.05);
-        font-size: 32px;
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.6);
+        border: 3px solid rgba(255, 255, 255, 0.08);
         position: relative;
         z-index: 2;
+        background: #15171e;
     }
 
     .avatar-ring-wrapper {
@@ -47,16 +49,17 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 100px;
-        height: 100px;
+        width: 125px;
+        height: 125px;
+        margin-bottom: 4px;
     }
 
     .avatar-ring {
         position: absolute;
-        width: 100px;
-        height: 100px;
+        width: 125px;
+        height: 125px;
         border-radius: 50%;
-        border: 2px dashed rgba(108, 143, 255, 0.4);
+        border: 2px dashed rgba(108, 143, 255, 0.45);
         animation: avatar-spin 25s linear infinite;
         pointer-events: none;
         z-index: 1;
@@ -234,27 +237,42 @@
 <h1 style="margin-bottom: 36px; font-weight: 800; letter-spacing: -1.5px;">Личный кабинет</h1>
 
 <div class="row g-4 mb-4">
-    <div class="col-md-3">
-        <div class="profile-card profile-sidebar-card" style="height: 100%; margin-bottom: 0; justify-content: center;">
+    <div class="col-md-4">
+        <div class="profile-card profile-sidebar-card" style="height: 100%; margin-bottom: 0;">
+            
             <div class="avatar-ring-wrapper">
                 <div class="avatar-ring"></div>
-                <div class="profile-user-avatar">
-                    <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                </div>
+                <img src="https://api.dicebear.com/7.x/bottts/svg?seed={{ profile.user.username }}&backgroundColor=15171e" alt="Avatar" class="profile-user-avatar">
             </div>
             
-            <div>
+            <div style="padding: 0 24px; text-align: center;">
                 <div class="profile-username">{{ profile.user.username }}</div>
                 <div class="profile-email" style="margin-bottom: 0;">{{ profile.user.email|default:"Email не указан" }}</div>
-                <span class="profile-role-badge" style="margin-top: 16px;">
+                <span class="profile-role-badge" style="margin-top: 14px;">
                     {{ profile.get_role_display }}
                 </span>
+            </div>
+
+            <!-- Дополнительные детали профиля -->
+            <div class="profile-meta-list" style="width: 100%; padding: 0 24px; margin-top: auto; text-align: left; display: flex; flex-direction: column; gap: 12px; border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 20px;">
+                <div class="d-flex justify-content-between align-items-center" style="font-size: 13px;">
+                    <span style="color: var(--text-secondary);">ID пользователя:</span>
+                    <span style="color: var(--text); font-weight: 600;">#{{ profile.user.id }}</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center" style="font-size: 13px;">
+                    <span style="color: var(--text-secondary);">Регистрация:</span>
+                    <span style="color: var(--text); font-weight: 600;">{{ profile.user.date_joined|date:"d.m.Y" }}</span>
+                </div>
+                <div class="d-flex justify-content-between align-items-center" style="font-size: 13px;">
+                    <span style="color: var(--text-secondary);">Всего заказов:</span>
+                    <span style="color: var(--accent); font-weight: 700;">{{ orders|length }}</span>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Правая колонка: Форма личных данных (col-md-9) -->
-    <div class="col-md-9">
+    <!-- Правая колонка: Форма личных данных (col-md-8) -->
+    <div class="col-md-8">
         <div class="profile-card" style="height: 100%; margin-bottom: 0;">
             <h2>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
@@ -267,35 +285,35 @@
                     <div class="col-12">
                         <div class="form-group mb-0">
                             <label for="id_full_name">ФИО</label>
-                            <input type="text" id="id_full_name" name="full_name" value="{{ profile.full_name }}" placeholder="Введите ваше ФИО">
+                            <input type="text" id="id_full_name" name="full_name" value="{{ profile.full_name }}" placeholder="Введите фамилию и имя" maxlength="100" pattern="^[a-zA-Zа-яА-ЯёЁ\s\-]+$" title="Только буквы, дефисы и пробелы. Пожалуйста, укажите фамилию и имя.">
                         </div>
                     </div>
                     
                     <div class="col-md-6">
                         <div class="form-group mb-0">
                             <label for="id_phone">Телефон</label>
-                            <input type="text" id="id_phone" name="phone" value="{{ profile.phone }}" placeholder="+375 (29) 123-45-67">
+                            <input type="text" id="id_phone" name="phone" value="{{ profile.phone }}" placeholder="+375 (29) 123-45-67" maxlength="20" pattern="^\+?[0-9\s\-\(\)]{7,20}$" title="Неверный формат номера телефона. Введите от 7 до 20 цифр/знаков.">
                         </div>
                     </div>
                     
                     <div class="col-md-6">
                         <div class="form-group mb-0">
                             <label for="id_delivery_city">Город доставки</label>
-                            <input type="text" id="id_delivery_city" name="delivery_city" value="{{ profile.delivery_city }}" placeholder="Минск">
+                            <input type="text" id="id_delivery_city" name="delivery_city" value="{{ profile.delivery_city }}" placeholder="Минск" maxlength="50" pattern="^[a-zA-Zа-яА-ЯёЁ\s\-]+$" title="Только буквы, дефисы и пробелы.">
                         </div>
                     </div>
                     
                     <div class="col-md-4">
                         <div class="form-group mb-0">
                             <label for="id_postal_code">Индекс</label>
-                            <input type="text" id="id_postal_code" name="postal_code" value="{{ profile.postal_code }}" placeholder="220000">
+                            <input type="text" id="id_postal_code" name="postal_code" value="{{ profile.postal_code }}" placeholder="220000" maxlength="6" pattern="^\d{5,6}$" title="Индекс должен состоять ровно из 5 или 6 цифр.">
                         </div>
                     </div>
                     
                     <div class="col-md-8">
                         <div class="form-group mb-0">
                             <label for="id_address">Адрес доставки</label>
-                            <input type="text" id="id_address" name="address" value="{{ profile.address }}" placeholder="Улица, дом, корпус, квартира...">
+                            <input type="text" id="id_address" name="address" value="{{ profile.address }}" placeholder="Улица, дом, корпус, квартира..." maxlength="200" minlength="5" title="Пожалуйста, укажите подробный адрес доставки.">
                         </div>
                     </div>
                     
@@ -313,10 +331,25 @@
 <!-- Блок Истории/Управления заказов во всю ширину (col-12) -->
 <div class="row">
     <div class="col-12">
+        {% if is_privileged %}
+            <div class="profile-card text-center mb-4" style="padding: 40px 24px;">
+                <h2 style="justify-content: center; margin-bottom: 12px; font-weight: 800;">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M21 9H3M21 15H3M12 3v18"/></svg>
+                    Панель управления
+                </h2>
+                <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto 24px auto; font-size: 14.5px; line-height: 1.6;">
+                    Вам доступны права менеджера/администратора. Управление всеми заказами, клиентами, производителями и товарами осуществляется через служебную панель управления.
+                </p>
+                <a href="/admin/" target="_blank" class="profile-save-btn" style="text-decoration: none; padding: 13px 32px; font-size: 14.5px;">
+                    Открыть Django Admin
+                </a>
+            </div>
+        {% endif %}
+
         <div class="profile-card">
             <h2>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                {% if is_privileged %}Управление заказами (Все заказы){% else %}История заказов{% endif %}
+                История ваших заказов
             </h2>
             
             {% if orders %}
@@ -325,9 +358,6 @@
                         <thead>
                             <tr>
                                 <th>Заказ</th>
-                                {% if is_privileged %}
-                                    <th>Покупатель</th>
-                                {% endif %}
                                 <th>Дата</th>
                                 <th>Сумма</th>
                                 <th style="text-align: right;">Действие</th>
@@ -339,11 +369,6 @@
                                     <td>
                                         <span class="fw-bold text-white">#{{ order.id }}</span>
                                     </td>
-                                    {% if is_privileged %}
-                                        <td style="font-size: 14px;">
-                                            {{ order.user.username }}
-                                        </td>
-                                    {% endif %}
                                     <td style="font-size: 14px; color: var(--text-secondary);">
                                         {{ order.created_at|date:"d.m.Y H:i" }}
                                     </td>
@@ -399,18 +424,27 @@ document.getElementById('profile-form').addEventListener('submit', function(e) {
         },
         body: JSON.stringify(formData)
     })
-    .then(response => {
+    .then(async response => {
+        const data = await response.json();
         if (!response.ok) {
-            throw new Error('Ошибка обновления профиля');
+            let errMsg = 'Не удалось обновить профиль.';
+            if (typeof data === 'object') {
+                const fields = Object.keys(data);
+                if (fields.length > 0) {
+                    const fieldErrors = data[fields[0]];
+                    errMsg = Array.isArray(fieldErrors) ? fieldErrors[0] : fieldErrors;
+                }
+            }
+            throw new Error(errMsg);
         }
-        return response.json();
+        return data;
     })
     .then(data => {
         showToast('Профиль успешно обновлен!', 'success');
     })
     .catch(error => {
         console.error('Ошибка:', error);
-        showToast('Не удалось обновить профиль.', 'danger');
+        showToast(error.message || 'Не удалось обновить профиль.', 'danger');
     })
     .finally(() => {
         submitBtn.disabled = false;
